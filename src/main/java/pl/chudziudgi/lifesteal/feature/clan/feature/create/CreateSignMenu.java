@@ -1,4 +1,4 @@
-package pl.cebula.smp.feature.clan.feature.create;
+package pl.chudziudgi.lifesteal.feature.clan.feature.create;
 
 import de.rapha149.signgui.SignGUI;
 import de.rapha149.signgui.SignGUIAction;
@@ -7,9 +7,9 @@ import de.rapha149.signgui.exception.SignGUIVersionException;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import pl.cebula.smp.SurvivalPlugin;
-import pl.cebula.smp.feature.clan.Clan;
-import pl.cebula.smp.feature.user.User;
+import pl.chudziudgi.lifesteal.SurvivalPlugin;
+import pl.chudziudgi.lifesteal.feature.clan.Clan;
+import pl.chudziudgi.lifesteal.feature.user.User;
 
 import java.util.List;
 

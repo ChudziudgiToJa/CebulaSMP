@@ -1,18 +1,18 @@
-package pl.cebula.smp.feature.clan.feature.create;
+package pl.chudziudgi.lifesteal.feature.clan.feature.create;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import pl.cebula.smp.SurvivalPlugin;
-import pl.cebula.smp.configuration.implementation.ClanConfiguration;
-import pl.cebula.smp.feature.clan.Clan;
-import pl.cebula.smp.feature.clan.service.ClanService;
-import pl.cebula.smp.feature.user.User;
-import pl.cebula.smp.util.ItemBuilder;
-import pl.cebula.smp.util.MessageUtil;
-import pl.cebula.smp.util.SimpleInventory;
+import pl.chudziudgi.lifesteal.SurvivalPlugin;
+import pl.chudziudgi.lifesteal.configuration.implementation.ClanConfiguration;
+import pl.chudziudgi.lifesteal.feature.clan.Clan;
+import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
+import pl.chudziudgi.lifesteal.feature.user.User;
+import pl.chudziudgi.lifesteal.util.ItemBuilder;
+import pl.chudziudgi.lifesteal.util.MessageUtil;
+import pl.chudziudgi.lifesteal.util.SimpleInventory;
 
 import java.util.Arrays;
 
