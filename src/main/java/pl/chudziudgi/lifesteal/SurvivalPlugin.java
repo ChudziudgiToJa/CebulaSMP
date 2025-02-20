@@ -1,0 +1,358 @@
+package pl.chudziudgi.lifesteal;
+
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.eternalcode.core.EternalCoreApi;
+import com.eternalcode.core.EternalCoreApiProvider;
+import com.google.gson.Gson;
+import dev.rollczi.litecommands.LiteCommands;
+import dev.rollczi.litecommands.bukkit.LiteCommandsBukkit;
+import dev.rollczi.litecommands.message.LiteMessages;
+import lombok.Getter;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.java.JavaPlugin;
+import pl.chudziudgi.lifesteal.configuration.ConfigService;
+import pl.chudziudgi.lifesteal.configuration.implementation.*;
+import pl.chudziudgi.lifesteal.database.MongoDatabaseService;
+import pl.chudziudgi.lifesteal.feature.abyss.AbyssTask;
+import pl.chudziudgi.lifesteal.feature.afkzone.AfkZoneManager;
+import pl.chudziudgi.lifesteal.feature.afkzone.AfkZoneTask;
+import pl.chudziudgi.lifesteal.feature.backup.BackupCommand;
+import pl.chudziudgi.lifesteal.feature.backup.BackupController;
+import pl.chudziudgi.lifesteal.feature.backup.BackupInventory;
+import pl.chudziudgi.lifesteal.feature.blacksmith.BlacksmithController;
+import pl.chudziudgi.lifesteal.feature.blacksmith.BlacksmithInventory;
+import pl.chudziudgi.lifesteal.feature.blocker.BlockerController;
+import pl.chudziudgi.lifesteal.feature.blocker.MobChunkLimitTask;
+import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionController;
+import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionInventory;
+import pl.chudziudgi.lifesteal.feature.chat.ChatCharController;
+import pl.chudziudgi.lifesteal.feature.clan.Clan;
+import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommand;
+import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommandArgument;
+import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
+import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreatePurchaseMenu;
+import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
+import pl.chudziudgi.lifesteal.feature.clan.feature.delete.ClanDeleteInventory;
+import pl.chudziudgi.lifesteal.feature.clan.feature.invite.ClanInviteService;
+import pl.chudziudgi.lifesteal.feature.clan.feature.pvp.ClanPvpController;
+import pl.chudziudgi.lifesteal.feature.clan.repository.ClanRepository;
+import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
+import pl.chudziudgi.lifesteal.feature.clan.task.ClanSaveTask;
+import pl.chudziudgi.lifesteal.feature.command.*;
+import pl.chudziudgi.lifesteal.feature.crafting.CraftingCommand;
+import pl.chudziudgi.lifesteal.feature.crafting.CraftingInventory;
+import pl.chudziudgi.lifesteal.feature.crafting.CraftingManager;
+import pl.chudziudgi.lifesteal.feature.dailyvpln.DailyVplnController;
+import pl.chudziudgi.lifesteal.feature.dailyvpln.DailyVplnManager;
+import pl.chudziudgi.lifesteal.feature.disco.DiscoCommand;
+import pl.chudziudgi.lifesteal.feature.disco.DiscoInventory;
+import pl.chudziudgi.lifesteal.feature.disco.DiscoTask;
+import pl.chudziudgi.lifesteal.feature.economy.EconomyCommand;
+import pl.chudziudgi.lifesteal.feature.economy.EconomyHolder;
+import pl.chudziudgi.lifesteal.feature.economy.MoneyCommand;
+import pl.chudziudgi.lifesteal.feature.economy.PayCommand;
+import pl.chudziudgi.lifesteal.feature.end.EndCommand;
+import pl.chudziudgi.lifesteal.feature.end.EndController;
+import pl.chudziudgi.lifesteal.feature.end.EndManager;
+import pl.chudziudgi.lifesteal.feature.end.EndTask;
+import pl.chudziudgi.lifesteal.feature.help.HelpCommand;
+import pl.chudziudgi.lifesteal.feature.help.HelpInventory;
+import pl.chudziudgi.lifesteal.feature.itemshop.ItemShopCommand;
+import pl.chudziudgi.lifesteal.feature.itemshop.ItemShopInventory;
+import pl.chudziudgi.lifesteal.feature.itemshop.ItemShopManager;
+import pl.chudziudgi.lifesteal.feature.job.JobCommand;
+import pl.chudziudgi.lifesteal.feature.job.JobController;
+import pl.chudziudgi.lifesteal.feature.job.JobInventory;
+import pl.chudziudgi.lifesteal.feature.killcounter.KillCounterController;
+import pl.chudziudgi.lifesteal.feature.kit.KitCommand;
+import pl.chudziudgi.lifesteal.feature.kit.KitInventory;
+import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealCommand;
+import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealController;
+import pl.chudziudgi.lifesteal.feature.lootcase.*;
+import pl.chudziudgi.lifesteal.feature.nether.NetherCommand;
+import pl.chudziudgi.lifesteal.feature.nether.NetherController;
+import pl.chudziudgi.lifesteal.feature.nether.NetherManager;
+import pl.chudziudgi.lifesteal.feature.nether.NetherTask;
+import pl.chudziudgi.lifesteal.feature.pet.PetCommand;
+import pl.chudziudgi.lifesteal.feature.pet.PetController;
+import pl.chudziudgi.lifesteal.feature.pet.PetInventory;
+import pl.chudziudgi.lifesteal.feature.pet.task.PetMoveTask;
+import pl.chudziudgi.lifesteal.feature.pet.task.PetPotionEffectTask;
+import pl.chudziudgi.lifesteal.feature.pet.task.PetRemoveBuggyPetsTask;
+import pl.chudziudgi.lifesteal.feature.randomteleport.RandomTeleportCommand;
+import pl.chudziudgi.lifesteal.feature.randomteleport.RandomTeleportController;
+import pl.chudziudgi.lifesteal.feature.shop.ShopCommand;
+import pl.chudziudgi.lifesteal.feature.shop.ShopInventory;
+import pl.chudziudgi.lifesteal.feature.shop.npc.controller.NpcShopController;
+import pl.chudziudgi.lifesteal.feature.shop.npc.inventory.NpcShopInventory;
+import pl.chudziudgi.lifesteal.feature.statistic.StatisticCommand;
+import pl.chudziudgi.lifesteal.feature.statistic.StatisticController;
+import pl.chudziudgi.lifesteal.feature.statistic.StatisticInventory;
+import pl.chudziudgi.lifesteal.feature.top.TopCitizenTask;
+import pl.chudziudgi.lifesteal.feature.top.TopManager;
+import pl.chudziudgi.lifesteal.feature.user.User;
+import pl.chudziudgi.lifesteal.feature.user.UserService;
+import pl.chudziudgi.lifesteal.feature.user.command.UserCommand;
+import pl.chudziudgi.lifesteal.feature.user.command.UserCommandArgument;
+import pl.chudziudgi.lifesteal.feature.user.controller.JoinQuitListener;
+import pl.chudziudgi.lifesteal.feature.user.repository.UserRepository;
+import pl.chudziudgi.lifesteal.feature.user.task.SpentTimeTask;
+import pl.chudziudgi.lifesteal.feature.user.task.UsersSaveTask;
+import pl.chudziudgi.lifesteal.feature.vanish.VanishCommand;
+import pl.chudziudgi.lifesteal.feature.vanish.VanishController;
+import pl.chudziudgi.lifesteal.feature.vanish.VanishHandler;
+import pl.chudziudgi.lifesteal.feature.voucher.VoucherCommand;
+import pl.chudziudgi.lifesteal.feature.voucher.VoucherController;
+import pl.chudziudgi.lifesteal.feature.voucher.VoucherInventory;
+
+import java.io.File;
+import java.util.Random;
+import java.util.stream.Stream;
+
+@Getter
+public final class SurvivalPlugin extends JavaPlugin {
+
+    public static final Gson GSON = GsonHolder.GSON;
+    @Getter
+    public static SurvivalPlugin instance;
+    private final MongoDatabaseService mongoDatabaseService = new MongoDatabaseService();
+    private final UserRepository userRepository = new UserRepository();
+    private final ClanRepository clanRepository = new ClanRepository();
+    private final ItemShopManager itemShopManager = new ItemShopManager();
+    private final ClanInviteService clanInviteService = new ClanInviteService(this);
+    private final AfkZoneManager afkZoneManager = new AfkZoneManager();
+    private final Random random = new Random();
+    private final DailyVplnManager dailyVplnManager = new DailyVplnManager(this.random);
+    private final VanishHandler vanishHandler = new VanishHandler();
+    public Economy economy;
+    private EternalCoreApi eternalCoreApi;
+    private PluginConfiguration pluginConfiguration;
+    private ClanConfiguration clanConfiguration;
+    private LootCaseConfiguration lootCaseConfiguration;
+    private KitConfiguration kitConfiguration;
+    private ItemShopConfiguration itemShopConfiguration;
+    private NpcShopConfiguration npcShopConfiguration;
+    private CraftingConfiguration craftingConfiguration;
+    private WorldsSettings worldsSettings;
+    private PetConfiguration petconfiguration;
+    private VoucherConfiguration voucherConfiguration;
+    private BorderCollectionConfiguration borderCollectionConfiguration;
+    private UserService userService;
+    private ClanService clanService;
+    private ProtocolManager protocolManager;
+    private NetherManager netherManager;
+    private EndManager endManager;
+    private TopManager topManager;
+    private LiteCommands<CommandSender> liteCommands;
+
+    public void onLoad() {
+        this.protocolManager = ProtocolLibrary.getProtocolManager();
+        this.userService = new UserService(this.userRepository);
+        this.clanService = new ClanService(this.clanRepository);
+
+        Bukkit.getServicesManager().register(Economy.class, new EconomyHolder(this.userService), this, ServicePriority.Highest);
+
+        RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            this.getLogger().severe("Nie wykryto pluginu Valut");
+            this.getServer().shutdown();
+            return;
+        }
+        this.economy = rsp.getProvider();
+    }
+
+
+    @Override
+    public void onEnable() {
+        Server server = getServer();
+        instance = this;
+
+        //load placeholderApi
+        this.eternalCoreApi = EternalCoreApiProvider.provide();
+
+        //load configs files
+        ConfigService configService = new ConfigService();
+        File dataFolder = this.getDataFolder();
+        this.pluginConfiguration = configService.create(PluginConfiguration.class, new File(dataFolder, "config.yml"));
+        this.lootCaseConfiguration = configService.create(LootCaseConfiguration.class, new File(dataFolder, "lootcase.yml"));
+        this.kitConfiguration = configService.create(KitConfiguration.class, new File(dataFolder, "kit.yml"));
+        this.npcShopConfiguration = configService.create(NpcShopConfiguration.class, new File(dataFolder, "npcShop.yml"));
+        this.itemShopConfiguration = configService.create(ItemShopConfiguration.class, new File(dataFolder, "itemshop.yml"));
+        this.craftingConfiguration = configService.create(CraftingConfiguration.class, new File(dataFolder, "crafting.yml"));
+        this.petconfiguration = configService.create(PetConfiguration.class, new File(dataFolder, "pet.yml"));
+        this.clanConfiguration = configService.create(ClanConfiguration.class, new File(dataFolder, "klan.yml"));
+        this.worldsSettings = configService.create(WorldsSettings.class, new File(dataFolder, "nether.yml"));
+        this.borderCollectionConfiguration = configService.create(BorderCollectionConfiguration.class, new File(dataFolder, "border.yml"));
+        this.voucherConfiguration = configService.create(VoucherConfiguration.class, new File(dataFolder, "voucher.yml"));
+
+        new Placeholder(this.userService, this.clanService, this.worldsSettings).register();
+
+        // topki
+        this.topManager = new TopManager(this.userService);
+
+        // help menu
+        HelpInventory helpInventory = new HelpInventory(this);
+
+        // shop Menu
+        NpcShopInventory npcShopInventory = new NpcShopInventory(this, userService, this.npcShopConfiguration);
+        ShopInventory shopInventory = new ShopInventory(this, npcShopInventory);
+
+        // job Menu
+        JobInventory jobInventory = new JobInventory(this, this.userService, this.pluginConfiguration);
+
+        // kit
+        KitInventory kitInventory = new KitInventory(this, this.kitConfiguration, this.userService);
+
+        // backup
+        BackupInventory backupInventory = new BackupInventory(this, this.userService);
+
+        // ItemShop
+        ItemShopInventory itemShopInventory = new ItemShopInventory(this, this.itemShopConfiguration, this.itemShopManager, this.userService);
+
+        // lootCase
+        LootCaseInventory lootCaseInventory = new LootCaseInventory(this);
+        LootCaseHandler lootCaseHandler = new LootCaseHandler(this.lootCaseConfiguration);
+        lootCaseHandler.createLootCaseHolograms();
+
+        // Statistic
+        StatisticInventory statisticInventory = new StatisticInventory(this, this.userService);
+
+        //Clan
+        ClanDeleteInventory clanDeleteInventory = new ClanDeleteInventory(this, this.clanService, this.protocolManager);
+        CreatePurchaseMenu createPurchaseMenu = new CreatePurchaseMenu(this, this.clanConfiguration, this.clanService);
+        CreateSignMenu createSignMenu = new CreateSignMenu(this, createPurchaseMenu);
+
+        //Custom crafting
+        CraftingManager craftingManager = new CraftingManager(this.craftingConfiguration);
+        craftingManager.registerCraftings();
+
+        //Pet
+        PetInventory petInventory = new PetInventory();
+
+        //Blacksmih
+        BlacksmithInventory blacksmithInventory = new BlacksmithInventory(this, this.userService);
+
+        //Crafting
+        CraftingInventory craftingInventory = new CraftingInventory(this, this.craftingConfiguration);
+
+        //Nether
+        this.netherManager = new NetherManager(this.worldsSettings);
+
+        //End
+        this.endManager = new EndManager(this.worldsSettings);
+
+        //Voucher
+        VoucherInventory voucherInventory = new VoucherInventory(this, this.voucherConfiguration);
+
+        //Disco
+        DiscoInventory discoInventory = new DiscoInventory(this);
+
+        BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
+        Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
+
+        // load data
+        this.userRepository.findAll().forEach(this.userService::addUser);
+        this.clanRepository.findAll().forEach(this.clanService::addClan);
+
+
+        // load commands
+        this.liteCommands = LiteCommandsBukkit.builder()
+                .settings(settings -> settings
+                        .fallbackPrefix("cebula-survival")
+                        .nativePermissions(false)
+                )
+                .commands(
+                        new HelpCommand(this, helpInventory),
+                        new TrashCommand(this),
+                        new EconomyCommand(this.userService),
+                        new JobCommand(jobInventory, this.pluginConfiguration),
+                        new KitCommand(kitInventory, this.kitConfiguration, this.userService),
+                        new BackupCommand(backupInventory, this.userService),
+                        new VplnCommand(this.userService),
+                        new ItemShopCommand(itemShopInventory),
+                        new LootCaseCommand(this.lootCaseConfiguration),
+                        new MoneyCommand(this.userService),
+                        new StatisticCommand(statisticInventory),
+                        new PayCommand(this.userService),
+                        new ClanCommand(this.userService, this.clanService, clanDeleteInventory, this.clanInviteService, createSignMenu, this.clanConfiguration),
+                        new VanishCommand(this.userService, this.vanishHandler, this),
+                        new PetCommand(this.petconfiguration, petInventory, this.userService, this),
+                        new CraftingCommand(craftingInventory),
+                        new DiscordCommand(this.pluginConfiguration),
+                        new NetherCommand(this.netherManager, this.worldsSettings),
+                        new ReloadConfigurationCommand(configService),
+                        new ShopCommand(shopInventory),
+                        new RandomTeleportCommand(this.pluginConfiguration),
+                        new LiveCommand(),
+                        new UserCommand(this.userService),
+                        new VoucherCommand(this.voucherConfiguration, voucherInventory),
+                        new DiscoCommand(discoInventory, this.userService),
+                        new EndCommand(this.endManager, this.worldsSettings),
+                        new LifeStealCommand(this.pluginConfiguration)
+                )
+                .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
+                .argument(User.class, new UserCommandArgument(this.userService))
+                .argument(Clan.class, new ClanCommandArgument(this.clanService))
+                .argument(LootCase.class, new LootCaseCommandArgument(this.lootCaseConfiguration))
+                .invalidUsage(
+                        new InvalidCommandHandle()
+                )
+                .build();
+
+        // load Listeners
+        Stream.of(
+                new JoinQuitListener(this.userService),
+                new NpcShopController(this.npcShopConfiguration, npcShopInventory),
+                new JobController(this.userService, this.random, this.pluginConfiguration),
+                new BackupController(this.userService),
+                new BlockerController(this.pluginConfiguration),
+                new DailyVplnController(this.userService, this.pluginConfiguration, this.dailyVplnManager),
+                new LootCaseController(this.lootCaseConfiguration, lootCaseInventory),
+                new StatisticController(this.userService),
+                new ClanPvpController(this.clanService),
+                new VanishController(this.userService, this),
+                new KillCounterController(this),
+                new PetController(this.userService, this.petconfiguration, this),
+                new ChatCharController(),
+                new BlacksmithController(blacksmithInventory, this.pluginConfiguration),
+                new NetherController(this.worldsSettings, this.netherManager),
+                new BorderCollectionController(this.borderCollectionConfiguration, borderCollectionInventory),
+                new RandomTeleportController(this.pluginConfiguration, this.eternalCoreApi),
+                new VoucherController(this.voucherConfiguration),
+                new EndController(this.worldsSettings, this.endManager),
+                new LifeStealController(this.pluginConfiguration)
+        ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
+        // load Tasks
+        new UsersSaveTask(this, this.userService);
+        new ClanSaveTask(this, this.clanService);
+        new TopCitizenTask(this, this.topManager);
+        new SpentTimeTask(this, this.userService);
+        new AbyssTask(this);
+        new AfkZoneTask(this, afkZoneManager, this.lootCaseConfiguration, userService);
+        new ClanArmorTask(this, this.clanService);
+        new PetMoveTask(this, this.userService);
+        new PetPotionEffectTask(this.userService, this);
+        new PetRemoveBuggyPetsTask(this, this.userService);
+        new NetherTask(this, this.worldsSettings);
+        new MobChunkLimitTask(this);
+        new DiscoTask(this, this.random, this.clanService, this.userService);
+        new EndTask(this, this.worldsSettings);
+    }
+
+    @Override
+    public void onDisable() {
+        this.protocolManager.removePacketListeners(this);
+        if (this.liteCommands != null) {
+            this.liteCommands.unregister();
+        }
+        this.userService.saveAllUsers();
+        this.clanService.saveAllClans();
+    }
+
+}
