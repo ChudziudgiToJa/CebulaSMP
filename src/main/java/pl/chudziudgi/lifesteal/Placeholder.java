@@ -47,7 +47,7 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
     public String onPlaceholderRequest(Player player, @NotNull String params) {
         User user = userService.findUserByNickName(player.getName());
         Clan clanOwner = this.clanService.findClanByOwner(player.getName());
-        Clan clanMember = this.clanService.findClanByMember(player.getName());
+        Clan clanMember = this.clanService.findClanByMember(player.getUniqueId());
 
         if(params.startsWith("monety")) {
             return DecimalUtil.getFormat(user.getMoney());
@@ -102,8 +102,8 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
         if (one == null || two == null || !params.equalsIgnoreCase("clans")) {
             return null;
         }
-        Clan clanOne = this.clanService.findClanByMember(one.getName());
-        Clan clanTwo = this.clanService.findClanByMember(two.getName());
+        Clan clanOne = this.clanService.findClanByMember(one.getUniqueId());
+        Clan clanTwo = this.clanService.findClanByMember(two.getUniqueId());
 
         if (clanOne != null && clanTwo == null) {
             return "";

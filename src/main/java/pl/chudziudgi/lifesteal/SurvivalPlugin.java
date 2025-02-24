@@ -33,8 +33,10 @@ import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionControll
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionInventory;
 import pl.chudziudgi.lifesteal.feature.chat.ChatCharController;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
+import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommand;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommandArgument;
+import pl.chudziudgi.lifesteal.feature.clan.command.ClanMemberCommandArgument;
 import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreatePurchaseMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
@@ -300,6 +302,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                 .argument(User.class, new UserCommandArgument(this.userService))
                 .argument(Clan.class, new ClanCommandArgument(this.clanService))
                 .argument(LootCase.class, new LootCaseCommandArgument(this.lootCaseConfiguration))
+                .argument(ClanMember.class, new ClanMemberCommandArgument(this.clanService))
                 .invalidUsage(
                         new InvalidCommandHandle()
                 )

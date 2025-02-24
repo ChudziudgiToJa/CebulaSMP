@@ -10,7 +10,7 @@ import pl.chudziudgi.lifesteal.util.ItemBuilder;
 
 public class PetHologramHandler {
 
-    public static void create(Player player, User user, final Pet pet) {
+    public static void create(Player player, final Pet pet) {
         Hologram oldHolo = DHAPI.getHologram(pet.getUuid().toString());
 
         if (oldHolo != null) {
@@ -26,6 +26,8 @@ public class PetHologramHandler {
         DHAPI.addHologramLine(hologram, new ItemBuilder(Material.PLAYER_HEAD)
                 .setHeadOwner(pet.getPetData().getSkinValue())
                 .build());
+
+
     }
 }
 

@@ -2,10 +2,12 @@ package pl.chudziudgi.lifesteal.feature.clan.service;
 
 import pl.chudziudgi.lifesteal.database.UpdateType;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
+import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.repository.ClanRepository;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClanService {
@@ -34,19 +36,13 @@ public class ClanService {
         clanRepository.update(clan, clan.getId(), UpdateType.REMOVE);
     }
 
-    public Clan findClanByMember(String nickName) {
-        for (Clan clan : clanConcurrentHashMap.values()) {
-            if (clan.getOwnerName().equals(nickName)) {
-                return clan;
-            }
-
-            for (String member : clan.getMemberArrayList()) {
-                if (member.equals(nickName)) {
-                    return clan;
-                }
-            }
-        }
-        return null;
+    public Clan findClanByMember(UUID uuid) {
+        return clanConcurrentHashMap.values().stream()
+                .filter(clan -> clan.getClanMemberArrayList().stream()
+                        .anyMatch(clanMember -> clanMember.getUuid().equals(uuid))
+                )
+                .findFirst()
+                .orElse(null);
     }
 
     public Clan findClanByTag(String tag) {
@@ -71,6 +67,14 @@ public class ClanService {
                     saveClan(clan);
                 }
         );
+    }
+
+    public ClanMember findClanMemberByName(String name) {
+        return getAllClans().stream()
+                .flatMap(clan -> clan.getClanMemberArrayList().stream())
+                .filter(clanMember -> clanMember.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
     }
 
     public Collection<Clan> getAllClans() {

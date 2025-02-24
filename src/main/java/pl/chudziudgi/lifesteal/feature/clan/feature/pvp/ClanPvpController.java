@@ -23,11 +23,11 @@ public class ClanPvpController implements Listener {
         if (!(event.getDamager() instanceof Player damager)) {
             return;
         }
-        Clan clan = this.clanService.findClanByMember(damager.getName());
+        Clan clan = this.clanService.findClanByMember(damager.getUniqueId());
         if (clan == null) {
             return;
         }
-        if (!clan.isPvp() && (clan.getMemberArrayList().contains(player.getName()) || clan.getOwnerName().equals(player.getName()))) {
+        if (!clan.isPvp() && (clan.getClanMemberArrayList().contains(player.getName()) || clan.getOwnerName().equals(player.getName()))) {
             event.setCancelled(true);
         }
     }

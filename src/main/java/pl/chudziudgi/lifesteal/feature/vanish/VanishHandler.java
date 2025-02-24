@@ -33,10 +33,10 @@ public class VanishHandler {
         } else {
             target.removeMetadata("vanished", survivalPlugin);
             Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
-                onlinePlayer.showPlayer(survivalPlugin, target); // Dodano plugin jako argument
+                onlinePlayer.showPlayer(survivalPlugin, target);
             });
             user.getPetDataArrayList().forEach(pet -> {
-                PetHologramHandler.create(target, user, pet);
+                PetHologramHandler.create(target, pet);
             });
             player.playSound(player.getLocation(), Sound.ENTITY_BAT_LOOP, 10, 10);
             MessageUtil.sendMessage(player, "&b&lV &fzostał &cwyłączony");

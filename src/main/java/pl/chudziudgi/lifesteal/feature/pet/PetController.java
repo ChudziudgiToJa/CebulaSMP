@@ -44,7 +44,7 @@ public class PetController implements Listener {
             if (user.getPetDataArrayList().isEmpty()) return;
             if (user.isVanish()) return;
             user.getPetDataArrayList().forEach(petData -> {
-                PetHologramHandler.create(event.getPlayer(), user, petData);
+                PetHologramHandler.create(event.getPlayer(), petData);
             });
         });
     }
@@ -60,7 +60,7 @@ public class PetController implements Listener {
             if (user.isVanish()) return;
             user.getPetDataArrayList().forEach(petData -> {
                 DHAPI.removeHologram(petData.getUuid().toString());
-                PetHologramHandler.create(player, user, petData);
+                PetHologramHandler.create(player, petData);
             });
         });
     }
@@ -119,7 +119,7 @@ public class PetController implements Listener {
             }
             final Pet pet = new Pet(petData, UUID.randomUUID());
             user.getPetDataArrayList().add(pet);
-            PetHologramHandler.create(player, user, pet);
+            PetHologramHandler.create(player, pet);
             MessageUtil.sendTitle(player, "&a", "&fPomyślnie dodano &a" + petData.getName() + "&f do Twojej kolekcji!", 20, 60, 20);
         }
     }

@@ -43,13 +43,13 @@ public class DiscoTask extends BukkitRunnable {
                 DiscoPackethandler.refreshArmorPacket(player, player);
             }
 
-            Clan playerClan = this.clanService.findClanByMember(player.getName());
+            Clan playerClan = this.clanService.findClanByMember(player.getUniqueId());
             onlinePlayers.stream()
                     .filter(nearbyPlayer -> !nearbyPlayer.equals(player))
                     .filter(nearbyPlayer -> nearbyPlayer.getWorld().equals(player.getWorld()))
-                    .filter(nearbyPlayer -> nearbyPlayer.getLocation().distance(player.getLocation()) <= 10)
+                    .filter(nearbyPlayer -> nearbyPlayer.getLocation().distance(player.getLocation()) <= 20)
                     .filter(nearbyPlayer -> {
-                        Clan nearbyPlayerClan = this.clanService.findClanByMember(nearbyPlayer.getName());
+                        Clan nearbyPlayerClan = this.clanService.findClanByMember(nearbyPlayer.getUniqueId());
                         return playerClan == null || !playerClan.equals(nearbyPlayerClan);
                     })
                     .forEach(nearbyPlayer -> handleDiscoForPlayer(player, nearbyPlayer, user));
