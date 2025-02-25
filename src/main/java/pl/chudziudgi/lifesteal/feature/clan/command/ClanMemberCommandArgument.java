@@ -7,6 +7,7 @@ import dev.rollczi.litecommands.invocation.Invocation;
 import dev.rollczi.litecommands.suggestion.SuggestionContext;
 import dev.rollczi.litecommands.suggestion.SuggestionResult;
 import org.bukkit.command.CommandSender;
+import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 
@@ -23,9 +24,14 @@ public class ClanMemberCommandArgument extends ArgumentResolver<CommandSender, C
     @Override
     protected ParseResult<ClanMember> parse(Invocation<CommandSender> invocation, Argument<ClanMember> context, String argument) {
         ClanMember clanMember = this.clanService.findClanMemberByName(argument);
+        Clan clan = this.clanService.findClanByMember(clanMember);
 
         if (clanMember == null) {
-            return ParseResult.failure("Nie znaleziono takiego gracza lub nie ma go w twoim klanie.");
+            return ParseResult.failure("Nie znaleziono takiego gracza.");
+        }
+
+        if (clanMember.getName().equals(clan.getOwnerName())) {
+            return ParseResult.failure("nie możesz wyrzucić się z swojego klanu");
         }
 
         return ParseResult.success(clanMember);

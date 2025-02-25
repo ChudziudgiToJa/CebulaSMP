@@ -49,9 +49,9 @@ public class ClanManager {
         for (ClanMember name : clanMembers) {
             Player player = Bukkit.getPlayerExact(name.getName());
             if (player != null && player.isOnline()) {
-                formattedNames.add("&a" + name);
+                formattedNames.add("&a" + name.getName());
             } else {
-                formattedNames.add("&7" + name);
+                formattedNames.add("&7" + name.getName());
             }
         }
 

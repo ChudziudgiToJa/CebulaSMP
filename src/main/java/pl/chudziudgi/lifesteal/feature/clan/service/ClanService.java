@@ -45,6 +45,15 @@ public class ClanService {
                 .orElse(null);
     }
 
+    public Clan findClanByMember(ClanMember member) {
+        return clanConcurrentHashMap.values().stream()
+                .filter(clan -> clan.getClanMemberArrayList().stream()
+                        .anyMatch(clanMember -> clanMember.equals(member))
+                )
+                .findFirst()
+                .orElse(null);
+    }
+
     public Clan findClanByTag(String tag) {
         return this.clanConcurrentHashMap.values()
                 .stream()
