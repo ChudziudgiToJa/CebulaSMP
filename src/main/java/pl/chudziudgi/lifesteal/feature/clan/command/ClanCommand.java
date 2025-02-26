@@ -17,6 +17,7 @@ import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorHandler;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.delete.ClanDeleteInventory;
 import pl.chudziudgi.lifesteal.feature.clan.feature.invite.ClanInviteService;
+import pl.chudziudgi.lifesteal.feature.clan.feature.upgrade.ClanUpgradeInventory;
 import pl.chudziudgi.lifesteal.feature.clan.manager.ClanManager;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.feature.user.User;
@@ -32,14 +33,16 @@ public class ClanCommand {
     private final ClanInviteService clanInviteService;
     private final CreateSignMenu createSignMenu;
     private final ClanConfiguration clanConfiguration;
+    private final ClanUpgradeInventory clanUpgradeInventory;
 
-    public ClanCommand(UserService userService, ClanService clanService, ClanDeleteInventory clanDeleteInventory, ClanInviteService clanInviteService, CreateSignMenu createSignMenu, ClanConfiguration clanConfiguration) {
+    public ClanCommand(UserService userService, ClanService clanService, ClanDeleteInventory clanDeleteInventory, ClanInviteService clanInviteService, CreateSignMenu createSignMenu, ClanConfiguration clanConfiguration, ClanUpgradeInventory clanUpgradeInventory) {
         this.userService = userService;
         this.clanService = clanService;
         this.clanDeleteInventory = clanDeleteInventory;
         this.clanInviteService = clanInviteService;
         this.createSignMenu = createSignMenu;
         this.clanConfiguration = clanConfiguration;
+        this.clanUpgradeInventory = clanUpgradeInventory;
     }
 
 
@@ -232,6 +235,28 @@ public class ClanCommand {
         MessageUtil.sendMessage(player, "&fklan: &a&l" + clan.getTag());
         MessageUtil.sendMessage(player, "&fzałożyciel: &a&l" + clan.getOwnerName());
         MessageUtil.sendMessage(player, "&fLista graczy w klanie&8: &7" + ClanManager.formatPlayerStatus(clan.getClanMemberArrayList()));
+    }
+
+    @Execute(name = "ulepsz")
+    void upgrade(@Context Player player) {
+        Clan clan = this.clanService.findClanByMember(player.getUniqueId());
+        User user = this.userService.findUserByUUID(player.getUniqueId());
+
+        if (user == null) {
+            return;
+        }
+
+        if (clan == null) {
+            MessageUtil.sendMessage(player, "&cNie masz klanu.");
+            return;
+        }
+
+        if (!clan.getOwnerName().equals(player.getName())) {
+            MessageUtil.sendMessage(player, "&cNie jesteś liderem klanu.");
+            return;
+        }
+
+        this.clanUpgradeInventory.show(player, user, clan);
     }
 
     @Execute(name = "admin delete")

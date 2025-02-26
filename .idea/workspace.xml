@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="ADD new ClanMember object">
+    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="fix clan owner">
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/upgrade/ClanUpgradeInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanMemberCommandArgument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanMemberCommandArgument.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/manager/ClanManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/manager/ClanManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/service/ClanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/service/ClanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ClanConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ClanConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/Clan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/Clan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/create/CreatePurchaseMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/create/CreatePurchaseMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +90,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -418,11 +421,18 @@
       <option name="project" value="LOCAL" />
       <updated>1740424068399</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="fix clan owner">
+      <option name="closed" value="true" />
+      <created>1740450696653</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1740450696653</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="big decimental update" />
     <MESSAGE value="add shop and jakiś inny szit" />
     <MESSAGE value="jakiś tam szit" />
     <MESSAGE value="enderPearl cooldown and live command" />
@@ -447,6 +457,7 @@
     <MESSAGE value="add lifesteal" />
     <MESSAGE value="usunięto" />
     <MESSAGE value="ADD new ClanMember object" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADD new ClanMember object" />
+    <MESSAGE value="fix clan owner" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix clan owner" />
   </component>
 </project>

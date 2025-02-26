@@ -7,7 +7,6 @@ import pl.chudziudgi.lifesteal.database.repository.Identifiable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.UUID;
 
 
 @Getter
@@ -18,6 +17,7 @@ public class Clan implements Serializable, Identifiable<String> {
     private String tag;
     private String ownerName;
 
+    private int maxClanMemberSize;
     private ArrayList<ClanMember> clanMemberArrayList;
     private ArrayList<String> allianceArrayList;
 
@@ -28,6 +28,7 @@ public class Clan implements Serializable, Identifiable<String> {
         this.ownerName = player.getName();
         this.tag = tag.toUpperCase();
 
+        this.maxClanMemberSize = 8;
         this.clanMemberArrayList = new ArrayList<>();
         this.clanMemberArrayList.add(new ClanMember(player));
 

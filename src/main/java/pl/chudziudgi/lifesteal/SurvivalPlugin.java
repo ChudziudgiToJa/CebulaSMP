@@ -43,6 +43,7 @@ import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.delete.ClanDeleteInventory;
 import pl.chudziudgi.lifesteal.feature.clan.feature.invite.ClanInviteService;
 import pl.chudziudgi.lifesteal.feature.clan.feature.pvp.ClanPvpController;
+import pl.chudziudgi.lifesteal.feature.clan.feature.upgrade.ClanUpgradeInventory;
 import pl.chudziudgi.lifesteal.feature.clan.repository.ClanRepository;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.feature.clan.task.ClanSaveTask;
@@ -229,6 +230,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         ClanDeleteInventory clanDeleteInventory = new ClanDeleteInventory(this, this.clanService, this.protocolManager);
         CreatePurchaseMenu createPurchaseMenu = new CreatePurchaseMenu(this, this.clanConfiguration, this.clanService);
         CreateSignMenu createSignMenu = new CreateSignMenu(this, createPurchaseMenu);
+        ClanUpgradeInventory clanUpgradeInventory = new ClanUpgradeInventory(this, this.clanConfiguration);
 
         //Custom crafting
         CraftingManager craftingManager = new CraftingManager(this.craftingConfiguration);
@@ -282,7 +284,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new MoneyCommand(this.userService),
                         new StatisticCommand(statisticInventory),
                         new PayCommand(this.userService),
-                        new ClanCommand(this.userService, this.clanService, clanDeleteInventory, this.clanInviteService, createSignMenu, this.clanConfiguration),
+                        new ClanCommand(this.userService, this.clanService, clanDeleteInventory, this.clanInviteService, createSignMenu, this.clanConfiguration,clanUpgradeInventory),
                         new VanishCommand(this.userService, this.vanishHandler, this),
                         new PetCommand(this.petconfiguration, petInventory, this.userService, this),
                         new CraftingCommand(craftingInventory),

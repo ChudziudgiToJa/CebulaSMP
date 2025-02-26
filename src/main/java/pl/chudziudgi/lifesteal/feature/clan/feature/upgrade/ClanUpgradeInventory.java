@@ -1,14 +1,13 @@
-package pl.chudziudgi.lifesteal.feature.clan.feature.create;
+package pl.chudziudgi.lifesteal.feature.clan.feature.upgrade;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import pl.chudziudgi.lifesteal.SurvivalPlugin;
 import pl.chudziudgi.lifesteal.configuration.implementation.ClanConfiguration;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
-import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
@@ -16,16 +15,44 @@ import pl.chudziudgi.lifesteal.util.SimpleInventory;
 
 import java.util.Arrays;
 
-public class CreatePurchaseMenu {
+public class ClanUpgradeInventory {
 
     private final SurvivalPlugin survivalPlugin;
     private final ClanConfiguration clanConfiguration;
-    private final ClanService clanService;
 
-    public CreatePurchaseMenu(SurvivalPlugin survivalPlugin, ClanConfiguration clanConfiguration, ClanService clanService) {
+    public ClanUpgradeInventory(SurvivalPlugin survivalPlugin, ClanConfiguration clanConfiguration) {
         this.survivalPlugin = survivalPlugin;
         this.clanConfiguration = clanConfiguration;
-        this.clanService = clanService;
+    }
+
+    public void show(final Player player,User user, Clan clan) {
+        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, InventoryType.HOPPER, MessageUtil.smallText("&fzestawy:"));
+        Inventory inventory = simpleInventory.getInventory();
+
+        inventory.setItem(1,
+                new ItemBuilder(Material.PAPER)
+                        .setName("&fMiejsca w klanie")
+                        .setLore(
+                                "",
+                                "&fAktualne sloty w klanie: %s&8/&a%s".formatted(clan.getClanMemberArrayList().size(), clan.getMaxClanMemberSize()),
+                                "",
+                                "&akliknij aby kupić miejsce w klanie."
+                        )
+                        .build()
+        );
+
+
+        simpleInventory.click(event -> {
+            event.setCancelled(true);
+            if (event.getCurrentItem() == null) return;
+
+            if (event.getSlot() == 1) {
+                open(player, user, clan);
+            }
+
+        });
+
+        player.openInventory(inventory);
     }
 
     public void open(final Player player, User user, final Clan clan) {
@@ -50,8 +77,8 @@ public class CreatePurchaseMenu {
                         .build()));
 
         inventory.setItem(13, new ItemBuilder(Material.PAPER)
-                        .setName("&7Klan o tagu: &f" + clan.getTag())
-                        .setLore("", "&7Koszt: &a" + clanConfiguration.getClanPrice())
+                .setName("&7po kupnie klan będzie posiadał: %s slotów".formatted(clan.getMaxClanMemberSize() + 1))
+                .setLore("", "&7Koszt: &a" + clanConfiguration.getClanMemberListMaxSize())
                 .build());
 
         Arrays.stream(glassRedSlots).forEach(slot -> inventory.setItem(slot,
@@ -70,21 +97,22 @@ public class CreatePurchaseMenu {
             }
 
             if (Arrays.asList(glassGreenSlots).contains(event.getSlot())) {
-                double clanPrice = this.clanConfiguration.getClanPrice();
-                if (user.getMoney() < clanPrice) {
-                    MessageUtil.sendMessage(player, "&cNie stać cię na założenie klanu! Koszt: &e" + clanPrice);
+                double slotPrice = this.clanConfiguration.getClanMemberListMaxSize();
+
+                if (user.getMoney() < slotPrice) {
+                    MessageUtil.sendMessage(player, "&cNie stać cię na zakup dodatkowego slotu! Koszt: &e" + slotPrice);
                     player.playSound(player, Sound.ENTITY_VILLAGER_NO, 5, 1);
                     return;
                 }
 
-                user.setMoney(user.getMoney() - clanPrice);
-                this.clanService.createClan(clan);
-                Bukkit.getOnlinePlayers().forEach(player1 -> MessageUtil.sendMessage(player1, player.getName() + " &astworzył nowy klan &2" + clan.getTag().toUpperCase()));
+                user.setMoney(user.getMoney() - slotPrice);
+                MessageUtil.sendTitle(player, "", "&aZakupiono dodatkowy slot do klanu", 20, 50, 20);
+                clan.setMaxClanMemberSize(clan.getMaxClanMemberSize() + 1);
                 player.closeInventory();
             }
         });
 
-
         player.openInventory(inventory);
+
     }
 }
