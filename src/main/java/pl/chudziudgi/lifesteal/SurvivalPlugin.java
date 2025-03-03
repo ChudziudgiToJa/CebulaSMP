@@ -94,6 +94,8 @@ import pl.chudziudgi.lifesteal.feature.shop.ShopCommand;
 import pl.chudziudgi.lifesteal.feature.shop.ShopInventory;
 import pl.chudziudgi.lifesteal.feature.shop.npc.controller.NpcShopController;
 import pl.chudziudgi.lifesteal.feature.shop.npc.inventory.NpcShopInventory;
+import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopInventory;
+import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticCommand;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticController;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticInventory;
@@ -202,9 +204,12 @@ public final class SurvivalPlugin extends JavaPlugin {
         // help menu
         HelpInventory helpInventory = new HelpInventory(this);
 
+        //TIme Shop
+        TimeShopInventory timeShopInventory = new TimeShopInventory(this.userService, this.pluginConfiguration, this);
+
         // shop Menu
         NpcShopInventory npcShopInventory = new NpcShopInventory(this, userService, this.npcShopConfiguration);
-        ShopInventory shopInventory = new ShopInventory(this, npcShopInventory);
+        ShopInventory shopInventory = new ShopInventory(this, npcShopInventory, timeShopInventory);
 
         // job Menu
         JobInventory jobInventory = new JobInventory(this, this.userService, this.pluginConfiguration);
@@ -348,6 +353,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new MobChunkLimitTask(this);
         new DiscoTask(this, this.random, this.clanService, this.userService);
         new EndTask(this, this.worldsSettings);
+        new TimeShopTask(this, this.userService);
     }
 
     @Override

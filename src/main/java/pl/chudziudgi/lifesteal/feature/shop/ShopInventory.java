@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import pl.chudziudgi.lifesteal.SurvivalPlugin;
 import pl.chudziudgi.lifesteal.feature.shop.npc.inventory.NpcShopInventory;
+import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopInventory;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 import pl.chudziudgi.lifesteal.util.SimpleInventory;
@@ -15,10 +16,12 @@ public class ShopInventory {
 
     private final SurvivalPlugin survivalPlugin;
     private final NpcShopInventory shopInventory;
+    private final TimeShopInventory timeShopInventory;
 
-    public ShopInventory(SurvivalPlugin survivalPlugin, NpcShopInventory shopInventory) {
+    public ShopInventory(SurvivalPlugin survivalPlugin, NpcShopInventory shopInventory, TimeShopInventory timeShopInventory) {
         this.survivalPlugin = survivalPlugin;
         this.shopInventory = shopInventory;
+        this.timeShopInventory = timeShopInventory;
     }
 
     public void show(final Player player) {
@@ -40,6 +43,11 @@ public class ShopInventory {
                 .setLore("", "&akliknij aby otworzyć")
                 .build()
         );
+        inventory.setItem(3, new ItemBuilder(Material.CLOCK)
+                .setName("&fSklep za spędzony czas")
+                .setLore("", "&akliknij aby otworzyć")
+                .build()
+        );
 
 
         simpleInventory.click(event -> {
@@ -47,12 +55,19 @@ public class ShopInventory {
 
             if (event.getSlot() == 0) {
                 this.shopInventory.showAllShops(player);
+                return;
             }
             if (event.getSlot() == 1) {
                 Bukkit.getServer().dispatchCommand(player, "itemshop");
+                return;
             }
             if (event.getSlot() == 2) {
                 Bukkit.getServer().dispatchCommand(player, "market");
+                return;
+            }
+            if (event.getSlot() == 3) {
+                this.timeShopInventory.showGlobal(player);
+                return;
             }
 
         });

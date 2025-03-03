@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.lifesteal.feature.job.JobDropChance;
 import pl.chudziudgi.lifesteal.feature.job.JobType;
 import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealCommand;
+import pl.chudziudgi.lifesteal.feature.shop.time.TimeShop;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
 
 import java.util.ArrayList;
@@ -22,10 +23,38 @@ public class PluginConfiguration extends OkaeriConfig {
     public RandomTeleportSettings randomTeleportSettings = new RandomTeleportSettings();
     public JobSettings jobSettings = new JobSettings();
     public LifeStealSettings lifeStealSettings = new LifeStealSettings();
+    public TimeShopSettings timeShopSettings = new TimeShopSettings();
 
     public int freePlnNpcID = 16;
     public int blackSmithID = 31;
-    public String discordUrl = "https://dc.paymc.pl/";
+    public String discordUrl = "https://dc.cebulasmp.pl/";
+
+    public static class TimeShopSettings extends OkaeriConfig {
+        public List<TimeShop> timeShops = List.of(
+                new TimeShop(
+                        new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &dVIP 1 tyg")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &f10m")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build(),
+                        600,
+                        "lp user {PLAYER} parent addtemp vip 1w "
+                ),
+                new TimeShop(
+                        new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &dCEBULAK 1m (test)")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &f60s")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build(),
+                        60,
+                        "lp user {PLAYER} parent addtemp cebulak 1m "
+                )
+        );
+    }
 
     public static class LifeStealSettings extends  OkaeriConfig {
         public ItemStack heartItemStack = new ItemBuilder(Material.RED_DYE)
@@ -48,6 +77,8 @@ public class PluginConfiguration extends OkaeriConfig {
                 Material.ARMOR_STAND
         );
     }
+
+
 
     public static class RandomTeleportSettings extends OkaeriConfig {
         public ArrayList<Location> buttonsLocations = new ArrayList<>();

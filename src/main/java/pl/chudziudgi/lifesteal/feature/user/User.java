@@ -22,6 +22,7 @@ public class User implements Serializable, Identifiable<String> {
     private String nickName;
     private double vPln;
     private Double money;
+    private int timeMoney;
     private Integer spentTime;
     private Integer progress;
     private JobType jobType;
@@ -43,6 +44,7 @@ public class User implements Serializable, Identifiable<String> {
         this.nickName = player.getName();
         this.vPln = 0.0;
         this.money = 0.0;
+        this.timeMoney = 0;
         this.spentTime = 0;
         this.progress = 0;
         this.jobType = JobType.CLEAR;
