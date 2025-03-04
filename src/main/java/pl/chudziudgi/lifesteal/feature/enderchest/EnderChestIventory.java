@@ -33,20 +33,19 @@ public class EnderChestIventory {
     }
 
     public void showEnderChest(final Player player, EnderChest enderChest, User user) {
-        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 3,
+        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 6,
                 MessageUtil.smallText("&DEnderChest: &f" + enderChest.getName() + " &8| &f" + user.getNickName()));
         Inventory inventory = simpleInventory.getInventory();
 
-        Integer[] glassBlueSlots = {18, 19, 20, 21, 23, 24, 25, 26};
+        Integer[] glassBlueSlots = {45,46,47,48,49,50,51,52,53};
         Set<Integer> protectedSlots = new HashSet<>(Arrays.asList(glassBlueSlots));
-        protectedSlots.add(22);
 
         Arrays.stream(glassBlueSlots).forEach(slot -> inventory.setItem(slot,
                 new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
                         .setName(" ")
                         .build()));
 
-        inventory.setItem(22, new ItemBuilder(Material.BARRIER)
+        inventory.setItem(49, new ItemBuilder(Material.BARRIER)
                 .setName("&4cofnij")
                 .build());
 
@@ -58,14 +57,12 @@ public class EnderChestIventory {
         }
 
         simpleInventory.click(event -> {
-            if (inventory.getType().equals(InventoryType.CHEST)) {
                 if (protectedSlots.contains(event.getSlot())) {
                     event.setCancelled(true);
-                    if (event.getSlot() == 22) {
+                    if (event.getSlot() == 49) {
                         showMainPage(player, user);
                     }
                 }
-            }
         });
 
         simpleInventory.close(inventoryCloseEvent -> {
@@ -81,7 +78,6 @@ public class EnderChestIventory {
             enderChest.getItemStackSerializableToStringArrayList().clear();
             enderChest.getItemStackSerializableToStringArrayList().addAll(serializedItems);
         });
-
         player.openInventory(inventory);
     }
 
@@ -122,8 +118,6 @@ public class EnderChestIventory {
             ItemStack itemStack = new ItemBuilder(Material.ENDER_CHEST)
                     .setName(enderChest.getName())
                     .setLore(
-                            "",
-                            "&7UUID: &f" + enderChest.getUuid(),
                             "",
                             "&2&lLPM &f- &akliknij aby otworzyć.",
                             "&9&lPPM &f- &3kliknij aby zmienić nazwe."
