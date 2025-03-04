@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import pl.chudziudgi.lifesteal.database.repository.Identifiable;
 import pl.chudziudgi.lifesteal.feature.backup.Backup;
 import pl.chudziudgi.lifesteal.feature.disco.DiscoType;
+import pl.chudziudgi.lifesteal.feature.enderchest.EnderChest;
 import pl.chudziudgi.lifesteal.feature.job.JobType;
 import pl.chudziudgi.lifesteal.feature.kit.KitData;
 import pl.chudziudgi.lifesteal.feature.pet.object.Pet;
@@ -37,6 +38,7 @@ public class User implements Serializable, Identifiable<String> {
     private ArrayList<KitData> kits;
     private ArrayList<Backup> backups;
     private ArrayList<Pet> petDataArrayList;
+    private ArrayList<EnderChest> enderChests;
 
 
     public User(Player player) {
@@ -59,6 +61,8 @@ public class User implements Serializable, Identifiable<String> {
         this.kits = new ArrayList<>();
         this.backups = new ArrayList<>();
         this.petDataArrayList = new ArrayList<>();
+        this.enderChests = new ArrayList<>();
+        this.enderChests.add(new EnderChest("EnderChest" + this.getEnderChests().size(), new ArrayList<>()));
     }
 
 
@@ -83,5 +87,4 @@ public class User implements Serializable, Identifiable<String> {
     public void addProgress(int progress) {
         this.progress += progress;
     }
-
 }

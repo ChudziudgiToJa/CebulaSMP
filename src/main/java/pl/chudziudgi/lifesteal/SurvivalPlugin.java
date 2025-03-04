@@ -64,6 +64,7 @@ import pl.chudziudgi.lifesteal.feature.end.EndCommand;
 import pl.chudziudgi.lifesteal.feature.end.EndController;
 import pl.chudziudgi.lifesteal.feature.end.EndManager;
 import pl.chudziudgi.lifesteal.feature.end.EndTask;
+import pl.chudziudgi.lifesteal.feature.enderchest.*;
 import pl.chudziudgi.lifesteal.feature.help.HelpCommand;
 import pl.chudziudgi.lifesteal.feature.help.HelpInventory;
 import pl.chudziudgi.lifesteal.feature.itemshop.ItemShopCommand;
@@ -262,6 +263,10 @@ public final class SurvivalPlugin extends JavaPlugin {
         //Disco
         DiscoInventory discoInventory = new DiscoInventory(this);
 
+        //EnderChest
+        EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
+        EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
+
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
@@ -303,7 +308,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new VoucherCommand(this.voucherConfiguration, voucherInventory),
                         new DiscoCommand(discoInventory, this.userService),
                         new EndCommand(this.endManager, this.worldsSettings),
-                        new LifeStealCommand(this.pluginConfiguration)
+                        new LifeStealCommand(this.pluginConfiguration),
+                        new EnderChestCommand(this.userService, enderChestIventory)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -336,7 +342,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new RandomTeleportController(this.pluginConfiguration, this.eternalCoreApi),
                 new VoucherController(this.voucherConfiguration),
                 new EndController(this.worldsSettings, this.endManager),
-                new LifeStealController(this.pluginConfiguration)
+                new LifeStealController(this.pluginConfiguration),
+                new EnderChestController(this.userService, enderChestIventory)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
         // load Tasks
         new UsersSaveTask(this, this.userService);

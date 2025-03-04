@@ -5,13 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="fix clan owner">
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/upgrade/ClanUpgradeInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/Downloads.lifesteal.test.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChestCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChestIventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChestSignGui.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/shop/time/TimeShopTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/lifesteal.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/lifesteal.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ClanConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ClanConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/Clan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/Clan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/create/CreatePurchaseMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/create/CreatePurchaseMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/shop/time/TimeShopInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/shop/time/TimeShopInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/user/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +89,7 @@
     &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.cebula-survival-core [shadowJar].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Downloads.lifesteal.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Downloads.lifesteal.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cebula-survival-core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/cebula-survival-core.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lifesteal.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lifesteal.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lifesteal.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lifesteal.test.iml" />

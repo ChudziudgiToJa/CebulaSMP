@@ -33,27 +33,11 @@ public class TimeShopInventory {
         User user = this.userService.findUserByNickName(player.getName());
 
         Integer[] glassBlueSlots = new Integer[]{
-                1, 3, 5, 7, 9, 17, 27, 35, 47, 49, 51
-        };
-        Integer[] glassBlackSlots = new Integer[]{
-                2, 4, 6, 18, 26, 36, 44, 46, 50, 52,48
-        };
-        Integer[] glassWhiteSlots = new Integer[]{
-                0, 8, 45, 53
+                1, 3, 5, 7, 9, 17, 27, 35, 47, 51, 2, 4, 6, 18, 26, 36, 44, 46, 48, 50, 52, 0, 8, 45, 53, 49
         };
 
         Arrays.stream(glassBlueSlots).forEach(slot -> inventory.setItem(slot,
-                new ItemBuilder(Material.BLUE_STAINED_GLASS_PANE)
-                        .setName(" ")
-                        .build()));
-
-        Arrays.stream(glassBlackSlots).forEach(slot -> inventory.setItem(slot,
-                new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                        .setName(" ")
-                        .build()));
-
-        Arrays.stream(glassWhiteSlots).forEach(slot -> inventory.setItem(slot,
-                new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE)
+                new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
                         .setName(" ")
                         .build()));
 
