@@ -31,6 +31,9 @@ import pl.chudziudgi.lifesteal.feature.blocker.BlockerController;
 import pl.chudziudgi.lifesteal.feature.blocker.MobChunkLimitTask;
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionController;
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionInventory;
+import pl.chudziudgi.lifesteal.feature.boss.BossBarManager;
+import pl.chudziudgi.lifesteal.feature.boss.BossController;
+import pl.chudziudgi.lifesteal.feature.boss.BossManager;
 import pl.chudziudgi.lifesteal.feature.chat.ChatCharController;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
@@ -267,6 +270,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
         EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
 
+        BossManager bossManager = new BossManager()
+        BossBarManager bossBarManager = new BossBarManager();
+
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
@@ -343,7 +349,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new VoucherController(this.voucherConfiguration),
                 new EndController(this.worldsSettings, this.endManager),
                 new LifeStealController(this.pluginConfiguration),
-                new EnderChestController(this.userService, enderChestIventory)
+                new EnderChestController(this.userService, enderChestIventory),
+                new BossController()
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
         // load Tasks
         new UsersSaveTask(this, this.userService);
