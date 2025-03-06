@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
 @Command(name = "boss")
-@Permission("cebulasmp.spawn.boss")
 public class BossCommand {
 
     private final BossManager bossManager;
@@ -17,14 +16,25 @@ public class BossCommand {
         this.bossManager = bossManager;
     }
 
-
-    @Execute
-    void spawn(@Context Player player) {
+    @Execute(name = "stwórz")
+    @Permission("cebulasmp.spawn.boss")
+    public void spawn(@Context Player player) {
         if (bossManager.getBoss() != null) {
             MessageUtil.sendMessage(player, "&cboss już istnieje");
             return;
         }
         bossManager.spawn(player.getLocation());
         MessageUtil.sendMessage(player, "&aboss został stworzony w twojej lokalizacji.");
+    }
+
+    @Execute(name = "zabij")
+    @Permission("cebulasmp.spawn.boss")
+    public void kill(@Context Player player) {
+        if (bossManager.getBoss() == null) {
+            MessageUtil.sendMessage(player, "&cboss nie istnieje");
+            return;
+        }
+        bossManager.spawn(player.getLocation());
+        MessageUtil.sendMessage(player, "&aboss został zabity.");
     }
 }

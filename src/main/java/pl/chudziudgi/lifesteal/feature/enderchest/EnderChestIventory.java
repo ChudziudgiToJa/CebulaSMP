@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -26,7 +25,6 @@ public class EnderChestIventory {
     private final EnderChestSignGui enderChestSignGui;
 
 
-
     public EnderChestIventory(SurvivalPlugin survivalPlugin, EnderChestSignGui enderChestSignGui) {
         this.survivalPlugin = survivalPlugin;
         this.enderChestSignGui = enderChestSignGui;
@@ -34,10 +32,10 @@ public class EnderChestIventory {
 
     public void showEnderChest(final Player player, EnderChest enderChest, User user) {
         SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 6,
-                MessageUtil.smallText("&DEnderChest: &f" + enderChest.getName() + " &8| &f" + user.getNickName()));
+                MessageUtil.smallText("&f" + enderChest.getName() + " &8| &f" + user.getNickName()));
         Inventory inventory = simpleInventory.getInventory();
 
-        Integer[] glassBlueSlots = {45,46,47,48,49,50,51,52,53};
+        Integer[] glassBlueSlots = {45, 46, 47, 48, 49, 50, 51, 52, 53};
         Set<Integer> protectedSlots = new HashSet<>(Arrays.asList(glassBlueSlots));
 
         Arrays.stream(glassBlueSlots).forEach(slot -> inventory.setItem(slot,
@@ -49,34 +47,34 @@ public class EnderChestIventory {
                 .setName("&4cofnij")
                 .build());
 
-        for (String string : enderChest.getItemStackSerializableToStringArrayList()) {
-            ItemStack itemStack = ItemStackSerializable.readItemStack(string);
+        Map<Integer, String> serializedItems = enderChest.getItemStackSerializableMap();
+        for (Map.Entry<Integer, String> entry : serializedItems.entrySet()) {
+            ItemStack itemStack = ItemStackSerializable.readItemStack(entry.getValue());
             if (itemStack != null) {
-                inventory.addItem(itemStack);
+                inventory.setItem(entry.getKey(), itemStack);
             }
         }
 
         simpleInventory.click(event -> {
-                if (protectedSlots.contains(event.getSlot())) {
-                    event.setCancelled(true);
-                    if (event.getSlot() == 49) {
-                        showMainPage(player, user);
-                    }
+            if (protectedSlots.contains(event.getSlot())) {
+                event.setCancelled(true);
+                if (event.getSlot() == 49) {
+                    showMainPage(player, user);
                 }
+            }
         });
 
         simpleInventory.close(inventoryCloseEvent -> {
-            List<String> serializedItems = new ArrayList<>();
+            Map<Integer, String> updatedItems = new HashMap<>();
             for (int i = 0; i < inventory.getSize(); i++) {
                 if (!protectedSlots.contains(i)) {
                     ItemStack itemStack = inventory.getItem(i);
                     if (itemStack != null && itemStack.getType() != Material.AIR) {
-                        serializedItems.add(ItemStackSerializable.write(itemStack));
+                        updatedItems.put(i, ItemStackSerializable.write(itemStack));
                     }
                 }
             }
-            enderChest.getItemStackSerializableToStringArrayList().clear();
-            enderChest.getItemStackSerializableToStringArrayList().addAll(serializedItems);
+            enderChest.setItemStackSerializableMap(updatedItems);
         });
         player.openInventory(inventory);
     }
@@ -161,7 +159,7 @@ public class EnderChestIventory {
 
                 if (user.getMoney() >= 10000) {
                     user.removeMoney(10000);
-                    user.getEnderChests().add(new EnderChest("EnderChest" + (user.getEnderChests().size() + 1), new ArrayList<>()));
+                    user.getEnderChests().add(new EnderChest("EnderChest" + (user.getEnderChests().size() + 1), new HashMap<>()));
                     this.showMainPage(player, user);
                 } else {
                     MessageUtil.sendTitle(player, "", "&cNie stać cię.", 20, 50, 20);

@@ -13,6 +13,7 @@ import pl.chudziudgi.lifesteal.feature.pet.object.Pet;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 @Getter
@@ -62,7 +63,6 @@ public class User implements Serializable, Identifiable<String> {
         this.backups = new ArrayList<>();
         this.petDataArrayList = new ArrayList<>();
         this.enderChests = new ArrayList<>();
-        this.enderChests.add(new EnderChest("EnderChest" + this.getEnderChests().size(), new ArrayList<>()));
     }
 
 

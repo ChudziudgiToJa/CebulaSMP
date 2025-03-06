@@ -8,13 +8,9 @@ import org.bukkit.entity.Warden;
 @Getter
 public class BossManager {
 
-    private final BossBarManager bossBarManager;
-
     public Warden boss;
 
-    public BossManager(BossBarManager bossBarManager) {
-        this.bossBarManager = bossBarManager;
-    }
+
 
     public void spawn(Location location) {
         if (boss != null && !boss.isDead()) {
@@ -22,7 +18,8 @@ public class BossManager {
         }
         boss = location.getWorld().spawn(location, Warden.class);
         boss.setCustomNameVisible(true);
-        boss.setHealth(5000.0);
+        boss.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(2048.0);
+        boss.setHealth(2048.0);
         boss.setAI(true);
         boss.setGravity(true);
         boss.setInvulnerable(false);
@@ -30,9 +27,9 @@ public class BossManager {
         boss.setVisualFire(false);
         boss.setAware(true);
         boss.setSilent(false);
-        boss.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(2.0);
+        boss.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(3.0);
 
-        this.bossBarManager.createBar();
+        BossBarManager.createBar(this);
     }
 
 }

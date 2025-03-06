@@ -31,6 +31,7 @@ public class EnderChestController implements Listener {
 
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (block != null && block.getType() == Material.ENDER_CHEST) {
+                event.setCancelled(true);
                 User user = this.userService.findUserByUUID(player.getUniqueId());
                 if (user != null) {
                     this.enderChestIventory.showMainPage(player, user);

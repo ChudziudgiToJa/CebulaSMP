@@ -31,9 +31,7 @@ import pl.chudziudgi.lifesteal.feature.blocker.BlockerController;
 import pl.chudziudgi.lifesteal.feature.blocker.MobChunkLimitTask;
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionController;
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionInventory;
-import pl.chudziudgi.lifesteal.feature.boss.BossBarManager;
-import pl.chudziudgi.lifesteal.feature.boss.BossController;
-import pl.chudziudgi.lifesteal.feature.boss.BossManager;
+import pl.chudziudgi.lifesteal.feature.boss.*;
 import pl.chudziudgi.lifesteal.feature.chat.ChatCharController;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
@@ -270,8 +268,8 @@ public final class SurvivalPlugin extends JavaPlugin {
         EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
         EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
 
-        BossManager bossManager = new BossManager()
-        BossBarManager bossBarManager = new BossBarManager();
+        //boss
+        BossManager bossManager = new BossManager();
 
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
@@ -315,7 +313,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new DiscoCommand(discoInventory, this.userService),
                         new EndCommand(this.endManager, this.worldsSettings),
                         new LifeStealCommand(this.pluginConfiguration),
-                        new EnderChestCommand(this.userService, enderChestIventory)
+                        new EnderChestCommand(this.userService, enderChestIventory),
+                        new BossCommand(bossManager)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -326,7 +325,6 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new InvalidCommandHandle()
                 )
                 .build();
-
         // load Listeners
         Stream.of(
                 new JoinQuitListener(this.userService),
@@ -350,7 +348,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new EndController(this.worldsSettings, this.endManager),
                 new LifeStealController(this.pluginConfiguration),
                 new EnderChestController(this.userService, enderChestIventory),
-                new BossController()
+                new BossController(this.random, bossManager)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
         // load Tasks
         new UsersSaveTask(this, this.userService);
@@ -368,6 +366,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new DiscoTask(this, this.random, this.clanService, this.userService);
         new EndTask(this, this.worldsSettings);
         new TimeShopTask(this, this.userService);
+        new BossHealthBossBarTask(this, bossManager);
     }
 
     @Override
