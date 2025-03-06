@@ -1,5 +1,7 @@
 package pl.chudziudgi.lifesteal.feature.boss;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Warden;
@@ -7,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -36,46 +39,83 @@ public class BossController implements Listener {
         }
     }
 
+
     @EventHandler
-    public void onBossDamage(EntityDamageEvent event) {
-        if (bossManager.getBoss() == null || event.getEntity() != bossManager.getBoss()) return;
+    public void onBossDeath(EntityDeathEvent event) {
+        if (event.getEntity() == bossManager.getBoss()) {
+            bossManager.setBoss(null);
+            BossBarManager.removeBossBarFromAll();
 
-        Warden boss = bossManager.getBoss();
-        double halfHealth = boss.getHealth() / 2;
+            Player player = event.getEntity().getKiller();
+            if (player == null) return;
 
-        if (!abilityUsed && boss.getHealth() - event.getFinalDamage() <= halfHealth) {
-            abilityUsed = true;
-            boss.getWorld().getPlayers().forEach(player -> {
-                if (boss.getLocation().distance(player.getLocation()) < 20) {
-                    player.setVelocity(player.getVelocity().setY(30));
-                    MessageUtil.sendTitle(player, "", "&cUWAGA", 20, 20, 20);
-                }
-            });
+
         }
     }
 
     @EventHandler
     public void onPlayerHitBoss(EntityDamageByEntityEvent event) {
-        if (bossManager.getBoss() == null && event.getEntity() != bossManager.getBoss() && event.getDamager().getType() == EntityType.PLAYER) return;
-        BossBarManager.refreshBar(bossManager, (Player) event.getDamager());
+        if (!(event.getDamager() instanceof Player player)) return;
 
-        if (event.getDamager() instanceof Player player) {
+        if (bossManager.getBoss() == null || event.getEntity() != bossManager.getBoss())
+            return;
 
-            if (random.nextInt(100) < 5) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 5, 1));
+        BossBarManager.refreshBar(bossManager, player);
+
+        if (random.nextInt(100) < 1) {
+            bossManager.getBoss().getWorld().getPlayers().forEach(damager -> {
+                if (bossManager.getBoss().getLocation().distance(damager.getLocation()) < 20) {
+                    damager.setVelocity(damager.getLocation().toVector().subtract(damager.getLocation().add(0, -0.1, 0).toVector()).normalize().multiply(30));
+                    MessageUtil.sendTitle(damager, "&cUWAGA", "&bWATER SKILL", 20, 50, 20);
+                }
+            });
+        }
+
+        if (random.nextInt(100) < 5) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 5, 1));
+            MessageUtil.sendTitle(player, "", "&4&lBOSS &czaaplikował ci &a&ltruciznę&c!", 20, 50, 20);
+        }
+
+        if (random.nextInt(100) < 10) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 5));
+            MessageUtil.sendTitle(player, "", "&4&lBOSS &cwzrok cię &8&lopuścił&c!", 20, 50, 20);
+        }
+
+        if (random.nextInt(100) < 3) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 20 * 5, 1));
+            MessageUtil.sendTitle(player, "", "&4&lBOSS &cpodarował ci &b&llewitację&c!", 20, 50, 20);
+        }
+
+        if (random.nextInt(100) < 15) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 20 * 5, 1));
+            MessageUtil.sendTitle(player, "", "&4&lBOSS &czmusza cię do &6&lgłodówki&c!", 20, 50, 20);
+        }
+
+
+        if (random.nextInt(100) < 1) {
+            Location bossLocation = bossManager.getBoss().getLocation();
+            World world = bossLocation.getWorld();
+            for (int i = 0; i < 10; i++) {
+                world.spawnEntity(bossLocation, EntityType.ZOMBIE);
             }
-            if (random.nextInt(100) < 10) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 5));
+        }
+
+        if (random.nextInt(100) < 1) {
+            Location bossLocation = bossManager.getBoss().getLocation();
+            World world = bossLocation.getWorld();
+            for (int i = 0; i < 5; i++) {
+                world.spawnEntity(bossLocation, EntityType.TNT);
             }
-            if (random.nextInt(100) < 2) {
-                bossManager.getBoss().getWorld().getPlayers().forEach(local -> {
-                    if (bossManager.getBoss().getLocation().distance(local.getLocation()) < 10) {
-                        for (int i = 0; i < 3; i++) {
-                            bossManager.getBoss().getWorld().strikeLightning(local.getLocation());
-                        }
+        }
+
+        if (random.nextInt(100) < 2) {
+            bossManager.getBoss().getWorld().getPlayers().forEach(local -> {
+                if (bossManager.getBoss().getLocation().distance(local.getLocation()) < 10) {
+                    for (int i = 0; i < 3; i++) {
+                        bossManager.getBoss().getWorld().strikeLightning(local.getLocation());
                     }
-                });
-            }
+                }
+            });
         }
     }
 }

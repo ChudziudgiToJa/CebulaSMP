@@ -9,6 +9,8 @@ import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.bukkit.LiteCommandsBukkit;
 import dev.rollczi.litecommands.message.LiteMessages;
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -137,6 +139,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final Random random = new Random();
     private final DailyVplnManager dailyVplnManager = new DailyVplnManager(this.random);
     private final VanishHandler vanishHandler = new VanishHandler();
+    private final BossManager bossManager = new BossManager();
     public Economy economy;
     private EternalCoreApi eternalCoreApi;
     private PluginConfiguration pluginConfiguration;
@@ -268,9 +271,6 @@ public final class SurvivalPlugin extends JavaPlugin {
         EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
         EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
 
-        //boss
-        BossManager bossManager = new BossManager();
-
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
@@ -377,6 +377,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         }
         this.userService.saveAllUsers();
         this.clanService.saveAllClans();
+        bossManager.getBoss().remove();
+        bossManager.setBoss(null);
+        Bukkit.getOnlinePlayers().forEach(BossBarManager::removeBossBar);
     }
 
 }

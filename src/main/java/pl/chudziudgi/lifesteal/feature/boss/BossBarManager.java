@@ -11,11 +11,12 @@ import pl.chudziudgi.lifesteal.util.MessageUtil;
 
 public class BossBarManager {
 
-    private  static BossBar bossBar;
+    private static BossBar bossBar;
 
     public static void createBar(BossManager bossManager) {
         bossBar = Bukkit.createBossBar(
-                MessageUtil.smallTextToColor("&0&lBOSS &8- &f%s %s %s".formatted(
+                MessageUtil.smallTextToColor("&9&lWARDEN &4&l❤ %s  &8| &fx%s y%s z%s".formatted(
+                        (int) bossManager.getBoss().getHealth(),
                         (int) bossManager.getBoss().getLocation().getX(),
                         (int) bossManager.getBoss().getLocation().getY(),
                         (int) bossManager.getBoss().getLocation().getZ()
@@ -28,12 +29,17 @@ public class BossBarManager {
 
     public static void refreshBar(BossManager bossManager, Player player) {
         if (bossBar != null && bossManager.getBoss() != null) {
-            bossBar.setTitle(MessageUtil.smallTextToColor("&0&lBOSS &8- &f%s %s %s".formatted(
+            double maxHealth = bossManager.getBoss().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double currentHealth = bossManager.getBoss().getHealth();
+
+            bossBar.setTitle(MessageUtil.smallTextToColor("&9&lWARDEN &4&l❤ %s  &8| &fx%s y%s z%s".formatted(
+                    (int) bossManager.getBoss().getHealth(),
                     (int) bossManager.getBoss().getLocation().getX(),
                     (int) bossManager.getBoss().getLocation().getY(),
                     (int) bossManager.getBoss().getLocation().getZ()
             )));
-            bossBar.setProgress(Math.max(0, 1 - (bossManager.getBoss().getHealth() / (int) bossManager.getBoss().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue())));
+
+            bossBar.setProgress(Math.max(0, currentHealth / maxHealth));
         } else {
             BossBarManager.removeBossBar(player);
         }
@@ -49,5 +55,11 @@ public class BossBarManager {
         if (bossBar == null) return;
         NetherBossBarManager.addBossBar(player.getUniqueId(), bossBar);
         bossBar.addPlayer(player);
+    }
+
+    public static void removeBossBarFromAll() {
+        if (bossBar == null) return;
+        Bukkit.getOnlinePlayers().forEach(bossBar::removePlayer);
+        bossBar = null;
     }
 }

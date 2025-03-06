@@ -4,6 +4,7 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
@@ -20,21 +21,23 @@ public class BossCommand {
     @Permission("cebulasmp.spawn.boss")
     public void spawn(@Context Player player) {
         if (bossManager.getBoss() != null) {
-            MessageUtil.sendMessage(player, "&cboss już istnieje");
+            MessageUtil.sendMessage(player, "&cBoss już istnieje");
             return;
         }
         bossManager.spawn(player.getLocation());
-        MessageUtil.sendMessage(player, "&aboss został stworzony w twojej lokalizacji.");
+        MessageUtil.sendMessage(player, "&aBoss został stworzony w twojej lokalizacji.");
     }
 
     @Execute(name = "zabij")
     @Permission("cebulasmp.spawn.boss")
     public void kill(@Context Player player) {
         if (bossManager.getBoss() == null) {
-            MessageUtil.sendMessage(player, "&cboss nie istnieje");
+            MessageUtil.sendMessage(player, "&cBrak aktywnego bossa!");
             return;
         }
-        bossManager.spawn(player.getLocation());
-        MessageUtil.sendMessage(player, "&aboss został zabity.");
+        bossManager.getBoss().remove();
+        bossManager.setBoss(null);
+        MessageUtil.sendMessage(player, "&aBoss został zabity!");
+        Bukkit.getOnlinePlayers().forEach(BossBarManager::removeBossBar);
     }
 }
