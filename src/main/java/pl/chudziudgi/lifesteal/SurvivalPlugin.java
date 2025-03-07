@@ -14,6 +14,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -180,6 +181,8 @@ public final class SurvivalPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.getServer().createWorld(new WorldCreator("spawn"));
+
         Server server = getServer();
         instance = this;
 
@@ -377,8 +380,10 @@ public final class SurvivalPlugin extends JavaPlugin {
         }
         this.userService.saveAllUsers();
         this.clanService.saveAllClans();
-        bossManager.getBoss().remove();
-        bossManager.setBoss(null);
+        if (this.bossManager.getBoss() != null) {
+            bossManager.getBoss().remove();
+            bossManager.setBoss(null);
+        }
         Bukkit.getOnlinePlayers().forEach(BossBarManager::removeBossBar);
     }
 
