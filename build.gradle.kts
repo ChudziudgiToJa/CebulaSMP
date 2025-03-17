@@ -36,7 +36,7 @@ dependencies {
     implementation("com.eternalcode:multification-bukkit:${eternalcodeVersion}")
     implementation("com.eternalcode:multification-okaeri:${eternalcodeVersion}")
     implementation("com.eternalcode:eternalcode-commons-adventure:${eternalcodeVersion}")
-    compileOnly("com.eternalcode:eternalcore-api:1.5.1")
+    compileOnly("com.eternalcode:eternalcore-api:1.5.2")
 
 
     implementation("dev.rollczi:litecommands-bukkit:3.4.3")

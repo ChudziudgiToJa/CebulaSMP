@@ -40,6 +40,7 @@ public class User implements Serializable, Identifiable<String> {
     private ArrayList<Backup> backups;
     private ArrayList<Pet> petDataArrayList;
     private ArrayList<EnderChest> enderChests;
+    private ArrayList<String> rabateCode;
 
 
     public User(Player player) {
@@ -63,6 +64,7 @@ public class User implements Serializable, Identifiable<String> {
         this.backups = new ArrayList<>();
         this.petDataArrayList = new ArrayList<>();
         this.enderChests = new ArrayList<>();
+        this.rabateCode = new ArrayList<>();
     }
 
 

@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.lifesteal.feature.job.JobDropChance;
 import pl.chudziudgi.lifesteal.feature.job.JobType;
 import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealCommand;
+import pl.chudziudgi.lifesteal.feature.rabatecode.RabateCode;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShop;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
 
@@ -24,10 +25,20 @@ public class PluginConfiguration extends OkaeriConfig {
     public JobSettings jobSettings = new JobSettings();
     public LifeStealSettings lifeStealSettings = new LifeStealSettings();
     public TimeShopSettings timeShopSettings = new TimeShopSettings();
+    public RabateCodeSettings rabateCodeSettings = new RabateCodeSettings();
 
     public int freePlnNpcID = 16;
     public int blackSmithID = 31;
     public String discordUrl = "https://dc.cebulasmp.pl/";
+
+    public static class RabateCodeSettings extends OkaeriConfig {
+        public List<RabateCode> codeList = List.of(
+                new RabateCode(
+                 "tiktok",
+                 "lp user {PLAYER} parent addtemp vip 6h"
+                )
+        );
+    }
 
     public static class TimeShopSettings extends OkaeriConfig {
         public List<TimeShop> timeShops = List.of(

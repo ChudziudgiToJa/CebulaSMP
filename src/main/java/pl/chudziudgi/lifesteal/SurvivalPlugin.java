@@ -93,6 +93,7 @@ import pl.chudziudgi.lifesteal.feature.pet.PetInventory;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetMoveTask;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetPotionEffectTask;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetRemoveBuggyPetsTask;
+import pl.chudziudgi.lifesteal.feature.rabatecode.RabateCodeCommand;
 import pl.chudziudgi.lifesteal.feature.randomteleport.RandomTeleportCommand;
 import pl.chudziudgi.lifesteal.feature.randomteleport.RandomTeleportController;
 import pl.chudziudgi.lifesteal.feature.shop.ShopCommand;
@@ -317,7 +318,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new EndCommand(this.endManager, this.worldsSettings),
                         new LifeStealCommand(this.pluginConfiguration),
                         new EnderChestCommand(this.userService, enderChestIventory),
-                        new BossCommand(bossManager)
+                        new BossCommand(bossManager),
+                        new RabateCodeCommand(this.pluginConfiguration, this.userService)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))

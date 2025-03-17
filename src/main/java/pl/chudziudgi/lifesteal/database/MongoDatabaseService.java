@@ -12,7 +12,7 @@ public final class MongoDatabaseService {
     private final MongoClient mongoClient;
 
     public MongoDatabaseService() {
-        MongoClientURI clientURI = new MongoClientURI("mongodb://paymc:TivERmEnsANsAcon@49.12.169.69:27017");
+        MongoClientURI clientURI = new MongoClientURI("mongodb://admin:admin@144.76.76.68:25557");
 
         this.mongoClient = new MongoClient(clientURI);
         this.mongoDatabase = this.mongoClient.getDatabase("lifesteal");
