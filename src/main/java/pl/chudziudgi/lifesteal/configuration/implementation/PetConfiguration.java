@@ -29,12 +29,6 @@ public class PetConfiguration extends OkaeriConfig {
                     "&fNadaje efekt szybkiego biegania I"
             ),
             new PetData(
-                    "Nietoperz",
-                    "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODFjNWNjMWY0MDAwNWEzMzEyNGM2MDM4NGEwZjE3YTM2YTdiMTlhZTkwZjFjMzJkY2RhMTdiNWI1NjI4MGE0MyJ9fX0=",
-                    16,
-                    "&fNadaje efekt widzenia w ciemności"
-            ),
-            new PetData(
                     "Tygrys",
                     "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTA2MGYwMDI4N2UzNzY3Njk5ZWE3OTE5N2ViNDUzNDM0NTQ3OGZhZGYxY2Q1M2E3ZjgxMTAxZDkyIn19fQ==",
                     5,
@@ -47,16 +41,10 @@ public class PetConfiguration extends OkaeriConfig {
                     "&fNadaje efekt oddychania pod wodą I"
             ),
             new PetData(
-                    "Delfin",
-                    "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjljNmQ5ZGI1NDQxNmYxOTg2ZDc0MDQ1ZTUwYWM1ZjViNDAxZDhhMDUyZDRiNzUwZGE5OTNhODY3YmU0MTg1NiJ9fX0=",
-                    30,
-                    "&fNadaje efekt szbykiego pływania I"
-            ),
-            new PetData(
-                    "Kamaleon",
+                    "Kameleon",
                     "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDk3ZGI3ZTA3NjBlNTNjYjgwM2U3Y2ViMDNjYmIyNzI3MTM3NTBjMjllYWI2NjhhNWRhZGZiMTk1ZDhkOGJmMCJ9fX0=",
                     14,
-                    "&fNadaje efekt niewidzialności"
+                    "&fStajesz się inkognito dla innych graczy"
             )
     );
 }
