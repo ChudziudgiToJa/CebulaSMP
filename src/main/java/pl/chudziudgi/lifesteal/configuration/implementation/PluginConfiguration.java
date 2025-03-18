@@ -2,6 +2,7 @@ package pl.chudziudgi.lifesteal.configuration.implementation;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,10 +27,17 @@ public class PluginConfiguration extends OkaeriConfig {
     public LifeStealSettings lifeStealSettings = new LifeStealSettings();
     public TimeShopSettings timeShopSettings = new TimeShopSettings();
     public RabateCodeSettings rabateCodeSettings = new RabateCodeSettings();
+    public CheckSettings checkSettings = new CheckSettings();
+
 
     public int freePlnNpcID = 16;
     public int blackSmithID = 31;
     public String discordUrl = "https://dc.cebulasmp.pl/";
+
+    public static class CheckSettings extends OkaeriConfig {
+        public String commandToExeciute = "tempban {PLAYER} logaut podczas sprawdzania 3d";
+        public Location jailLocation;
+    }
 
     public static class RabateCodeSettings extends OkaeriConfig {
         public List<RabateCode> codeList = List.of(

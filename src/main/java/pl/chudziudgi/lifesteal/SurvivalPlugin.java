@@ -36,6 +36,10 @@ import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionControll
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionInventory;
 import pl.chudziudgi.lifesteal.feature.boss.*;
 import pl.chudziudgi.lifesteal.feature.chat.ChatCharController;
+import pl.chudziudgi.lifesteal.feature.check.CheckCommand;
+import pl.chudziudgi.lifesteal.feature.check.CheckController;
+import pl.chudziudgi.lifesteal.feature.check.CheckService;
+import pl.chudziudgi.lifesteal.feature.check.CheckTask;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommand;
@@ -142,6 +146,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final DailyVplnManager dailyVplnManager = new DailyVplnManager(this.random);
     private final VanishHandler vanishHandler = new VanishHandler();
     private final BossManager bossManager = new BossManager();
+    private final CheckService checkService = new CheckService();
     public Economy economy;
     private EternalCoreApi eternalCoreApi;
     private PluginConfiguration pluginConfiguration;
@@ -319,7 +324,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new LifeStealCommand(this.pluginConfiguration),
                         new EnderChestCommand(this.userService, enderChestIventory),
                         new BossCommand(bossManager),
-                        new RabateCodeCommand(this.pluginConfiguration, this.userService)
+                        new RabateCodeCommand(this.pluginConfiguration, this.userService),
+                        new CheckCommand(this.pluginConfiguration, this.checkService)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -353,7 +359,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new EndController(this.worldsSettings, this.endManager),
                 new LifeStealController(this.pluginConfiguration),
                 new EnderChestController(this.userService, enderChestIventory),
-                new BossController(this.random, bossManager)
+                new BossController(this.random, bossManager),
+                new CheckController(this.checkService)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
         // load Tasks
         new UsersSaveTask(this, this.userService);
@@ -372,6 +379,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new EndTask(this, this.worldsSettings);
         new TimeShopTask(this, this.userService);
         new BossHealthBossBarTask(this, bossManager);
+        new CheckTask(this, this.checkService);
     }
 
     @Override
