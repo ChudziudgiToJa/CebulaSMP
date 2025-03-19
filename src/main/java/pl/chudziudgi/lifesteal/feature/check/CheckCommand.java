@@ -28,6 +28,11 @@ public class CheckCommand {
             return;
         }
 
+        if (target.hasPermission("cebulasmp.command.sprawdzanie.admin")) {
+            MessageUtil.sendMessage(player, "&cNie możesz sprawdzać admina.");
+            return;
+        }
+
         if (checkService.contains(target.getUniqueId())) {
             MessageUtil.sendMessage(player, "&c%s jest już sprawdzany".formatted(target.getName()));
             return;

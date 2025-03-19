@@ -360,7 +360,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new LifeStealController(this.pluginConfiguration),
                 new EnderChestController(this.userService, enderChestIventory),
                 new BossController(this.random, bossManager),
-                new CheckController(this.checkService)
+                new CheckController(this.checkService, this.pluginConfiguration)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
         // load Tasks
         new UsersSaveTask(this, this.userService);

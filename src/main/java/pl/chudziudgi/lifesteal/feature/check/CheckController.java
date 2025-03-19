@@ -6,9 +6,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.chudziudgi.lifesteal.configuration.implementation.PluginConfiguration;
+import pl.chudziudgi.lifesteal.util.MessageUtil;
 
 public class CheckController implements Listener {
 
@@ -27,6 +30,7 @@ public class CheckController implements Listener {
         if (this.checkService.contains(player.getUniqueId())) {
             String command = this.pluginConfiguration.checkSettings.commandToExeciute.replace("{PLAYER}", player.getName());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            this.checkService.remove(player.getUniqueId());
         }
     }
 
@@ -52,6 +56,14 @@ public class CheckController implements Listener {
             if (this.checkService.contains(player.getUniqueId())) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent event) {
+        if (this.checkService.contains(event.getPlayer().getUniqueId())) {
+            event.setCancelled(true);
+            MessageUtil.sendMessage(event.getPlayer(), "&cJesteś podczas sprawdzania nie możesz używać komend.");
         }
     }
 }
