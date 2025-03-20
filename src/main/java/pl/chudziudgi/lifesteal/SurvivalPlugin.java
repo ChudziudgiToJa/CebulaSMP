@@ -156,6 +156,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private ItemShopConfiguration itemShopConfiguration;
     private NpcShopConfiguration npcShopConfiguration;
     private CraftingConfiguration craftingConfiguration;
+    private CustomItemConfiguration customItemConfiguration;
     private WorldsSettings worldsSettings;
     private PetConfiguration petconfiguration;
     private VoucherConfiguration voucherConfiguration;
@@ -209,6 +210,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         this.worldsSettings = configService.create(WorldsSettings.class, new File(dataFolder, "nether.yml"));
         this.borderCollectionConfiguration = configService.create(BorderCollectionConfiguration.class, new File(dataFolder, "border.yml"));
         this.voucherConfiguration = configService.create(VoucherConfiguration.class, new File(dataFolder, "voucher.yml"));
+        this.customItemConfiguration = configService.create(CustomItemConfiguration.class, new File(dataFolder, "customitem.yml"));
 
         new Placeholder(this.userService, this.clanService, this.worldsSettings).register();
 
@@ -291,7 +293,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         // load commands
         this.liteCommands = LiteCommandsBukkit.builder()
                 .settings(settings -> settings
-                        .fallbackPrefix("cebula-survival")
+                        .fallbackPrefix("cebulaSMP")
                         .nativePermissions(false)
                 )
                 .commands(

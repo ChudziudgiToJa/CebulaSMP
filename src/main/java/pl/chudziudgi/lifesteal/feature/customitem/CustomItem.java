@@ -1,0 +1,18 @@
+package pl.chudziudgi.lifesteal.feature.customitem;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CustomItem {
+    private final CustomItemType customItemType;
+    private final long coolDownTime;
+    private String itemStack;
+
+    public CustomItem(CustomItemType customItemType, long coolDownTime, String itemStack) {
+        this.customItemType = customItemType;
+        this.coolDownTime = coolDownTime;
+        this.itemStack = itemStack;
+    }
+}
