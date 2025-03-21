@@ -3,9 +3,11 @@ package pl.chudziudgi.lifesteal.feature.customitem;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class CustomItem {
+public class CustomItem implements Serializable {
     private final CustomItemType customItemType;
     private final long coolDownTime;
     private String itemStack;
