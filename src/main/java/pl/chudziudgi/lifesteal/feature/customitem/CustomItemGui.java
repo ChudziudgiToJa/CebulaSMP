@@ -22,7 +22,7 @@ public class CustomItemGui {
     }
 
     public void show(final Player player) {
-        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 3, MessageUtil.smallText("&fvouchery:"));
+        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 3, MessageUtil.smallText("&fcustom itemy:"));
         Inventory inventory = simpleInventory.getInventory();
 
         for (CustomItem customItem : this.customItemConfiguration.customItems) {

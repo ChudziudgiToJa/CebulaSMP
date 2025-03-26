@@ -13,18 +13,25 @@ import pl.chudziudgi.lifesteal.util.MessageUtil;
 
 import java.util.Optional;
 
-@Command(name = "customItemy")
+@Command(name = "custom-itemy")
 @Permission("cebulasmp.command.customitemy.admin")
 public class CustomItemCommand {
 
     private final CustomItemConfiguration customItemConfiguration;
+    private final CustomItemGui customItemGui;
 
-    public CustomItemCommand(CustomItemConfiguration customItemConfiguration) {
+    public CustomItemCommand(CustomItemConfiguration customItemConfiguration, CustomItemGui customItemGui) {
         this.customItemConfiguration = customItemConfiguration;
+        this.customItemGui = customItemGui;
     }
 
-    @Execute(name = "ustawItem")
-    public void setItem(@Context Player player, @Arg("podaj item") CustomItemType customItemType) {
+    @Execute()
+    public void gui(@Context Player player) {
+        this.customItemGui.show(player);
+    }
+
+    @Execute(name = "ustaw")
+    public void setItem(@Context Player player, @Arg CustomItemType customItemType) {
         ItemStack handItemStack = player.getInventory().getItemInMainHand();
 
         Optional<CustomItem> foundItem = this.customItemConfiguration.customItems.stream()

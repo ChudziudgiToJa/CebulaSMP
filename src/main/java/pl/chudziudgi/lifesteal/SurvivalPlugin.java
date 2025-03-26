@@ -59,6 +59,8 @@ import pl.chudziudgi.lifesteal.feature.command.*;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingCommand;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingInventory;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingManager;
+import pl.chudziudgi.lifesteal.feature.customitem.CustomItemCommand;
+import pl.chudziudgi.lifesteal.feature.customitem.CustomItemGui;
 import pl.chudziudgi.lifesteal.feature.dailyvpln.DailyVplnController;
 import pl.chudziudgi.lifesteal.feature.dailyvpln.DailyVplnManager;
 import pl.chudziudgi.lifesteal.feature.disco.DiscoCommand;
@@ -282,6 +284,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
         EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
 
+        //customitem
+        CustomItemGui customItemGui = new CustomItemGui(this, this.customItemConfiguration);
+
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
@@ -327,7 +332,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new EnderChestCommand(this.userService, enderChestIventory),
                         new BossCommand(bossManager),
                         new RabateCodeCommand(this.pluginConfiguration, this.userService),
-                        new CheckCommand(this.pluginConfiguration, this.checkService)
+                        new CheckCommand(this.pluginConfiguration, this.checkService),
+                        new CustomItemCommand(this.customItemConfiguration, customItemGui)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -392,11 +398,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         }
         this.userService.saveAllUsers();
         this.clanService.saveAllClans();
-        if (this.bossManager.getBoss() != null) {
-            bossManager.getBoss().remove();
-            bossManager.setBoss(null);
-        }
-        Bukkit.getOnlinePlayers().forEach(BossBarManager::removeBossBar);
+        this.bossManager.removeBoss();
     }
 
 }

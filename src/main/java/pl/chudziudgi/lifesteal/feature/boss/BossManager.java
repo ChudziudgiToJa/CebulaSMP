@@ -2,6 +2,7 @@ package pl.chudziudgi.lifesteal.feature.boss;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Warden;
@@ -39,6 +40,14 @@ public class BossManager {
 
 
         BossBarManager.createBar(this);
+    }
+
+    public void removeBoss() {
+        if (this.getBoss() != null) {
+            getBoss().remove();
+            setBoss(null);
+        }
+        Bukkit.getOnlinePlayers().forEach(BossBarManager::removeBossBar);
     }
 
     private void setAttribute(Warden entity, Attribute attribute, double value) {

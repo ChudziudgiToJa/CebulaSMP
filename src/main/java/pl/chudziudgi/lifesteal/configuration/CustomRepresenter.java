@@ -61,5 +61,4 @@ class CustomRepresenter extends Representer {
             return representSequence(getTag(data.getClass(), Tag.SEQ), (Iterable<?>) data, DumperOptions.FlowStyle.BLOCK);
         }
     }
-
 }
