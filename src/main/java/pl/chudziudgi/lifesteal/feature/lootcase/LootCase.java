@@ -12,7 +12,7 @@ import java.util.List;
 public class LootCase implements Serializable {
     private final String name;
     private final String string;
-    private final Location location;
+    private Location location;
     private String keyItemStack;
     private final List<LootCaseChance> dropItems;
 

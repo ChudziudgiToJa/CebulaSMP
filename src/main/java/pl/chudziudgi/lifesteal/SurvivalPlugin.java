@@ -5,6 +5,8 @@ import com.comphenix.protocol.ProtocolManager;
 import com.eternalcode.core.EternalCoreApi;
 import com.eternalcode.core.EternalCoreApiProvider;
 import com.google.gson.Gson;
+import de.oliver.fancyholograms.api.FancyHologramsPlugin;
+import de.oliver.fancyholograms.api.HologramManager;
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.bukkit.LiteCommandsBukkit;
 import dev.rollczi.litecommands.message.LiteMessages;
@@ -111,7 +113,6 @@ import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticCommand;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticController;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticInventory;
-import pl.chudziudgi.lifesteal.feature.top.TopCitizenTask;
 import pl.chudziudgi.lifesteal.feature.top.TopManager;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
@@ -149,6 +150,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final VanishHandler vanishHandler = new VanishHandler();
     private final BossManager bossManager = new BossManager();
     private final CheckService checkService = new CheckService();
+    private HologramManager hologramManager;
     public Economy economy;
     private EternalCoreApi eternalCoreApi;
     private PluginConfiguration pluginConfiguration;
@@ -198,6 +200,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         //load placeholderApi
         this.eternalCoreApi = EternalCoreApiProvider.provide();
 
+        //Load fancyHolograms
+        this.hologramManager = FancyHologramsPlugin.get().getHologramManager();
+
         //load configs files
         ConfigService configService = new ConfigService();
         File dataFolder = this.getDataFolder();
@@ -243,7 +248,7 @@ public final class SurvivalPlugin extends JavaPlugin {
 
         // lootCase
         LootCaseInventory lootCaseInventory = new LootCaseInventory(this);
-        LootCaseHandler lootCaseHandler = new LootCaseHandler(this.lootCaseConfiguration);
+        LootCaseHandler lootCaseHandler = new LootCaseHandler(this.lootCaseConfiguration, this.hologramManager);
         lootCaseHandler.createLootCaseHolograms();
 
         // Statistic
@@ -310,7 +315,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new BackupCommand(backupInventory, this.userService),
                         new VplnCommand(this.userService),
                         new ItemShopCommand(itemShopInventory),
-                        new LootCaseCommand(this.lootCaseConfiguration),
+                        new LootCaseCommand(this.lootCaseConfiguration, lootCaseHandler),
                         new MoneyCommand(this.userService),
                         new StatisticCommand(statisticInventory),
                         new PayCommand(this.userService),
@@ -332,8 +337,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new EnderChestCommand(this.userService, enderChestIventory),
                         new BossCommand(bossManager),
                         new RabateCodeCommand(this.pluginConfiguration, this.userService),
-                        new CheckCommand(this.pluginConfiguration, this.checkService),
-                        new CustomItemCommand(this.customItemConfiguration, customItemGui)
+                        new CheckCommand(this.pluginConfiguration, this.checkService)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -370,10 +374,9 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new BossController(this.random, bossManager),
                 new CheckController(this.checkService, this.pluginConfiguration)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
-        // load Tasks
+
         new UsersSaveTask(this, this.userService);
         new ClanSaveTask(this, this.clanService);
-        new TopCitizenTask(this, this.topManager);
         new SpentTimeTask(this, this.userService);
         new AbyssTask(this);
         new AfkZoneTask(this, afkZoneManager, this.lootCaseConfiguration, userService);

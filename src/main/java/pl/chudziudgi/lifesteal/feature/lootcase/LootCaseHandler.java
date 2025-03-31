@@ -1,31 +1,47 @@
 package pl.chudziudgi.lifesteal.feature.lootcase;
 
-import eu.decentsoftware.holograms.api.DHAPI;
+import de.oliver.fancyholograms.api.FancyHologramsPlugin;
+import de.oliver.fancyholograms.api.HologramManager;
+import de.oliver.fancyholograms.api.data.TextHologramData;
+import de.oliver.fancyholograms.api.hologram.Hologram;
 import org.bukkit.Location;
+import org.bukkit.entity.Display;
 import pl.chudziudgi.lifesteal.configuration.implementation.LootCaseConfiguration;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 public class LootCaseHandler {
 
     private final LootCaseConfiguration pluginConfiguration;
+    private final HologramManager manager;
 
-    public LootCaseHandler(LootCaseConfiguration pluginConfiguration) {
+    public LootCaseHandler(LootCaseConfiguration pluginConfiguration, HologramManager manager) {
         this.pluginConfiguration = pluginConfiguration;
+        this.manager = manager;
     }
 
 
     public void createLootCaseHolograms() {
-        List<String> description = new ArrayList<>();
         this.pluginConfiguration.lootCases.forEach(lootCase -> {
-            description.add(MessageUtil.smallText(lootCase.getString()));
-            description.add(MessageUtil.smallText("&akliknij aby otworzyć"));
-            description.add("");
-            DHAPI.createHologram(UUID.randomUUID().toString(), new Location(lootCase.getLocation().getWorld(), lootCase.getLocation().getX(), lootCase.getLocation().getY(), lootCase.getLocation().getZ()).add(0.500, 2.5,0.500), false, description);
-            description.clear();
+            Location location = lootCase.getLocation().clone().add(0.5, 2, 0.5);
+
+            TextHologramData hologramData = new TextHologramData(lootCase.getName(), location);
+            hologramData.setBillboard(Display.Billboard.CENTER);
+            hologramData.removeLine(0);
+            hologramData.addLine(MessageUtil.smallText(lootCase.getString()));
+            hologramData.addLine(MessageUtil.smallText("&aKliknij, aby otworzyć"));
+            hologramData.setPersistent(false);
+
+            Hologram hologram = manager.create(hologramData);
+            manager.addHologram(hologram);
+        });
+    }
+
+    public void reloadLootCaseHolograms() {
+        this.pluginConfiguration.lootCases.forEach(lootCase -> {
+            Optional<Hologram> hologram = this.manager.getHologram(lootCase.getName());
+            hologram.ifPresent(manager::removeHologram);
+            createLootCaseHolograms();
         });
     }
 }

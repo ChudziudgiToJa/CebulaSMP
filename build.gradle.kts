@@ -64,6 +64,9 @@ dependencies {
     //FancyHolograms
     compileOnly("de.oliver:FancyHolograms:2.4.2")
 
+    //DecentHolograms
+    compileOnly("com.github.decentsoftware-eu:decentholograms:2.8.16")
+
     //fancyNpc
     compileOnly("de.oliver:FancyNpcs:2.4.4")
 
@@ -82,8 +85,8 @@ bukkit {
     version = "1.0-SNAPSHOT"
     apiVersion = "1.20"
     author = "Chudziudgi"
-    softDepend = listOf("PlaceholderAPI", "Citizens", "DecentHolograms")
-    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs")
+    softDepend = listOf("PlaceholderAPI", "Citizens")
+    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs", "DecentHolograms")
     prefix = "lifesteal-core"
 }
 

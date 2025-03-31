@@ -5,7 +5,6 @@ import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.lifesteal.feature.pet.object.Pet;
-import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
 
 public class PetHologramHandler {
