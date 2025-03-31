@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 
+import java.util.List;
+
 @Command(name = "enderchest", aliases = "ec")
 public class EnderChestCommand {
 

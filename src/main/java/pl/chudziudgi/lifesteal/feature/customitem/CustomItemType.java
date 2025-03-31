@@ -8,6 +8,5 @@ public enum CustomItemType {
     BOW_SWAP,
     GOBLIN_STICK,
     EGG_SWORD,
-    UNLUCKY_CHICK,
-    ENDLESS_FIREWORK;
+    UNLUCKY_CHICK;
 }

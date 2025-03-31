@@ -17,32 +17,14 @@ import java.util.Optional;
 @Permission("cebulasmp.command.customitemy.admin")
 public class CustomItemCommand {
 
-    private final CustomItemConfiguration customItemConfiguration;
     private final CustomItemGui customItemGui;
 
-    public CustomItemCommand(CustomItemConfiguration customItemConfiguration, CustomItemGui customItemGui) {
-        this.customItemConfiguration = customItemConfiguration;
+    public CustomItemCommand(CustomItemGui customItemGui) {
         this.customItemGui = customItemGui;
     }
 
     @Execute()
     public void gui(@Context Player player) {
         this.customItemGui.show(player);
-    }
-
-    @Execute(name = "ustaw")
-    public void setItem(@Context Player player, @Arg CustomItemType customItemType) {
-        ItemStack handItemStack = player.getInventory().getItemInMainHand();
-
-        Optional<CustomItem> foundItem = this.customItemConfiguration.customItems.stream()
-                .filter(customItem -> customItem.getCustomItemType() == customItemType)
-                .findFirst();
-
-        if (foundItem.isEmpty()) {
-            MessageUtil.sendMessage(player, "&cNie ma takiego przedmiotu");
-            return;
-        }
-        foundItem.get().setItemStack(ItemStackSerializable.write(handItemStack));
-        MessageUtil.sendMessage(player, "&aUstawiono nowy itemstack dla: " + customItemType);
     }
 }

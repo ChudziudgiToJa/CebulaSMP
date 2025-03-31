@@ -30,8 +30,8 @@ public class PluginConfiguration extends OkaeriConfig {
     public CheckSettings checkSettings = new CheckSettings();
 
 
-    public int freePlnNpcID = 16;
-    public int blackSmithID = 31;
+    public String freePlnNpcID = "";
+    public String blackSmithID = "";
     public String discordUrl = "https://dc.cebulasmp.pl/";
 
     public static class CheckSettings extends OkaeriConfig {
@@ -52,25 +52,47 @@ public class PluginConfiguration extends OkaeriConfig {
         public List<TimeShop> timeShops = List.of(
                 new TimeShop(
                         new ItemBuilder(Material.PAPER)
-                                .setName("&7Ranga: &dVIP 1 tyg")
+                                .setName("&7Ranga: &fVIP 1 dzień")
                                 .addLore("")
-                                .addLore("&8| &7koszt&8: &f10m")
+                                .addLore("&8| &7koszt&8: &d86.400 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
                                 .build(),
-                        600,
-                        "lp user {PLAYER} parent addtemp vip 1w "
+                        86400,
+                        "lp user {PLAYER} parent addtemp vip 1d"
                 ),
                 new TimeShop(
                         new ItemBuilder(Material.PAPER)
-                                .setName("&7Ranga: &dCEBULAK 1m (test)")
+                                .setName("&7Ranga: &fSVIP 1 dzień")
                                 .addLore("")
-                                .addLore("&8| &7koszt&8: &f60s")
+                                .addLore("&8| &7koszt&8: &d259.200 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
                                 .build(),
-                        60,
-                        "lp user {PLAYER} parent addtemp cebulak 1m "
+                        259200,
+                        "lp user {PLAYER} parent addtemp svip 1d"
+                ),
+                new TimeShop(
+                        new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &fCEBULAK 1 dzień")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &d604.800 ⭐")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build(),
+                        604800,
+                        "lp user {PLAYER} parent addtemp svip 1d"
+                ),
+                new TimeShop(
+                        new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &fDISCO ZBROJA &8(/disco) &f5 godzin")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &d14.400 ⭐")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build(),
+                        14400,
+                        "lp user {PLAYER} permission settemp cebulasmp.disco true 5h"
                 )
         );
     }
@@ -82,8 +104,7 @@ public class PluginConfiguration extends OkaeriConfig {
                 .build();
 
         public List<String> commandList = List.of(
-                "",
-                ""
+                "tempban {PLAYER} śmierć z 1 sercem wróć do nas po banie 1h"
         );
     }
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class BorderCollectionConfiguration extends OkaeriConfig {
 
-    public int npcId = 33;
-    public int worldSize = 5000;
+    public String npcId = "";
+    public int worldSize = 20000;
     public double depositMoney = 0;
 }

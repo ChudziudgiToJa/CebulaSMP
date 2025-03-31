@@ -1,6 +1,6 @@
 package pl.chudziudgi.lifesteal.feature.blacksmith;
 
-import net.citizensnpcs.api.event.NPCRightClickEvent;
+import de.oliver.fancynpcs.api.events.NpcInteractEvent;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,9 +18,9 @@ public class BlacksmithController implements Listener {
     }
 
     @EventHandler
-    public void click(NPCRightClickEvent event) {
-        Player player = event.getClicker();
-        if (event.getNPC().getId() == this.pluginConfiguration.blackSmithID) {
+    public void click(NpcInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getNpc().getData().getId().equals(this.pluginConfiguration.blackSmithID)) {
             this.blacksmithInventory.show(player);
             player.playSound(player, Sound.BLOCK_BARREL_OPEN, 5 ,5);
             event.setCancelled(true);

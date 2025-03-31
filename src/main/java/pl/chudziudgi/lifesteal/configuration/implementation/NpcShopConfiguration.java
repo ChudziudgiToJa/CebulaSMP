@@ -12,7 +12,7 @@ public class NpcShopConfiguration extends OkaeriConfig {
     public List<NpcShop> npcShops = List.of(
             new NpcShop(
                     "Gornik",
-                    9,
+                    "",
                     List.of(
                             new NpcShopItemToInteract(
                                     new ItemBuilder(Material.CHARCOAL).build(),
@@ -120,7 +120,7 @@ public class NpcShopConfiguration extends OkaeriConfig {
             ),
             new NpcShop(
                     "Farmer",
-                    10,
+                    "",
                     List.of(
                             new NpcShopItemToInteract(
                                     new ItemBuilder(Material.WHEAT).build(),
@@ -198,7 +198,7 @@ public class NpcShopConfiguration extends OkaeriConfig {
             ),
             new NpcShop(
                     "Zabójca",
-                    15,
+                    "",
                     List.of(
                             new NpcShopItemToInteract(
                                     new ItemBuilder(Material.STRING).build(),
@@ -330,7 +330,7 @@ public class NpcShopConfiguration extends OkaeriConfig {
             ),
             new NpcShop(
                     "Wędkarz",
-                    8,
+                    "",
                     List.of(
                             new NpcShopItemToInteract(
                                     new ItemBuilder(Material.COD).build(),
@@ -402,7 +402,7 @@ public class NpcShopConfiguration extends OkaeriConfig {
             ),
             new NpcShop(
                     "Drwal",
-                    30,
+                    "",
                     List.of(
                             new NpcShopItemToInteract(
                                     new ItemBuilder(Material.OAK_LOG).build(),

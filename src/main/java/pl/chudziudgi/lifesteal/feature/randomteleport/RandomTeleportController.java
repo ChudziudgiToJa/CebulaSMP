@@ -1,6 +1,7 @@
 package pl.chudziudgi.lifesteal.feature.randomteleport;
 
 import com.eternalcode.core.EternalCoreApi;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ public class RandomTeleportController implements Listener {
         Block block = event.getClickedBlock();
         if (block == null || event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (this.pluginConfiguration.randomTeleportSettings.buttonsLocations.contains(block.getLocation())) {
-            CompletableFuture<Location> randomLocationFuture = this.eternalCoreApi.getRandomTeleportService().getSafeRandomLocationInWorldBorder(player.getWorld(), 5);
+            CompletableFuture<Location> randomLocationFuture = this.eternalCoreApi.getRandomTeleportService().getSafeRandomLocationInWorldBorder(Bukkit.getWorlds().getFirst(), 30);
 
             randomLocationFuture.thenAccept(randomLocation -> {
                 if (randomLocation != null) {

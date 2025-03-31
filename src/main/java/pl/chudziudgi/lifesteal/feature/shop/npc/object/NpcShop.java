@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 public class NpcShop implements Serializable {
     private final String name;
-    private final int npcId;
+    private final String npcId;
     private final List<NpcShopItemToInteract> npcShopItemToInteracts;
 
-    public NpcShop(String name, Integer npcId, List<NpcShopItemToInteract> npcShopItemToInteracts) {
+    public NpcShop(String name, String npcId, List<NpcShopItemToInteract> npcShopItemToInteracts) {
         this.name = name;
         this.npcId = npcId;
         this.npcShopItemToInteracts = npcShopItemToInteracts;

@@ -24,9 +24,9 @@ repositories {
     maven("https://repo.panda-lang.org/releases")
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://maven.citizensnpcs.co/repo")
     maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
     maven("https://repo.dmulloy2.net/repository/public/")
+    maven("https://repo.fancyplugins.de/releases")
 }
 
 dependencies {
@@ -52,11 +52,6 @@ dependencies {
     // worldguard
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.10")
 
-    //NPC
-    compileOnly("net.citizensnpcs:citizens-main:2.0.33-SNAPSHOT") {
-        exclude(group = "*", module = "*")
-    }
-
     annotationProcessor("org.projectlombok:lombok:1.18.30")
     compileOnly("org.projectlombok:lombok:1.18.30")
 
@@ -66,8 +61,11 @@ dependencies {
     //Placeholder api
     compileOnly("me.clip:placeholderapi:2.11.6")
 
-    //Decenthologram
-    compileOnly("com.github.decentsoftware-eu:decentholograms:2.8.11")
+    //FancyHolograms
+    compileOnly("de.oliver:FancyHolograms:2.4.2")
+
+    //fancyNpc
+    compileOnly("de.oliver:FancyNpcs:2.4.4")
 
     //Vault
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
@@ -85,7 +83,7 @@ bukkit {
     apiVersion = "1.20"
     author = "Chudziudgi"
     softDepend = listOf("PlaceholderAPI", "Citizens", "DecentHolograms")
-    depend = listOf("Vault", "ProtocolLib")
+    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs")
     prefix = "lifesteal-core"
 }
 

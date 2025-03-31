@@ -28,7 +28,7 @@ public class TimeShopInventory {
     }
 
     public void showGlobal(Player player) {
-        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 6, "&3&lSklep za czas");
+        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 6, "&7Sklep za czas");
         Inventory inventory = simpleInventory.getInventory();
         User user = this.userService.findUserByNickName(player.getName());
 

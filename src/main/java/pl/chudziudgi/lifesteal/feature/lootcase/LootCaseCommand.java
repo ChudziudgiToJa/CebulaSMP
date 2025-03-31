@@ -7,6 +7,7 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,9 +20,24 @@ import pl.chudziudgi.lifesteal.util.MessageUtil;
 public class LootCaseCommand {
 
     private final LootCaseConfiguration lootCaseConfiguration;
+    private final LootCaseHandler lootCaseHandler;
 
-    public LootCaseCommand(LootCaseConfiguration lootCaseConfiguration) {
+    public LootCaseCommand(LootCaseConfiguration lootCaseConfiguration, LootCaseHandler lootCaseHandler) {
         this.lootCaseConfiguration = lootCaseConfiguration;
+        this.lootCaseHandler = lootCaseHandler;
+    }
+
+    @Execute(name = "set-location")
+    void setCase(@Context Player player, @Arg("skrzynia") LootCase lootCase) {
+        Block targetBlock = player.getTargetBlock(null, 6);
+        if (targetBlock.getType() != Material.AIR) {
+            lootCase.setLocation(targetBlock.getLocation());
+            this.lootCaseHandler.reloadLootCaseHolograms();
+            this.lootCaseConfiguration.save();
+            MessageUtil.sendMessage(player, "&aNowa lokalizacja dla case %s".formatted(lootCase.getName()));
+        } else {
+            MessageUtil.sendMessage(player, "&cNie znaleziono bloku do ustawienia lokalizacji case");
+        }
     }
 
     @Execute(name = "klucz")

@@ -1,7 +1,7 @@
 package pl.chudziudgi.lifesteal.feature.bordercollection;
 
 
-import net.citizensnpcs.api.event.NPCRightClickEvent;
+import de.oliver.fancynpcs.api.events.NpcInteractEvent;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,11 +20,11 @@ public class BorderCollectionController implements Listener {
 
 
     @EventHandler
-    public void onClickNpc(NPCRightClickEvent event) {
-        Player player = event.getClicker();
-        if (event.getNPC().getId() == this.borderCollectionConfiguration.getNpcId()) {
+    public void onClickNpc(NpcInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getNpc().getData().getId().equals(this.borderCollectionConfiguration.getNpcId())) {
             this.borderCollectionInventory.show(player);
-            player.playSound(player, Sound.BLOCK_BARREL_OPEN, 5 ,5);
+            player.playSound(player, Sound.BLOCK_BARREL_OPEN, 5, 5);
             event.setCancelled(true);
         }
     }

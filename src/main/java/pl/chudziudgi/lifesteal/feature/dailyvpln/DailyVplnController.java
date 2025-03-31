@@ -1,6 +1,6 @@
 package pl.chudziudgi.lifesteal.feature.dailyvpln;
 
-import net.citizensnpcs.api.event.NPCRightClickEvent;
+import de.oliver.fancynpcs.api.events.NpcInteractEvent;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,26 +25,27 @@ public class DailyVplnController implements Listener {
     }
 
     @EventHandler
-    public void onNPCRightClick(NPCRightClickEvent event) {
-        Player player = event.getClicker();
+    public void onNPCRightClick(NpcInteractEvent event) {
+        Player player = event.getPlayer();
         User user = this.userService.findUserByNickName(player.getName());
         if (user == null) return;
 
-        if (event.getNPC().getId() != this.pluginConfiguration.freePlnNpcID) return;
+        if (event.getNpc().getData().getId().equals(this.pluginConfiguration.freePlnNpcID)) {
 
-        long currentTime = System.currentTimeMillis();
-        if (user.getDailyFreeVpln() > currentTime) {
-            MessageUtil.sendTitle(player, "", "&cMożesz odebrać za: " + DurationUtil.getTimeFormat(user.getDailyFreeVpln() - currentTime), 20, 50, 20);
-            player.closeInventory();
-            player.playSound(player, Sound.ENTITY_BEE_HURT, 5, 5);
-            return;
+            long currentTime = System.currentTimeMillis();
+            if (user.getDailyFreeVpln() > currentTime) {
+                MessageUtil.sendTitle(player, "", "&cMożesz odebrać za: " + DurationUtil.getTimeFormat(user.getDailyFreeVpln() - currentTime), 20, 50, 20);
+                player.closeInventory();
+                player.playSound(player, Sound.ENTITY_BEE_HURT, 5, 5);
+                return;
+            }
+
+            double vpln = this.dailyVplnManager.getRandomValueForPlayer(player);
+            user.setVPln(user.getVPln() + vpln);
+            user.setDailyFreeVpln(currentTime + 86400000);
+
+            MessageUtil.sendTitle(player, "", "&aOdebrano darmowe: " + DecimalUtil.getFormat(vpln) + " vpln", 20, 50, 20);
+            player.playSound(player, Sound.ENTITY_VILLAGER_YES, 5, 5);
         }
-
-        double vpln = this.dailyVplnManager.getRandomValueForPlayer(player);
-        user.setVPln(user.getVPln() + vpln);
-        user.setDailyFreeVpln(currentTime + 86400000);
-
-        MessageUtil.sendTitle(player, "", "&aOdebrano darmowe: " + DecimalUtil.getFormat(vpln) + " vpln", 20, 50, 20);
-        player.playSound(player, Sound.ENTITY_VILLAGER_YES, 5, 5);
     }
 }

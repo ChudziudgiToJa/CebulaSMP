@@ -1,6 +1,6 @@
 package pl.chudziudgi.lifesteal.feature.shop.npc.controller;
 
-import net.citizensnpcs.api.event.NPCRightClickEvent;
+import de.oliver.fancynpcs.api.events.NpcInteractEvent;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,11 +20,11 @@ public class NpcShopController implements Listener {
     }
 
     @EventHandler
-    public void click(NPCRightClickEvent event) {
-        Player player = event.getClicker();
+    public void click(NpcInteractEvent event) {
+        Player player = event.getPlayer();
 
         for (NpcShop npcShop : this.npcShopConfiguration.npcShops) {
-            if (event.getNPC().getId() == npcShop.getNpcId()) {
+            if (event.getNpc().getData().getId().equals(npcShop.getNpcId())) {
                 npcShopInventory.show(player, npcShop);
                 player.playSound(player, Sound.BLOCK_BARREL_OPEN, 5 ,5);
                 event.setCancelled(true);
