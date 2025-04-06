@@ -340,7 +340,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new BossCommand(bossManager),
                         new RabateCodeCommand(this.pluginConfiguration, this.userService),
                         new CheckCommand(this.pluginConfiguration, this.checkService),
-                        new CustomItemCommand(customItemInventory)
+                        new CustomItemCommand(customItemInventory),
+                        new GammaCommand()
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
