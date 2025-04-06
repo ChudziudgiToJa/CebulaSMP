@@ -106,7 +106,7 @@ public class EnderChestIventory {
                         "&fꑇ 6 sloty",
                         "&fꑍ 9 sloty",
                         "",
-                        "&8| &7koszt: &f10 tyś &amonet",
+                        "&8| &7koszt: &f80 tyś &amonet",
                         "",
                         "&akliknij aby kupić."
                 )
@@ -157,8 +157,8 @@ public class EnderChestIventory {
                     return;
                 }
 
-                if (user.getMoney() >= 10000) {
-                    user.removeMoney(10000);
+                if (user.getMoney() >= 80000) {
+                    user.removeMoney(80000);
                     user.getEnderChests().add(new EnderChest("EnderChest" + (user.getEnderChests().size() + 1), new HashMap<>()));
                     this.showMainPage(player, user);
                 } else {

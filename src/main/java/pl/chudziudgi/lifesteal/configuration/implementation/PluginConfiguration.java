@@ -2,13 +2,11 @@ package pl.chudziudgi.lifesteal.configuration.implementation;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.lifesteal.feature.job.JobDropChance;
 import pl.chudziudgi.lifesteal.feature.job.JobType;
-import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealCommand;
 import pl.chudziudgi.lifesteal.feature.rabatecode.RabateCode;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShop;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
@@ -30,8 +28,8 @@ public class PluginConfiguration extends OkaeriConfig {
     public CheckSettings checkSettings = new CheckSettings();
 
 
-    public String freePlnNpcID = "";
-    public String blackSmithID = "";
+    public String freePlnNpcID = "0f69258a-26ab-4a28-9473-74e8deb1806c";
+    public String blackSmithID = "82116773-7f92-49a9-83cf-75d16525d3d8";
     public String discordUrl = "https://dc.cebulasmp.pl/";
 
     public static class CheckSettings extends OkaeriConfig {
@@ -42,13 +40,22 @@ public class PluginConfiguration extends OkaeriConfig {
     public static class RabateCodeSettings extends OkaeriConfig {
         public List<RabateCode> codeList = List.of(
                 new RabateCode(
-                 "tiktok",
-                 "lp user {PLAYER} parent addtemp vip 6h"
+                        "_purpis_",
+                        "lp user {PLAYER} parent addtemp vip 1h"
+                ),
+                new RabateCode(
+                        "malutk0",
+                        "lp user {PLAYER} parent addtemp vip 1h"
+                ),
+                new RabateCode(
+                        "k4lisko_",
+                        "lp user {PLAYER} parent addtemp vip 1h"
                 )
         );
     }
 
     public static class TimeShopSettings extends OkaeriConfig {
+        public String npcId = "b5387c7d-1527-4f66-b3a0-7dded0f99d26";
         public List<TimeShop> timeShops = List.of(
                 new TimeShop(
                         new ItemBuilder(Material.PAPER)
@@ -97,10 +104,10 @@ public class PluginConfiguration extends OkaeriConfig {
         );
     }
 
-    public static class LifeStealSettings extends  OkaeriConfig {
+    public static class LifeStealSettings extends OkaeriConfig {
         public ItemStack heartItemStack = new ItemBuilder(Material.RED_DYE)
                 .setName("&4połówka serca")
-                .setLore("","&akliknij aby dodać")
+                .setLore("", "&akliknij aby dodać")
                 .build();
 
         public List<String> commandList = List.of(
@@ -117,7 +124,6 @@ public class PluginConfiguration extends OkaeriConfig {
                 Material.ARMOR_STAND
         );
     }
-
 
 
     public static class RandomTeleportSettings extends OkaeriConfig {

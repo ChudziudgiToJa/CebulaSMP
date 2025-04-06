@@ -11,8 +11,6 @@ import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.bukkit.LiteCommandsBukkit;
 import dev.rollczi.litecommands.message.LiteMessages;
 import lombok.Getter;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -62,7 +60,9 @@ import pl.chudziudgi.lifesteal.feature.crafting.CraftingCommand;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingInventory;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingManager;
 import pl.chudziudgi.lifesteal.feature.customitem.CustomItemCommand;
-import pl.chudziudgi.lifesteal.feature.customitem.CustomItemGui;
+import pl.chudziudgi.lifesteal.feature.customitem.CustomItemCoolDownManager;
+import pl.chudziudgi.lifesteal.feature.customitem.CustomItemInventory;
+import pl.chudziudgi.lifesteal.feature.customitem.border.CustomItemBorderController;
 import pl.chudziudgi.lifesteal.feature.dailyvpln.DailyVplnController;
 import pl.chudziudgi.lifesteal.feature.dailyvpln.DailyVplnManager;
 import pl.chudziudgi.lifesteal.feature.disco.DiscoCommand;
@@ -109,6 +109,7 @@ import pl.chudziudgi.lifesteal.feature.shop.ShopInventory;
 import pl.chudziudgi.lifesteal.feature.shop.npc.controller.NpcShopController;
 import pl.chudziudgi.lifesteal.feature.shop.npc.inventory.NpcShopInventory;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopInventory;
+import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopNpcController;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticCommand;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticController;
@@ -289,8 +290,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
         EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
 
-        //customitem
-        CustomItemGui customItemGui = new CustomItemGui(this, this.customItemConfiguration);
+        //CustomItem
+        CustomItemInventory customItemInventory = new CustomItemInventory(this, this.customItemConfiguration);
+        CustomItemCoolDownManager customItemCoolDownManager = new CustomItemCoolDownManager();
 
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
@@ -337,7 +339,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new EnderChestCommand(this.userService, enderChestIventory),
                         new BossCommand(bossManager),
                         new RabateCodeCommand(this.pluginConfiguration, this.userService),
-                        new CheckCommand(this.pluginConfiguration, this.checkService)
+                        new CheckCommand(this.pluginConfiguration, this.checkService),
+                        new CustomItemCommand(customItemInventory)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -371,8 +374,10 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new EndController(this.worldsSettings, this.endManager),
                 new LifeStealController(this.pluginConfiguration),
                 new EnderChestController(this.userService, enderChestIventory),
-                new BossController(this.random, bossManager),
-                new CheckController(this.checkService, this.pluginConfiguration)
+                new BossController(this.random, bossManager, this.userService),
+                new CheckController(this.checkService, this.pluginConfiguration),
+                new TimeShopNpcController(this.pluginConfiguration, timeShopInventory),
+                new CustomItemBorderController(this, this.customItemConfiguration, customItemCoolDownManager)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);

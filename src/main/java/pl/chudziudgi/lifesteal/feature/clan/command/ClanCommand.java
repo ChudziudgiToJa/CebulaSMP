@@ -68,11 +68,6 @@ public class ClanCommand {
             return;
         }
 
-        if (player.getWorld() != Bukkit.getWorlds().getFirst()) {
-            MessageUtil.sendMessage(player, "&cMusisz być w normalnym świecie aby stworzyć klanu");
-            return;
-        }
-
         User user = this.userService.findUserByUUID(player.getUniqueId());
 
         if (user == null) {

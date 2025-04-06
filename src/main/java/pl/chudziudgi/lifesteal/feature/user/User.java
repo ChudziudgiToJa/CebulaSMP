@@ -64,6 +64,7 @@ public class User implements Serializable, Identifiable<String> {
         this.backups = new ArrayList<>();
         this.petDataArrayList = new ArrayList<>();
         this.enderChests = new ArrayList<>();
+        this.enderChests.add(new EnderChest("EnderChest", new HashMap<>()));
         this.rabateCode = new ArrayList<>();
     }
 

@@ -13,7 +13,7 @@ public class LootCaseConfiguration extends OkaeriConfig {
             new LootCase(
                     "afk",
                     "skrzynia afk &8[&e⭐&7⭐⭐⭐⭐&8]",
-                    new Location(Bukkit.getWorlds().getFirst(),30,72,28),
+                    new Location(Bukkit.getWorlds().getFirst(),-8,71,8),
                     "",
                     List.of(
                     )
@@ -21,7 +21,7 @@ public class LootCaseConfiguration extends OkaeriConfig {
             new LootCase(
                     "wedrowca",
                     "skrzynia wędrowca &8[&e⭐⭐&7⭐⭐⭐&8]",
-                    new Location(Bukkit.getWorlds().getFirst(),26,72,25),
+                    new Location(Bukkit.getWorlds().getFirst(),-3,71,10),
                     "",
                     List.of(
                     )
@@ -29,7 +29,7 @@ public class LootCaseConfiguration extends OkaeriConfig {
             new LootCase(
                     "smoka",
                     "skrzynia smoka &8[&e⭐⭐⭐&7⭐⭐&8]",
-                    new Location(Bukkit.getWorlds().getFirst(),25,72,17),
+                    new Location(Bukkit.getWorlds().getFirst(),3,71,10),
                     "",
                     List.of(
                     )
@@ -37,7 +37,7 @@ public class LootCaseConfiguration extends OkaeriConfig {
             new LootCase(
                     "piekiel",
                     "skrzynia piekieł &8[&e⭐⭐⭐⭐⭐&8]",
-                    new Location(Bukkit.getWorlds().getFirst(),29,72,13),
+                    new Location(Bukkit.getWorlds().getFirst(),8,71,8),
                     "",
                     List.of(
                     )

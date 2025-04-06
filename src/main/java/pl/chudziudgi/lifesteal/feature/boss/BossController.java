@@ -13,6 +13,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import pl.chudziudgi.lifesteal.feature.user.User;
+import pl.chudziudgi.lifesteal.feature.user.UserService;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
 import java.util.Random;
@@ -22,10 +24,12 @@ public class BossController implements Listener {
     private final Random random;
     private final BossManager bossManager;
     private boolean abilityUsed = false;
+    private final UserService userService;
 
-    public BossController(Random random, BossManager bossManager) {
+    public BossController(Random random, BossManager bossManager, UserService userService) {
         this.random = random;
         this.bossManager = bossManager;
+        this.userService = userService;
     }
 
     @EventHandler
@@ -48,8 +52,8 @@ public class BossController implements Listener {
 
             Player player = event.getEntity().getKiller();
             if (player == null) return;
-
-
+            User user = this.userService.findUserByUUID(player.getUniqueId());
+            user.addMoney(random.nextInt(10000, 30000));
         }
     }
 

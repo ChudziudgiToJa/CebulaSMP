@@ -4,14 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="new database">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/lifesteal.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/lifesteal.main.iml" afterDir="false" />
+    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="w chuj jakiś poprawek idk jakich">
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemCoolDownManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/border/CustomItemBorderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/border/CustomItemBorderManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/shop/time/TimeShopNpcController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/lootcase/LootCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/lootcase/LootCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/lootcase/LootCaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/lootcase/LootCaseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/pet/PetHologramHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/pet/PetHologramHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/BorderCollectionConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/BorderCollectionConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/CustomItemConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/CustomItemConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/LootCaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/LootCaseConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/PluginConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/PluginConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/boss/BossController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/boss/BossController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemCoolDown.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemGui.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/customitem/CustomItemType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/disco/DiscoTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/disco/DiscoTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChestIventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/enderchest/EnderChestIventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/user/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,23 +104,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.cebula-survival-core [shadowJar].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/chudy/Documents/GitHub/paymc-gencash",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.cebula-survival-core [shadowJar].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/chudy/Documents/GitHub/paymc-gencash&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\chudy\IdeaProjects\cebula-survival-core\src\main\java\pl\cebula\smp\feature\end" />
@@ -481,7 +497,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742570525882</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="naprawione">
+      <option name="closed" value="true" />
+      <created>1743462081400</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1743462081400</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -496,8 +520,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="head and abyss fix" />
-    <MESSAGE value="fix jakiś dupereli" />
     <MESSAGE value="fix cuboid heart blocker" />
     <MESSAGE value="add UserCommandArgument.java and ClanCommandArgument.java" />
     <MESSAGE value="fix logic PayCommand.java" />
@@ -521,6 +543,8 @@
     <MESSAGE value="add CheckCommand" />
     <MESSAGE value="Remove Delfin from PetConfiguration" />
     <MESSAGE value="new database" />
-    <option name="LAST_COMMIT_MESSAGE" value="new database" />
+    <MESSAGE value="naprawione" />
+    <MESSAGE value="w chuj jakiś poprawek idk jakich" />
+    <option name="LAST_COMMIT_MESSAGE" value="w chuj jakiś poprawek idk jakich" />
   </component>
 </project>
