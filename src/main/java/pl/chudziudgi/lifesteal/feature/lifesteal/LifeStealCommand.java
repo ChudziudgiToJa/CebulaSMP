@@ -1,4 +1,4 @@
-package pl.chudziudgi.lifesteal.feature.livesteal;
+package pl.chudziudgi.lifesteal.feature.lifesteal;
 
 import com.google.common.util.concurrent.AtomicDouble;
 import dev.rollczi.litecommands.annotations.command.Command;

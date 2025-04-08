@@ -111,7 +111,7 @@ public class PluginConfiguration extends OkaeriConfig {
                 .build();
 
         public List<String> commandList = List.of(
-                "tempban {PLAYER} śmierć z 1 sercem wróć do nas po banie 1h"
+                "tempban {PLAYER} śmierć z 1 sercem wróć do nas po banie 5m"
         );
     }
 

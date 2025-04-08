@@ -88,8 +88,8 @@ import pl.chudziudgi.lifesteal.feature.job.JobInventory;
 import pl.chudziudgi.lifesteal.feature.killcounter.KillCounterController;
 import pl.chudziudgi.lifesteal.feature.kit.KitCommand;
 import pl.chudziudgi.lifesteal.feature.kit.KitInventory;
-import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealCommand;
-import pl.chudziudgi.lifesteal.feature.livesteal.LifeStealController;
+import pl.chudziudgi.lifesteal.feature.lifesteal.LifeStealCommand;
+import pl.chudziudgi.lifesteal.feature.lifesteal.LifeStealController;
 import pl.chudziudgi.lifesteal.feature.lootcase.*;
 import pl.chudziudgi.lifesteal.feature.nether.NetherCommand;
 import pl.chudziudgi.lifesteal.feature.nether.NetherController;
@@ -151,6 +151,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final VanishHandler vanishHandler = new VanishHandler();
     private final BossManager bossManager = new BossManager();
     private final CheckService checkService = new CheckService();
+    private TopManager topManager;
     private HologramManager hologramManager;
     public Economy economy;
     private EternalCoreApi eternalCoreApi;
@@ -171,7 +172,6 @@ public final class SurvivalPlugin extends JavaPlugin {
     private ProtocolManager protocolManager;
     private NetherManager netherManager;
     private EndManager endManager;
-    private TopManager topManager;
     private LiteCommands<CommandSender> liteCommands;
 
     public void onLoad() {
@@ -219,11 +219,11 @@ public final class SurvivalPlugin extends JavaPlugin {
         this.borderCollectionConfiguration = configService.create(BorderCollectionConfiguration.class, new File(dataFolder, "border.yml"));
         this.voucherConfiguration = configService.create(VoucherConfiguration.class, new File(dataFolder, "voucher.yml"));
         this.customItemConfiguration = configService.create(CustomItemConfiguration.class, new File(dataFolder, "customitem.yml"));
-
-        new Placeholder(this.userService, this.clanService, this.worldsSettings).register();
-
         // topki
         this.topManager = new TopManager(this.userService);
+
+        new Placeholder(this.userService, this.clanService, this.worldsSettings, this.topManager).register();
+
 
         // help menu
         HelpInventory helpInventory = new HelpInventory(this);
@@ -288,7 +288,7 @@ public final class SurvivalPlugin extends JavaPlugin {
 
         //EnderChest
         EnderChestSignGui enderChestSignGui = new EnderChestSignGui(this);
-        EnderChestIventory enderChestIventory = new EnderChestIventory(this, enderChestSignGui);
+        EnderChestInventory enderChestInventory = new EnderChestInventory(this, enderChestSignGui);
 
         //CustomItem
         CustomItemInventory customItemInventory = new CustomItemInventory(this, this.customItemConfiguration);
@@ -336,7 +336,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new DiscoCommand(discoInventory, this.userService),
                         new EndCommand(this.endManager, this.worldsSettings),
                         new LifeStealCommand(this.pluginConfiguration),
-                        new EnderChestCommand(this.userService, enderChestIventory),
+                        new EnderChestCommand(this.userService, enderChestInventory),
                         new BossCommand(bossManager),
                         new RabateCodeCommand(this.pluginConfiguration, this.userService),
                         new CheckCommand(this.pluginConfiguration, this.checkService),
@@ -374,7 +374,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new VoucherController(this.voucherConfiguration),
                 new EndController(this.worldsSettings, this.endManager),
                 new LifeStealController(this.pluginConfiguration),
-                new EnderChestController(this.userService, enderChestIventory),
+                new EnderChestController(this.userService, enderChestInventory),
                 new BossController(this.random, bossManager, this.userService),
                 new CheckController(this.checkService, this.pluginConfiguration),
                 new TimeShopNpcController(this.pluginConfiguration, timeShopInventory),

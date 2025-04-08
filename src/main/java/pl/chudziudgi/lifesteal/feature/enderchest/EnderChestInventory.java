@@ -19,13 +19,13 @@ import pl.chudziudgi.lifesteal.util.SimpleInventory;
 
 import java.util.*;
 
-public class EnderChestIventory {
+public class EnderChestInventory {
 
     private final SurvivalPlugin survivalPlugin;
     private final EnderChestSignGui enderChestSignGui;
 
 
-    public EnderChestIventory(SurvivalPlugin survivalPlugin, EnderChestSignGui enderChestSignGui) {
+    public EnderChestInventory(SurvivalPlugin survivalPlugin, EnderChestSignGui enderChestSignGui) {
         this.survivalPlugin = survivalPlugin;
         this.enderChestSignGui = enderChestSignGui;
     }

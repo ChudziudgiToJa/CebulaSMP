@@ -35,11 +35,11 @@ public class EnderChestSignGui {
                 return List.of(SignGUIAction.displayNewLines("", "↖↗", "musisz wpisać nazwe"));
             }
 
-            if (lineSearchIndex.isBlank() && lineSearchIndex.isEmpty()) {
+            if (lineSearchIndex.isEmpty()) {
                 return List.of(SignGUIAction.displayNewLines("", "↖↗", "musisz wpisać nazwe"));
             }
 
-            if (lineSearchIndex.isEmpty() || lineSearchIndex.length() > 8) {
+            if (lineSearchIndex.length() > 8) {
                 return List.of(SignGUIAction.displayNewLines("", "↖↗", "nazwa musi mieć od 1-8 znaków"));
             }
 

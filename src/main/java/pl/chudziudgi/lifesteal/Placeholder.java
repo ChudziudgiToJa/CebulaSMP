@@ -8,6 +8,7 @@ import pl.chudziudgi.lifesteal.configuration.implementation.WorldsSettings;
 import pl.chudziudgi.lifesteal.feature.abyss.AbyssManager;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
+import pl.chudziudgi.lifesteal.feature.top.TopManager;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 import pl.chudziudgi.lifesteal.util.DecimalUtil;
@@ -21,11 +22,13 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
     private final UserService userService;
     private final ClanService clanService;
     private final WorldsSettings worldsSettings;
+    private final TopManager topManager;
 
-    public Placeholder(UserService userService, ClanService clanService, WorldsSettings worldsSettings) {
+    public Placeholder(UserService userService, ClanService clanService, WorldsSettings worldsSettings, TopManager topManager) {
         this.userService = userService;
         this.clanService = clanService;
         this.worldsSettings = worldsSettings;
+        this.topManager = topManager;
     }
 
     @Override
@@ -48,6 +51,20 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
         User user = userService.findUserByNickName(player.getName());
         Clan clanOwner = this.clanService.findClanByOwner(player.getName());
         Clan clanMember = this.clanService.findClanByMember(player.getUniqueId());
+
+        if (params.startsWith("topKill_")) {
+            return this.topManager.getTopUserName(topManager.get16UsersKills(), params, "topKill_", User::getKill);
+        }
+        if (params.startsWith("topMoney_")) {
+            return this.topManager.getTopUserName(topManager.get16UsersMoneyTop(), params, "topMoney_", User::getMoney);
+        }
+        if (params.startsWith("topTime_")) {
+            return this.topManager.getTopUserName(topManager.get16UsersSpendTime(), params, "topTime_", User::getSpentTime);
+        }
+        if (params.startsWith("topVpln_")) {
+            return this.topManager.getTopUserName(topManager.get16UsersVpln(), params, "topVpln_", User::getVPln);
+        }
+
 
         if(params.startsWith("monety")) {
             return DecimalUtil.getFormat(user.getMoney());

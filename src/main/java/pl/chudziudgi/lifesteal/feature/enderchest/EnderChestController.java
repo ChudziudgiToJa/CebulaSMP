@@ -13,11 +13,11 @@ import pl.chudziudgi.lifesteal.feature.user.UserService;
 public class EnderChestController implements Listener {
 
     private final UserService userService;
-    private final EnderChestIventory enderChestIventory;
+    private final EnderChestInventory enderChestInventory;
 
-    public EnderChestController(UserService userService, EnderChestIventory enderChestIventory) {
+    public EnderChestController(UserService userService, EnderChestInventory enderChestInventory) {
         this.userService = userService;
-        this.enderChestIventory = enderChestIventory;
+        this.enderChestInventory = enderChestInventory;
     }
 
     @EventHandler
@@ -34,7 +34,7 @@ public class EnderChestController implements Listener {
                 event.setCancelled(true);
                 User user = this.userService.findUserByUUID(player.getUniqueId());
                 if (user != null) {
-                    this.enderChestIventory.showMainPage(player, user);
+                    this.enderChestInventory.showMainPage(player, user);
                 }
             }
         }

@@ -35,12 +35,6 @@ public class NpcShopInventory {
         SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9*6, MessageUtil.smallText("&flista sklepów"));
         Inventory inventory = simpleInventory.getInventory();
 
-        if (!player.hasPermission("cebulasmp.vip")) {
-            MessageUtil.sendTitle(player, "", "&cNie posiadasz wymaganej rangi &fꑅ", 20, 50, 20);
-            player.closeInventory();
-            return;
-        }
-
         Integer[] glassBlueSlots = new Integer[]{
                 1, 3, 5, 7, 9, 17, 27, 35, 47, 51, 2, 4, 6, 18, 26, 36, 44, 46, 48, 50, 52, 0, 8, 45, 53, 49
         };

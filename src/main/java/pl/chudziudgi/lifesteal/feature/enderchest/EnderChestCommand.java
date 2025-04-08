@@ -9,17 +9,15 @@ import org.bukkit.entity.Player;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 
-import java.util.List;
-
 @Command(name = "enderchest", aliases = "ec")
 public class EnderChestCommand {
 
     private final UserService userService;
-    private final EnderChestIventory enderChestIventory;
+    private final EnderChestInventory enderChestInventory;
 
-    public EnderChestCommand(UserService userService, EnderChestIventory enderChestIventory) {
+    public EnderChestCommand(UserService userService, EnderChestInventory enderChestInventory) {
         this.userService = userService;
-        this.enderChestIventory = enderChestIventory;
+        this.enderChestInventory = enderChestInventory;
     }
 
     @Execute
@@ -27,13 +25,12 @@ public class EnderChestCommand {
     void openOwn(@Context Player player) {
         User user = this.userService.findUserByUUID(player.getUniqueId());
         if (user == null) return;
-        this.enderChestIventory.showMainPage(player, user);
+        this.enderChestInventory.showMainPage(player, user);
     }
 
     @Execute
     @Permission("cebulasmp.enderchest.other")
-    void openOwn(@Context Player player, @Arg("Gracz") User user) {
-        this.enderChestIventory.showMainPage(player, user);
+    void openOther(@Context Player player, @Arg("Gracz") User user) {
+        this.enderChestInventory.showMainPage(player, user);
     }
-
 }
