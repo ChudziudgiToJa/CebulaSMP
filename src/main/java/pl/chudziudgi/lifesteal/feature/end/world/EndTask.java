@@ -1,4 +1,4 @@
-package pl.chudziudgi.lifesteal.feature.end;
+package pl.chudziudgi.lifesteal.feature.end.world;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;

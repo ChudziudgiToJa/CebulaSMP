@@ -123,5 +123,4 @@ public class PetController implements Listener {
             MessageUtil.sendTitle(player, "&a", "&fPomyślnie dodano &a" + petData.getName() + "&f do Twojej kolekcji!", 20, 60, 20);
         }
     }
-
 }

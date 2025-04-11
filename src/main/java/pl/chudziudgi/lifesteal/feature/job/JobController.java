@@ -92,7 +92,7 @@ public class JobController implements Listener {
         }
         if (user.getJobType() == JobType.MINER) {
             if (ore.contains(blockType)) {
-                if (random.nextDouble() < 0.20) {
+                if (random.nextDouble() < 0.05) {
                     user.addMoney(15);
                     MessageUtil.sendTitle(player, "", "&2+&a15 monet", 20, 50, 20);
                 }
@@ -143,7 +143,7 @@ public class JobController implements Listener {
         Player player = event.getPlayer();
         User user = this.userService.findUserByNickName(player.getName());
         if (user.getJobType() == JobType.FISHER) {
-            if (random.nextDouble() < 0.20) {
+            if (random.nextDouble() < 0.10) {
                 user.addMoney(20);
                 MessageUtil.sendTitle(player, "", "&2+&a20 monet", 20, 50, 20);
             }

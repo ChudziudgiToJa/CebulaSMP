@@ -23,7 +23,7 @@ public class DiscoTask extends BukkitRunnable {
         this.random = random;
         this.clanService = clanService;
         this.userService = userService;
-        this.runTaskTimerAsynchronously(survivalPlugin, 0, 2);
+        this.runTaskTimerAsynchronously(survivalPlugin, 4, 4);
     }
 
 
@@ -67,6 +67,17 @@ public class DiscoTask extends BukkitRunnable {
                 int b = (int) (Math.sin(System.currentTimeMillis() / 1000.0 + 4 * Math.PI / 3) * 127 + 128);
                 Color smoothColor = Color.fromRGB(r, g, b);
                 DiscoPackethandler.sendArmorPacket(sourcePlayer, targetPlayer, smoothColor);
+            }
+            case DEVIL -> {
+                long currentTime = System.currentTimeMillis();
+                int red1 = (int) (Math.sin((currentTime) / 500.0) * 127 + 128);
+                int red2 = (int) (Math.sin((currentTime + 500) / 500.0) * 127 + 128);
+                int red3 = (int) (Math.sin((currentTime + 1000) / 500.0) * 127 + 128);
+                int red4 = (int) (Math.sin((currentTime + 1500) / 500.0) * 127 + 128);
+                DiscoPackethandler.sendHelmetPacket(sourcePlayer, targetPlayer, Color.fromRGB(red1, 0, 0));
+                DiscoPackethandler.sendChestPlatePacket(sourcePlayer, targetPlayer, Color.fromRGB(red2, 0, 0));
+                DiscoPackethandler.sendLeggingsPacket(sourcePlayer, targetPlayer, Color.fromRGB(red3, 0, 0));
+                DiscoPackethandler.sendBootsPacket(sourcePlayer, targetPlayer, Color.fromRGB(red4, 0, 0));
             }
             case RANDOM -> {
                 DiscoPackethandler.sendHelmetPacket(sourcePlayer, targetPlayer, DiscoColorHandler.getRandomColor(this.random));

@@ -23,11 +23,11 @@ public class BossManager {
         boss = location.getWorld().spawn(location, Warden.class);
         boss.setCustomNameVisible(false);
 
-        setAttribute(boss, Attribute.GENERIC_MAX_HEALTH, 2048.0);
-        setAttribute(boss, Attribute.GENERIC_SCALE, 2.5);
-        increaseAttribute(boss, Attribute.GENERIC_JUMP_STRENGTH, 1.1);
-        increaseAttribute(boss, Attribute.GENERIC_STEP_HEIGHT, 2);
-        increaseAttribute(boss, Attribute.GENERIC_ATTACK_SPEED, 4.0);
+        setAttribute(boss, Attribute.MAX_HEALTH, 2048.0);
+        setAttribute(boss, Attribute.SCALE, 2.5);
+        increaseAttribute(boss, Attribute.JUMP_STRENGTH, 1.1);
+        increaseAttribute(boss, Attribute.STEP_HEIGHT, 2);
+        increaseAttribute(boss, Attribute.ATTACK_SPEED, 4.0);
 
         boss.setHealth(2048.0);
         boss.setAI(true);

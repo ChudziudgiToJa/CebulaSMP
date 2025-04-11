@@ -157,53 +157,23 @@ public class ItemShopConfiguration extends OkaeriConfig {
                     )
             ),
             new ItemShop(
-                    new ItemBuilder(Material.GOLD_NUGGET)
-                            .setName("&6&lDOLADOWANIE MONET &f1tyś")
+                    new ItemBuilder(Material.YELLOW_BUNDLE)
+                            .setName("&6&lDOLADOWANIE MONET &f10tyś")
                             .setLore(
                                     "",
-                                    "&7Cena&8: &f2.99 &avpln",
+                                    "&7Cena&8: &f4.99 &avpln",
                                     "",
                                     "&aKliknij aby kupić usługę."
                             )
                             .build(),
-                    2.99,
+                    4.99,
                     List.of(
-                            "eco {PLAYER} ADD 1000.0"
+                            "eco {PLAYER} ADD 10000.0"
                     )
             ),
             new ItemShop(
-                    new ItemBuilder(Material.GOLD_NUGGET)
-                            .setName("&6&lDOLADOWANIE MONET &f3tyś")
-                            .setLore(
-                                    "",
-                                    "&7Cena&8: &f5.99 &avpln",
-                                    "",
-                                    "&aKliknij aby kupić usługę."
-                            )
-                            .build(),
-                    5.99,
-                    List.of(
-                            "eco {PLAYER} ADD 3000.0"
-                    )
-            ),
-            new ItemShop(
-                    new ItemBuilder(Material.GOLD_INGOT)
-                            .setName("&6&lDOLADOWANIE MONET &f6tyś")
-                            .setLore(
-                                    "",
-                                    "&7Cena&8: &f8.99 &avpln",
-                                    "",
-                                    "&aKliknij aby kupić usługę."
-                            )
-                            .build(),
-                    8.99,
-                    List.of(
-                            "eco {PLAYER} ADD 6000.0"
-                    )
-            ),
-            new ItemShop(
-                    new ItemBuilder(Material.COOKIE)
-                            .setName("&5&lDISCO &aZBROJA &8(&f7dni&8)")
+                    new ItemBuilder(Material.YELLOW_BUNDLE)
+                            .setName("&6&lDOLADOWANIE MONET &f30tyś")
                             .setLore(
                                     "",
                                     "&7Cena&8: &f6.99 &avpln",
@@ -213,22 +183,52 @@ public class ItemShopConfiguration extends OkaeriConfig {
                             .build(),
                     6.99,
                     List.of(
-                            "lp user {PLAYER} permission settemp cebulasmp.disco true 7d"
+                            "eco {PLAYER} ADD 30000.0"
                     )
             ),
             new ItemShop(
-                    new ItemBuilder(Material.COOKIE)
-                            .setName("&5&lDISCO &aZBROJA &8(&f30dni&8)")
+                    new ItemBuilder(Material.PINK_BANNER)
+                            .setName("&5&lDISCO &aZBROJA &8(&f7dni&8)")
                             .setLore(
                                     "",
-                                    "&7Cena&8: &f13.99 &avpln",
+                                    "&7Cena&8: &f1.99 &avpln",
                                     "",
                                     "&aKliknij aby kupić usługę."
                             )
                             .build(),
-                    13.99,
+                    1.99,
+                    List.of(
+                            "lp user {PLAYER} permission settemp cebulasmp.disco true 7d"
+                    )
+            ),
+            new ItemShop(
+                    new ItemBuilder(Material.PINK_BANNER)
+                            .setName("&5&lDISCO &aZBROJA &8(&f30dni&8)")
+                            .setLore(
+                                    "",
+                                    "&7Cena&8: &f4.99 &avpln",
+                                    "",
+                                    "&aKliknij aby kupić usługę."
+                            )
+                            .build(),
+                    4.99,
                     List.of(
                             "lp user {PLAYER} permission settemp cebulasmp.disco true 30d"
+                    )
+            ),
+            new ItemShop(
+                    new ItemBuilder(Material.FEATHER)
+                            .setName("&a&llatanie na spawn &8(&f30dni&8)")
+                            .setLore(
+                                    "",
+                                    "&7Cena&8: &f1.99 &avpln",
+                                    "",
+                                    "&aKliknij aby kupić usługę."
+                            )
+                            .build(),
+                    1.99,
+                    List.of(
+                            "lp user {PLAYER} permission settemp cebulasmp.spawn.fly true 30d"
                     )
             )
     );

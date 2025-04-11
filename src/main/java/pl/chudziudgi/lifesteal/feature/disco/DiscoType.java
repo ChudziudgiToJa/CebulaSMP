@@ -4,5 +4,6 @@ public enum DiscoType {
     TURBO,
     RANDOM,
     SMOOTH,
+    DEVIL,
     CLEAR
 }

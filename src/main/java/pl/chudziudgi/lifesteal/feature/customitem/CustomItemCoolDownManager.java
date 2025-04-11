@@ -8,8 +8,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CustomItemCoolDownManager {
     private final ConcurrentHashMap<UUID, CustomItemData> uuidCustomItemDataHashMap = new ConcurrentHashMap<>();
 
-    public void addCoolDown(final Player player, long time) {
-        this.uuidCustomItemDataHashMap.put(player.getUniqueId(), new CustomItemData(player.getInventory().getItemInMainHand(), time + System.currentTimeMillis()));
+    public void addCoolDown(final Player player, long durationMillis) {
+        this.uuidCustomItemDataHashMap.put(player.getUniqueId(), new CustomItemData(
+                player.getInventory().getItemInMainHand(),
+                System.currentTimeMillis() + durationMillis
+        ));
     }
 
     public boolean isCoolDown(final Player player) {

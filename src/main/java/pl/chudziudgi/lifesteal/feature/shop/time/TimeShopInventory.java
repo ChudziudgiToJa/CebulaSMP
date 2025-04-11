@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.lifesteal.SurvivalPlugin;
 import pl.chudziudgi.lifesteal.configuration.implementation.PluginConfiguration;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
+import pl.chudziudgi.lifesteal.util.ItemStackSerializable;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 import pl.chudziudgi.lifesteal.util.SimpleInventory;
 
@@ -41,10 +43,12 @@ public class TimeShopInventory {
                         .setName(" ")
                         .build()));
 
-        inventory.setItem(49, new ItemBuilder(Material.GOLD_INGOT).setName("&fPosiadasz:  &d" + user.getTimeMoney() + " ⭐").build());
+        inventory.setItem(49, new ItemBuilder(Material.GOLD_INGOT).setName("&fPosiadasz: &d" + user.getTimeMoney() + " ⭐").build());
 
         for (TimeShop shop : this.pluginConfiguration.timeShopSettings.timeShops) {
-            inventory.addItem(shop.getIcon());
+            ItemStack itemStack = ItemStackSerializable.readItemStack(shop.getIcon());
+            if (itemStack == null) return;
+            inventory.addItem(itemStack);
         }
 
         simpleInventory.click(event -> {

@@ -39,7 +39,7 @@ public class PetPotionEffectTask extends BukkitRunnable {
             List<PotionEffect> effects = user.getPetDataArrayList().stream()
                     .map(pet -> {
                         PotionEffectType type = PotionEffectType.getById(pet.getPetData().getPotionEffect());
-                        return type != null ? new PotionEffect(type, TICK_DELAY, 0, true, false) : null;
+                        return type != null ? new PotionEffect(type, TICK_DELAY + 20, 0, true, false) : null;
                     })
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());

@@ -34,5 +34,4 @@ public class CustomItemBorderManager {
         packet.getIntegers().write(2, 5);
         ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
     }
-
 }

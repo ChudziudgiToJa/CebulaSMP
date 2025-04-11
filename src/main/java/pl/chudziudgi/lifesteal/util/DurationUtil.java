@@ -101,5 +101,4 @@ public final class DurationUtil {
         }
         return formattedTime.toString();
     }
-
 }

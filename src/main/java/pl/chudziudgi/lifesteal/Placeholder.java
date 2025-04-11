@@ -69,6 +69,9 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
         if(params.startsWith("monety")) {
             return DecimalUtil.getFormat(user.getMoney());
         }
+        if(params.startsWith("mone_cza")) {
+            return DecimalUtil.getFormat(user.getTimeMoney());
+        }
         if(params.startsWith("czas")) {
             return DurationUtil.format(Duration.ofSeconds(user.getSpentTime()));
         }

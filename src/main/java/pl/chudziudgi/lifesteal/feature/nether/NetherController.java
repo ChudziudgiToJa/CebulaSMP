@@ -1,7 +1,10 @@
 package pl.chudziudgi.lifesteal.feature.nether;
 
+import com.eternalcode.core.EternalCoreApi;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,15 +14,19 @@ import org.bukkit.event.player.*;
 import pl.chudziudgi.lifesteal.configuration.implementation.WorldsSettings;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
+import java.util.concurrent.CompletableFuture;
+
 public class NetherController implements Listener {
 
     private final WorldsSettings worldsSettings;
     private final NetherManager netherManager;
+    private final EternalCoreApi eternalCoreApi;
 
 
-    public NetherController(WorldsSettings worldsSettings, NetherManager netherManager) {
+    public NetherController(WorldsSettings worldsSettings, NetherManager netherManager, EternalCoreApi eternalCoreApi) {
         this.worldsSettings = worldsSettings;
         this.netherManager = netherManager;
+        this.eternalCoreApi = eternalCoreApi;
     }
 
     @EventHandler
@@ -49,14 +56,25 @@ public class NetherController implements Listener {
             return;
         }
 
-        if (player.getWorld().equals(Bukkit.getWorlds().getFirst())) {
+        World normalWorld = Bukkit.getWorld("world_nether");
+        if (normalWorld == null) return;
+        if (!player.getWorld().equals(normalWorld)) {
             if (this.worldsSettings.netherSpawnLocation == null) {
                 MessageUtil.sendMessage(player, "&cLokalizacja spawnu w nether nie jest ustawiona");
                 return;
             }
             player.teleport(this.worldsSettings.netherSpawnLocation);
         } else {
-            player.teleport(Bukkit.getWorlds().getFirst().getSpawnLocation());
+            CompletableFuture<Location> randomLocationFuture = this.eternalCoreApi.getRandomTeleportService().getSafeRandomLocationInWorldBorder(Bukkit.getWorlds().getFirst(), 30);
+
+            randomLocationFuture.thenAccept(randomLocation -> {
+                if (randomLocation != null) {
+                    player.teleport(randomLocation);
+                    MessageUtil.sendTitle(player, "", "&aZostałeś przeteleportowany w losowe miejsce!", 20, 50, 20);
+                } else {
+                    MessageUtil.sendTitle(player, "", "&cNie udało się znaleźć bezpiecznej lokalizacji do teleportacji.", 20, 50, 20);
+                }
+            });
         }
     }
 

@@ -25,6 +25,10 @@ import pl.chudziudgi.lifesteal.database.MongoDatabaseService;
 import pl.chudziudgi.lifesteal.feature.abyss.AbyssTask;
 import pl.chudziudgi.lifesteal.feature.afkzone.AfkZoneManager;
 import pl.chudziudgi.lifesteal.feature.afkzone.AfkZoneTask;
+import pl.chudziudgi.lifesteal.feature.antivoid.AntiVoidCommand;
+import pl.chudziudgi.lifesteal.feature.antivoid.AntiVoidTask;
+import pl.chudziudgi.lifesteal.feature.autofly.AutoFlyTask;
+import pl.chudziudgi.lifesteal.feature.autorestart.AutoRestartTask;
 import pl.chudziudgi.lifesteal.feature.backup.BackupCommand;
 import pl.chudziudgi.lifesteal.feature.backup.BackupController;
 import pl.chudziudgi.lifesteal.feature.backup.BackupInventory;
@@ -72,10 +76,10 @@ import pl.chudziudgi.lifesteal.feature.economy.EconomyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.EconomyHolder;
 import pl.chudziudgi.lifesteal.feature.economy.MoneyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.PayCommand;
-import pl.chudziudgi.lifesteal.feature.end.EndCommand;
-import pl.chudziudgi.lifesteal.feature.end.EndController;
-import pl.chudziudgi.lifesteal.feature.end.EndManager;
-import pl.chudziudgi.lifesteal.feature.end.EndTask;
+import pl.chudziudgi.lifesteal.feature.end.world.EndCommand;
+import pl.chudziudgi.lifesteal.feature.end.world.EndController;
+import pl.chudziudgi.lifesteal.feature.end.world.EndManager;
+import pl.chudziudgi.lifesteal.feature.end.world.EndTask;
 import pl.chudziudgi.lifesteal.feature.enderchest.*;
 import pl.chudziudgi.lifesteal.feature.help.HelpCommand;
 import pl.chudziudgi.lifesteal.feature.help.HelpInventory;
@@ -297,6 +301,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
+        //Restart
+        new AutoRestartTask(this).scheduleNextRestart();
+
         // load data
         this.userRepository.findAll().forEach(this.userService::addUser);
         this.clanRepository.findAll().forEach(this.clanService::addClan);
@@ -341,7 +348,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new RabateCodeCommand(this.pluginConfiguration, this.userService),
                         new CheckCommand(this.pluginConfiguration, this.checkService),
                         new CustomItemCommand(customItemInventory),
-                        new GammaCommand()
+                        new GammaCommand(),
+                        new AntiVoidCommand(this.pluginConfiguration)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -368,11 +376,11 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new PetController(this.userService, this.petconfiguration, this),
                 new ChatCharController(),
                 new BlacksmithController(blacksmithInventory, this.pluginConfiguration),
-                new NetherController(this.worldsSettings, this.netherManager),
+                new NetherController(this.worldsSettings, this.netherManager, this.eternalCoreApi),
                 new BorderCollectionController(this.borderCollectionConfiguration, borderCollectionInventory),
                 new RandomTeleportController(this.pluginConfiguration, this.eternalCoreApi),
                 new VoucherController(this.voucherConfiguration),
-                new EndController(this.worldsSettings, this.endManager),
+                new EndController(this.worldsSettings, this.endManager, this.eternalCoreApi),
                 new LifeStealController(this.pluginConfiguration),
                 new EnderChestController(this.userService, enderChestInventory),
                 new BossController(this.random, bossManager, this.userService),
@@ -397,6 +405,8 @@ public final class SurvivalPlugin extends JavaPlugin {
         new TimeShopTask(this, this.userService);
         new BossHealthBossBarTask(this, bossManager);
         new CheckTask(this, this.checkService);
+        new AntiVoidTask(this, this.pluginConfiguration);
+        new AutoFlyTask(this);
     }
 
     @Override

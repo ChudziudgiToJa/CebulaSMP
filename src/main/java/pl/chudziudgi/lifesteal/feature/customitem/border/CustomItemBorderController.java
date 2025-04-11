@@ -34,13 +34,17 @@ public class CustomItemBorderController implements Listener {
 
         ItemStack item = damager.getInventory().getItemInMainHand();
         if (!this.customItemConfiguration.barrier.equals(item)) return;
+
         if (coolDownManager.isCoolDown(damager)) {
             CustomItemData customItemData = this.coolDownManager.getData(damager);
-            MessageUtil.sendTitle(damager, "", "&cpoczekaj jeszcze: " + DurationUtil.getTimeFormat(customItemData.getTime() - System.currentTimeMillis()), 20, 60, 20);
+            long remaining = customItemData.getTime() - System.currentTimeMillis();
+            String formatted = DurationUtil.getTimeFormat(remaining);
+            MessageUtil.sendTitle(damager, "", "&4Poczekaj jeszcze: " +formatted, 20,50,20);
             return;
         }
-        this.coolDownManager.addCoolDown(damager, 1000);
-        damager.setCooldown(item.getType(), 20*10);
+
+        this.coolDownManager.addCoolDown(damager, 10 * 60 * 1000L);
+        damager.setCooldown(item.getType(), 20 * 10);
 
         Location center = damager.getLocation();
         CustomItemBorderManager.sendWorldBorderPacket(damager, center, 10);
@@ -52,6 +56,6 @@ public class CustomItemBorderController implements Listener {
                 CustomItemBorderManager.resetWorldBorder(damager);
                 CustomItemBorderManager.resetWorldBorder(target);
             }
-        }.runTaskLater(this.survivalPlugin, 20*10);
+        }.runTaskLater(this.survivalPlugin, 20 * 10);
     }
 }

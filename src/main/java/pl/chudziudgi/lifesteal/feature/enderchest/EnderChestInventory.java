@@ -3,6 +3,7 @@ package pl.chudziudgi.lifesteal.feature.enderchest;
 import de.rapha149.signgui.exception.SignGUIVersionException;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -31,6 +32,7 @@ public class EnderChestInventory {
     }
 
     public void showEnderChest(final Player player, EnderChest enderChest, User user) {
+        player.playSound(player, Sound.BLOCK_ENDER_CHEST_OPEN, 5 ,5);
         SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9 * 6,
                 MessageUtil.smallText("&f" + enderChest.getName() + " &8| &f" + user.getNickName()));
         Inventory inventory = simpleInventory.getInventory();
@@ -75,6 +77,7 @@ public class EnderChestInventory {
                 }
             }
             enderChest.setItemStackSerializableMap(updatedItems);
+            player.playSound(player, Sound.BLOCK_ENDER_CHEST_CLOSE, 5 ,5);
         });
         player.openInventory(inventory);
     }

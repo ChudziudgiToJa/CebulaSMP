@@ -1,4 +1,4 @@
-package pl.chudziudgi.lifesteal.feature.end;
+package pl.chudziudgi.lifesteal.feature.end.world;
 
 import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
@@ -53,7 +53,7 @@ public class EndCommand {
     @Execute(name = "setspawn")
     @Permission("cebulasmp.end.admin")
     void setNetherSpawn(@Context Player player) {
-        if (!player.getWorld().getName().equalsIgnoreCase("world_end")) {
+        if (!player.getWorld().getName().equalsIgnoreCase("world_the_end")) {
             MessageUtil.sendMessage(player, "&cMusisz być w świecie end, aby ustawić spawn end!");
             return;
         }

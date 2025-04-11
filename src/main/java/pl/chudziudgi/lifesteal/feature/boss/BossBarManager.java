@@ -29,7 +29,7 @@ public class BossBarManager {
 
     public static void refreshBar(BossManager bossManager, Player player) {
         if (bossBar != null && bossManager.getBoss() != null) {
-            double maxHealth = bossManager.getBoss().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double maxHealth = bossManager.getBoss().getAttribute(Attribute.MAX_HEALTH).getBaseValue();
             double currentHealth = bossManager.getBoss().getHealth();
 
             bossBar.setTitle(MessageUtil.smallTextToColor("&9&lWARDEN &4&l❤ %s  &8| &fx%s y%s z%s".formatted(

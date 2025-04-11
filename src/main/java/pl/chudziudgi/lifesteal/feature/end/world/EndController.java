@@ -1,6 +1,8 @@
-package pl.chudziudgi.lifesteal.feature.end;
+package pl.chudziudgi.lifesteal.feature.end.world;
 
+import com.eternalcode.core.EternalCoreApi;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -10,18 +12,23 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.util.Vector;
 import pl.chudziudgi.lifesteal.configuration.implementation.WorldsSettings;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
+
+import java.util.concurrent.CompletableFuture;
 
 public class EndController implements Listener {
 
     private final WorldsSettings worldsSettings;
     private final EndManager endManager;
+    private final EternalCoreApi eternalCoreApi;
 
 
-    public EndController(WorldsSettings worldsSettings, EndManager endManager) {
+    public EndController(WorldsSettings worldsSettings, EndManager endManager, EternalCoreApi eternalCoreApi) {
         this.worldsSettings = worldsSettings;
         this.endManager = endManager;
+        this.eternalCoreApi = eternalCoreApi;
     }
 
     @EventHandler
@@ -43,32 +50,43 @@ public class EndController implements Listener {
     public void onJoinPortalOnWorld(PlayerPortalEvent event) {
         Player player = event.getPlayer();
 
-        if (!event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) return;
+        if (event.getCause() != PlayerTeleportEvent.TeleportCause.END_PORTAL) return;
         event.setCancelled(true);
 
         if (!this.worldsSettings.endJoinStatus) {
             MessageUtil.sendTitle(player, "", "&cEnd aktualnie jest wyłączony", 20, 50, 20);
-            player.setVelocity(player.getLocation().toVector().subtract(player.getLocation().add(0,-0.1,0).toVector()).normalize().multiply(1.5));
+            player.setVelocity(new Vector(0, 1, 0));
             return;
         }
-
-        if (player.getWorld().equals(Bukkit.getWorlds().getFirst())) {
+        World normalWorld = Bukkit.getWorld("world_the_end");
+        if (normalWorld == null) return;
+        if (!player.getWorld().equals(normalWorld)) {
             if (this.worldsSettings.endSpawnLocation == null) {
-                MessageUtil.sendMessage(player, "&cLokalizacja spawnu w endu nie jest ustawiona");
+                MessageUtil.sendMessage(player, "&cLokalizacja spawnu w Endzie nie jest ustawiona");
                 return;
             }
             player.teleport(this.worldsSettings.endSpawnLocation);
         } else {
-            player.teleport(Bukkit.getWorlds().getFirst().getSpawnLocation());
+            CompletableFuture<Location> randomLocationFuture = this.eternalCoreApi.getRandomTeleportService().getSafeRandomLocationInWorldBorder(Bukkit.getWorlds().getFirst(), 30);
+
+            randomLocationFuture.thenAccept(randomLocation -> {
+                if (randomLocation != null) {
+                    player.teleport(randomLocation);
+                    MessageUtil.sendTitle(player, "", "&aZostałeś przeteleportowany w losowe miejsce!", 20, 50, 20);
+                } else {
+                    MessageUtil.sendTitle(player, "", "&cNie udało się znaleźć bezpiecznej lokalizacji do teleportacji.", 20, 50, 20);
+                }
+            });
         }
     }
+
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         if (event.getEntityType() == EntityType.ENDERMAN) {
             World world = event.getEntity().getWorld();
             if (world.getName().equalsIgnoreCase("world_the_end")) {
-                event.setCancelled(true);
+                event.getEntity().setAI(false);
             }
         }
     }

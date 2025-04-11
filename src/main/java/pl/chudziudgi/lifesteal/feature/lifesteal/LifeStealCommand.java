@@ -22,7 +22,7 @@ public class LifeStealCommand {
 
     @Execute
     void onCommand(@Context Player player) {
-        AttributeInstance victimAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance victimAttribute = player.getAttribute(Attribute.MAX_HEALTH);
 
         if (victimAttribute == null) return;
 

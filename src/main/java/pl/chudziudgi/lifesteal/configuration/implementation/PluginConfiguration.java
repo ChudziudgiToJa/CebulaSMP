@@ -2,6 +2,9 @@ package pl.chudziudgi.lifesteal.configuration.implementation;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,12 +13,15 @@ import pl.chudziudgi.lifesteal.feature.job.JobType;
 import pl.chudziudgi.lifesteal.feature.rabatecode.RabateCode;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShop;
 import pl.chudziudgi.lifesteal.util.ItemBuilder;
+import pl.chudziudgi.lifesteal.util.ItemStackSerializable;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+@Getter
+@Setter
 public class PluginConfiguration extends OkaeriConfig {
 
 
@@ -27,7 +33,7 @@ public class PluginConfiguration extends OkaeriConfig {
     public RabateCodeSettings rabateCodeSettings = new RabateCodeSettings();
     public CheckSettings checkSettings = new CheckSettings();
 
-
+    public Location location = new Location(Bukkit.getWorld("spawn"), 0 ,100, 0);
     public String freePlnNpcID = "0f69258a-26ab-4a28-9473-74e8deb1806c";
     public String blackSmithID = "82116773-7f92-49a9-83cf-75d16525d3d8";
     public String discordUrl = "https://dc.cebulasmp.pl/";
@@ -58,46 +64,46 @@ public class PluginConfiguration extends OkaeriConfig {
         public String npcId = "b5387c7d-1527-4f66-b3a0-7dded0f99d26";
         public List<TimeShop> timeShops = List.of(
                 new TimeShop(
-                        new ItemBuilder(Material.PAPER)
+                        ItemStackSerializable.write(                        new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fVIP 1 dzień")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d86.400 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
-                                .build(),
+                                .build()),
                         86400,
                         "lp user {PLAYER} parent addtemp vip 1d"
                 ),
                 new TimeShop(
-                        new ItemBuilder(Material.PAPER)
+                        ItemStackSerializable.write(                        new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fSVIP 1 dzień")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d259.200 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
-                                .build(),
+                                .build()),
                         259200,
                         "lp user {PLAYER} parent addtemp svip 1d"
                 ),
                 new TimeShop(
-                        new ItemBuilder(Material.PAPER)
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fCEBULAK 1 dzień")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d604.800 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
-                                .build(),
+                                .build()),
                         604800,
                         "lp user {PLAYER} parent addtemp svip 1d"
                 ),
                 new TimeShop(
-                        new ItemBuilder(Material.PAPER)
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fDISCO ZBROJA &8(/disco) &f5 godzin")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d14.400 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
-                                .build(),
+                                .build()),
                         14400,
                         "lp user {PLAYER} permission settemp cebulasmp.disco true 5h"
                 )

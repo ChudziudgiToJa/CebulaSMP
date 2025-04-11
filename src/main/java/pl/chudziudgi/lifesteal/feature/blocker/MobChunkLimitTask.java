@@ -16,9 +16,8 @@ public class MobChunkLimitTask extends BukkitRunnable {
 
     public MobChunkLimitTask(final SurvivalPlugin survivalPlugin) {
         this.survivalPlugin = survivalPlugin;
-        this.runTaskTimerAsynchronously(this.survivalPlugin, 0,20*5);
+        this.runTaskTimerAsynchronously(this.survivalPlugin, 0, 20 * 5);
     }
-
 
     @Override
     public void run() {
@@ -27,7 +26,7 @@ public class MobChunkLimitTask extends BukkitRunnable {
                 Entity[] entities = chunk.getEntities();
 
                 long mobCount = Arrays.stream(entities)
-                        .filter(e -> e instanceof LivingEntity && !(e instanceof Player))
+                        .filter(e -> e instanceof LivingEntity && !(e instanceof Player) && !(e instanceof Villager))
                         .count();
 
                 long armorStandCount = Arrays.stream(entities)
@@ -38,10 +37,10 @@ public class MobChunkLimitTask extends BukkitRunnable {
                         .filter(e -> e instanceof HopperMinecart)
                         .count();
 
-                if (mobCount > 15) {
-                    long excess = mobCount - 15;
+                if (mobCount > 30) {
+                    long excess = mobCount - 30;
                     Arrays.stream(entities)
-                            .filter(e -> e instanceof LivingEntity && !(e instanceof Player))
+                            .filter(e -> e instanceof LivingEntity && !(e instanceof Player) && !(e instanceof Villager))
                             .filter(e -> e.getCustomName() == null)
                             .limit(excess)
                             .forEach(entity -> Bukkit.getScheduler().runTask(this.survivalPlugin, entity::remove));

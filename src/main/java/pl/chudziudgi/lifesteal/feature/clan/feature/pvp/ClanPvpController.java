@@ -27,9 +27,10 @@ public class ClanPvpController implements Listener {
         if (clan == null) {
             return;
         }
-        if (!clan.isPvp() && (clan.getClanMemberArrayList().contains(player.getName()) || clan.getOwnerName().equals(player.getName()))) {
+        if (!clan.isPvp() && (clan.getClanMemberArrayList().stream().anyMatch(member -> member.getUuid().equals(player.getUniqueId()))
+                || clan.getOwnerName().equals(player.getName()))) {
             event.setCancelled(true);
         }
-    }
 
+    }
 }

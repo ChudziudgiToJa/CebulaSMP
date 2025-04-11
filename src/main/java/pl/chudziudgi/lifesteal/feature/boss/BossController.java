@@ -1,5 +1,6 @@
 package pl.chudziudgi.lifesteal.feature.boss;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -54,6 +55,7 @@ public class BossController implements Listener {
             if (player == null) return;
             User user = this.userService.findUserByUUID(player.getUniqueId());
             user.addMoney(random.nextInt(10000, 30000));
+            Bukkit.getOnlinePlayers().forEach(o -> MessageUtil.sendMessage(o, "&f%s &6&lzabija bossa!". formatted(player.getName())));
         }
     }
 

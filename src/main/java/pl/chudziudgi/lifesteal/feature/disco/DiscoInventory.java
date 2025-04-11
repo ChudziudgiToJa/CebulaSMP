@@ -20,7 +20,7 @@ public class DiscoInventory {
     }
 
     public void show(final Player player, User user) {
-        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, InventoryType.HOPPER, MessageUtil.smallText("&fDisco:"));
+        SimpleInventory simpleInventory = new SimpleInventory(this.survivalPlugin, 9, MessageUtil.smallText("&fDisco:"));
         Inventory inventory = simpleInventory.getInventory();
 
         inventory.setItem(0, new ItemBuilder(Material.EMERALD_BLOCK)
@@ -38,7 +38,12 @@ public class DiscoInventory {
                 .setLore("", "&akliknij aby zalożyć.")
                 .build());
 
-        inventory.setItem(4, new ItemBuilder(Material.BARRIER)
+        inventory.setItem(3, new ItemBuilder(Material.REDSTONE_LAMP)
+                .setName("&ftryb: &cdevil &8(private by chudziudgi)")
+                .setLore("", "&akliknij aby zalożyć.")
+                .build());
+
+        inventory.setItem(8, new ItemBuilder(Material.BARRIER)
                 .setName("&ckliknij aby wyłączyć.")
                 .build());
 
@@ -68,7 +73,16 @@ public class DiscoInventory {
                     user.setDiscoType(DiscoType.RANDOM);
                     MessageUtil.sendTitle(player, "&a", "&aUstawiono tryb: &flosowy", 20, 50, 20);
                 }
-                case 4 -> {
+                case 3 -> {
+                    if (!player.getName().equals("Chudziudgi")) {
+                        player.closeInventory();
+                        return;
+                    }
+                    player.closeInventory();
+                    user.setDiscoType(DiscoType.DEVIL);
+                    MessageUtil.sendTitle(player, "&a", "&aUstawiono tryb: &cdevil", 20, 50, 20);
+                }
+                case 8 -> {
                     player.closeInventory();
                     user.setDiscoType(DiscoType.CLEAR);
                     MessageUtil.sendTitle(player, "&a", "&cwyłączono disco", 20, 50, 20);

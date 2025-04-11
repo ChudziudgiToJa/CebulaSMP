@@ -26,7 +26,7 @@ public class LifeStealController implements Listener {
     @EventHandler
     public void onDead(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        AttributeInstance victimAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance victimAttribute = player.getAttribute(Attribute.MAX_HEALTH);
 
         if (victimAttribute != null) {
             AtomicDouble victimHearts = new AtomicDouble(victimAttribute.getBaseValue());
@@ -61,7 +61,7 @@ public class LifeStealController implements Listener {
             return;
         }
 
-        AttributeInstance maxHealthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance maxHealthAttribute = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHealthAttribute == null) {
             return;
         }
