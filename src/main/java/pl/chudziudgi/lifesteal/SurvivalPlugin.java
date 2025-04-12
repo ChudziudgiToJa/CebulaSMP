@@ -52,6 +52,10 @@ import pl.chudziudgi.lifesteal.feature.clan.command.ClanMemberCommandArgument;
 import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreatePurchaseMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.ClanCuboidController;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.bossbar.ClanCuboidBossBarTak;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.portal.ClanCuboidPortal;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.particle.ClanCuboidBorderParticleTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.delete.ClanDeleteInventory;
 import pl.chudziudgi.lifesteal.feature.clan.feature.invite.ClanInviteService;
 import pl.chudziudgi.lifesteal.feature.clan.feature.pvp.ClanPvpController;
@@ -76,10 +80,10 @@ import pl.chudziudgi.lifesteal.feature.economy.EconomyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.EconomyHolder;
 import pl.chudziudgi.lifesteal.feature.economy.MoneyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.PayCommand;
-import pl.chudziudgi.lifesteal.feature.end.world.EndCommand;
-import pl.chudziudgi.lifesteal.feature.end.world.EndController;
-import pl.chudziudgi.lifesteal.feature.end.world.EndManager;
-import pl.chudziudgi.lifesteal.feature.end.world.EndTask;
+import pl.chudziudgi.lifesteal.feature.end.EndCommand;
+import pl.chudziudgi.lifesteal.feature.end.EndController;
+import pl.chudziudgi.lifesteal.feature.end.EndManager;
+import pl.chudziudgi.lifesteal.feature.end.EndTask;
 import pl.chudziudgi.lifesteal.feature.enderchest.*;
 import pl.chudziudgi.lifesteal.feature.help.HelpCommand;
 import pl.chudziudgi.lifesteal.feature.help.HelpInventory;
@@ -386,7 +390,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new BossController(this.random, bossManager, this.userService),
                 new CheckController(this.checkService, this.pluginConfiguration),
                 new TimeShopNpcController(this.pluginConfiguration, timeShopInventory),
-                new CustomItemBorderController(this, this.customItemConfiguration, customItemCoolDownManager)
+                new CustomItemBorderController(this, this.customItemConfiguration, customItemCoolDownManager),
+                new ClanCuboidController(this.clanService)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);
@@ -407,6 +412,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         new CheckTask(this, this.checkService);
         new AntiVoidTask(this, this.pluginConfiguration);
         new AutoFlyTask(this);
+        new ClanCuboidBorderParticleTask(this.clanService, this);
+        new ClanCuboidBossBarTak(this.clanService, this);
+        new ClanCuboidPortal(this.clanService, this);
     }
 
     @Override

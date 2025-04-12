@@ -34,7 +34,7 @@ public class ClanUpgradeInventory {
                         .setName("&fMiejsca w klanie")
                         .setLore(
                                 "",
-                                "&fAktualne sloty w klanie: %s&8/&a%s".formatted(clan.getClanMemberArrayList().size(), clan.getMaxClanMemberSize()),
+//                                "&fAktualne sloty w klanie: %s&8/&a%s".formatted(clan.getClanMemberArrayList().size(), clan.getMaxClanMemberSize()),
                                 "",
                                 "&akliknij aby kupić miejsce w klanie."
                         )
@@ -77,7 +77,7 @@ public class ClanUpgradeInventory {
                         .build()));
 
         inventory.setItem(13, new ItemBuilder(Material.PAPER)
-                .setName("&7po kupnie klan będzie posiadał: %s slotów".formatted(clan.getMaxClanMemberSize() + 1))
+//                .setName("&7po kupnie klan będzie posiadał: %s slotów".formatted(clan.getMaxClanMemberSize() + 1))
                 .setLore("", "&7Koszt: &a" + clanConfiguration.getClanMemberListMaxSize())
                 .build());
 
@@ -107,7 +107,7 @@ public class ClanUpgradeInventory {
 
                 user.setMoney(user.getMoney() - slotPrice);
                 MessageUtil.sendTitle(player, "", "&aZakupiono dodatkowy slot do klanu", 20, 50, 20);
-                clan.setMaxClanMemberSize(clan.getMaxClanMemberSize() + 1);
+//                clan.setMaxClanMemberSize(clan.getMaxClanMemberSize() + 1);
                 player.closeInventory();
             }
         });

@@ -1,4 +1,4 @@
-package pl.chudziudgi.lifesteal.feature.end.world;
+package pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.bossbar;
 
 import org.bukkit.boss.BossBar;
 
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class EndBossBarManager {
+public class ClanCuboidBossBarManager {
     private static final Map<UUID, BossBar> bossBars = new HashMap<>();
 
     public static BossBar getBossBar(UUID uuid) {

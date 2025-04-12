@@ -11,6 +11,7 @@ import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClanMemberCommandArgument extends ArgumentResolver<CommandSender, ClanMember> {
@@ -23,28 +24,27 @@ public class ClanMemberCommandArgument extends ArgumentResolver<CommandSender, C
 
     @Override
     protected ParseResult<ClanMember> parse(Invocation<CommandSender> invocation, Argument<ClanMember> context, String argument) {
-        ClanMember clanMember = this.clanService.findClanMemberByName(argument);
-        Clan clan = this.clanService.findClanByMember(clanMember);
+        Clan clan = this.clanService.findClanByMember(context.getName());
+        Optional<ClanMember> clanMember = clan.getMember(context.getName());
 
-        if (clanMember == null) {
+        if (clanMember.isEmpty()) {
             return ParseResult.failure("Nie znaleziono takiego gracza.");
         }
 
-        if (clanMember.getName().equals(clan.getOwnerName())) {
+        if (clanMember.get().getUuid().equals(clan.getOwner().getUuid())) {
             return ParseResult.failure("nie możesz wyrzucić się z swojego klanu");
         }
 
-        return ParseResult.success(clanMember);
+        return ParseResult.success(clanMember.get());
     }
 
     @Override
     public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<ClanMember> argument, SuggestionContext context) {
         return SuggestionResult.of(this.clanService.getAllClans()
                 .stream()
-                .flatMap(clan -> clan.getClanMemberArrayList().stream()
-                        .filter(member -> !member.getName().equals(clan.getOwnerName())))
+                .flatMap(clan -> clan.getMembers().stream()
+                        .filter(member -> !member.getUuid().equals(clan.getOwner().getUuid())))
                 .map(ClanMember::getName)
                 .collect(Collectors.toSet()));
     }
-
 }

@@ -49,8 +49,7 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
         User user = userService.findUserByNickName(player.getName());
-        Clan clanOwner = this.clanService.findClanByOwner(player.getName());
-        Clan clanMember = this.clanService.findClanByMember(player.getUniqueId());
+        Clan clan = this.clanService.findClanByMember(player.getName());
 
         if (params.startsWith("topKill_")) {
             return this.topManager.getTopUserName(topManager.get16UsersKills(), params, "topKill_", User::getKill);
@@ -66,52 +65,52 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
         }
 
 
-        if(params.startsWith("monety")) {
+        if (params.startsWith("monety")) {
             return DecimalUtil.getFormat(user.getMoney());
         }
-        if(params.startsWith("mone_cza")) {
+        if (params.startsWith("mone_cza")) {
             return DecimalUtil.getFormat(user.getTimeMoney());
         }
-        if(params.startsWith("czas")) {
+        if (params.startsWith("czas")) {
             return DurationUtil.format(Duration.ofSeconds(user.getSpentTime()));
         }
-        if(params.startsWith("vpln")) {
+        if (params.startsWith("vpln")) {
             return DecimalUtil.getFormat(user.getVPln());
         }
-        if(params.startsWith("kills")) {
+        if (params.startsWith("kills")) {
             return "" + user.getKill();
         }
-        if(params.startsWith("deaths")) {
+        if (params.startsWith("deaths")) {
             return "" + user.getDead();
         }
-        if(params.startsWith("place_block")) {
+        if (params.startsWith("place_block")) {
             return "" + user.getPlaceBlock();
         }
-        if(params.startsWith("break_block")) {
+        if (params.startsWith("break_block")) {
             return "" + user.getBreakBlock();
         }
-        if(params.startsWith("kosz")) {
+        if (params.startsWith("kosz")) {
             return MessageUtil.smallText(DurationUtil.convertLong(AbyssManager.time));
         }
-        if(params.startsWith("vanished")) {
+        if (params.startsWith("vanished")) {
             return user.isVanish() ? MessageUtil.smallText(" &b&lvanish&f") : "";
         }
-        if(params.startsWith("clan")) {
-            return MessageUtil.smallTextToColor(" &5"+clanMember.getTag().toUpperCase());
+        if (params.startsWith("clan")) {
+            return MessageUtil.smallTextToColor(" &5" + clan.getTag().toUpperCase());
         }
-        if(params.startsWith("kd")) {
+        if (params.startsWith("kd")) {
             if (user.getKill() == 0.0 || user.getDead() == 0.0) {
                 return "0.0";
             }
             return String.format("%.1f", (double) user.getKill() / user.getDead());
         }
-        if(params.startsWith("nameclan")) {
-            if (clanMember != null) {
-                return MessageUtil.smallText(clanMember.getTag() + " &8(&7" + clanMember.getOwnerName()+ "&8)");
+        if (params.startsWith("nameclan")) {
+            if (clan != null) {
+                return MessageUtil.smallText(clan.getTag() + " &8(&7" + clan.getOwner().getName() + "&8)");
             }
             return MessageUtil.smallText("&cbrak &7/klan");
         }
-        if(params.startsWith("end")) {
+        if (params.startsWith("end")) {
             return MessageUtil.smallTextToColor(this.worldsSettings.netherJoinStatus ? "&awłączony" : "&cwyłączony");
         }
         return "";
@@ -122,8 +121,8 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
         if (one == null || two == null || !params.equalsIgnoreCase("clans")) {
             return null;
         }
-        Clan clanOne = this.clanService.findClanByMember(one.getUniqueId());
-        Clan clanTwo = this.clanService.findClanByMember(two.getUniqueId());
+        Clan clanOne = this.clanService.findClanByMember(one.getName());
+        Clan clanTwo = this.clanService.findClanByMember(two.getName());
 
         if (clanOne != null && clanTwo == null) {
             return "";

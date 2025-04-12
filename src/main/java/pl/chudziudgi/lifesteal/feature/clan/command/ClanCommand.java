@@ -15,6 +15,7 @@ import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorHandler;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.ClanCuboidHearthLocation;
 import pl.chudziudgi.lifesteal.feature.clan.feature.delete.ClanDeleteInventory;
 import pl.chudziudgi.lifesteal.feature.clan.feature.invite.ClanInviteService;
 import pl.chudziudgi.lifesteal.feature.clan.feature.upgrade.ClanUpgradeInventory;
@@ -68,6 +69,16 @@ public class ClanCommand {
             return;
         }
 
+        if (player.getWorld() != Bukkit.getWorlds().getFirst()) {
+            MessageUtil.sendMessage(player, "&cMusisz być w normalnym świecie aby stworzyć klanu");
+            return;
+        }
+
+        if (clanService.isNearAnotherClan(player.getLocation())) {
+            MessageUtil.sendMessage(player, "&cNie możesz stworzyć klanu w pobliżu innego klanu.");
+            return;
+        }
+
         User user = this.userService.findUserByUUID(player.getUniqueId());
 
         if (user == null) {
@@ -111,15 +122,15 @@ public class ClanCommand {
             return;
         }
 
-        if (clan.getClanMemberArrayList().size() >= 8) {
-            MessageUtil.sendMessage(player, "&cKlan osiągnął maksymalny limit graczy (8).");
+        if (clan.getMembers().size() <= clan.getClanLevelType().getMaxMember()) {
+            MessageUtil.sendMessage(player, "&cKlan osiągnął maksymalny limit graczy &8(%s).".formatted(clan.getClanLevelType().getMaxMember()));
             return;
         }
 
-        clan.getClanMemberArrayList().add(new ClanMember(player));
+        clan.getMembers().add(new ClanMember(player));
         this.clanInviteService.clanInviteConcurrentHashMap.remove(clan, player.getName());
         MessageUtil.sendMessage(player, "&aPomyślnie dołączyłeś do klanu " + clan.getTag() + ".");
-        clan.getClanMemberArrayList().forEach(s -> {
+        clan.getMembers().forEach(s -> {
             if (!s.getUuid().equals(player.getUniqueId())) return;
             MessageUtil.sendMessage(player, "&f" + player.getName() + " &adołączył do klanu.");
         });
@@ -139,15 +150,15 @@ public class ClanCommand {
             return;
         }
 
-        Clan targetClan = this.clanService.findClanByMember(target.getUniqueId());
+        Clan targetClan = this.clanService.findClanByMember(target.getName());
 
         if (targetClan != null) {
             MessageUtil.sendMessage(player, "&cGracz posiada już klan");
             return;
         }
 
-        if (clan.getClanMemberArrayList().size() >= 8) {
-            MessageUtil.sendMessage(player, "&cKlan osiągnął maksymalny limit graczy (8).");
+        if (clan.getMembers().size() <= clan.getClanLevelType().getMaxMember()) {
+            MessageUtil.sendMessage(player, "&cKlan osiągnął maksymalny limit graczy &8(%s).".formatted(clan.getClanLevelType().getMaxMember()));
             return;
         }
 
@@ -166,14 +177,14 @@ public class ClanCommand {
 
     @Execute(name = "opuść")
     void quitClan(@Context Player player) {
-        Clan clan = this.clanService.findClanByMember(player.getUniqueId());
+        Clan clan = this.clanService.findClanByMember(player.getName());
 
         if (clan == null) {
             MessageUtil.sendMessage(player, "&cNie masz klanu.");
             return;
         }
 
-        if (clan.getOwnerName().equals(player.getName())) {
+        if (clan.isOwner(player.getUniqueId())) {
             MessageUtil.sendMessage(player, "&cNie możesz opuścić swojego klanu");
             return;
         }
@@ -208,6 +219,18 @@ public class ClanCommand {
         MessageUtil.sendMessage(player, "&awyrzucono z klanu: " + clanMember.getName());
     }
 
+    @Execute(name = "ustaw-dom")
+    void setNewHome(@Context Player player) {
+        Clan clan = this.clanService.findClanByOwner(player.getName());
+
+        if (clan == null) {
+            MessageUtil.sendMessage(player, "&cNie masz klanu lub nie jesteś liderem.");
+            return;
+        }
+        clan.setTeleportLocation(new ClanCuboidHearthLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ()));
+        MessageUtil.sendMessage(player, "&aUstawiono nową lokalizację teleportacji.");
+    }
+
     @Execute(name = "pvp")
     void changePvp(@Context Player player) {
         Clan clan = this.clanService.findClanByMember(player.getUniqueId());
@@ -217,7 +240,7 @@ public class ClanCommand {
             return;
         }
 
-        if (!clan.getOwnerName().equals(player.getName())) {
+        if (!clan.isOwner(player.getUniqueId())) {
             MessageUtil.sendMessage(player, "&cNie jesteś liderem klanu.");
             return;
         }
@@ -228,8 +251,8 @@ public class ClanCommand {
     @Execute(name = "info")
     void infoOther(@Context Player player, @Arg Clan clan) {
         MessageUtil.sendMessage(player, "&fklan: &a&l" + clan.getTag());
-        MessageUtil.sendMessage(player, "&fzałożyciel: &a&l" + clan.getOwnerName());
-        MessageUtil.sendMessage(player, "&fLista graczy w klanie&8: &7" + ClanManager.formatPlayerStatus(clan.getClanMemberArrayList()));
+        MessageUtil.sendMessage(player, "&fzałożyciel: &a&l" + clan.getOwner().getName());
+        MessageUtil.sendMessage(player, "&fLista graczy w klanie&8: &7" + ClanManager.formatPlayerStatus(clan.getMembers()));
     }
 
     @Execute(name = "ulepsz")
@@ -246,7 +269,7 @@ public class ClanCommand {
             return;
         }
 
-        if (!clan.getOwnerName().equals(player.getName())) {
+        if (!clan.containsMemberByUUID(player.getUniqueId().toString())) {
             MessageUtil.sendMessage(player, "&cNie jesteś liderem klanu.");
             return;
         }

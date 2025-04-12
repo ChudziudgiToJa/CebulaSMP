@@ -1,8 +1,9 @@
 package pl.chudziudgi.lifesteal.feature.clan.service;
 
+import org.bukkit.Location;
 import pl.chudziudgi.lifesteal.database.UpdateType;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
-import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.ClanCuboidHearthLocation;
 import pl.chudziudgi.lifesteal.feature.clan.repository.ClanRepository;
 
 import java.util.Collection;
@@ -36,20 +37,18 @@ public class ClanService {
         clanRepository.update(clan, clan.getId(), UpdateType.REMOVE);
     }
 
-    public Clan findClanByMember(UUID uuid) {
-        return clanConcurrentHashMap.values().stream()
-                .filter(clan -> clan.getClanMemberArrayList().stream()
-                        .anyMatch(clanMember -> clanMember.getUuid().equals(uuid))
-                )
+    public Clan findClanByMember(String nickName) {
+        return this.clanConcurrentHashMap.values()
+                .stream()
+                .filter(clan -> clan.containsMemberByName(nickName))
                 .findFirst()
                 .orElse(null);
     }
 
-    public Clan findClanByMember(ClanMember member) {
-        return clanConcurrentHashMap.values().stream()
-                .filter(clan -> clan.getClanMemberArrayList().stream()
-                        .anyMatch(clanMember -> clanMember.equals(member))
-                )
+    public Clan findClanByMember(UUID nickName) {
+        return this.clanConcurrentHashMap.values()
+                .stream()
+                .filter(clan -> clan.containsMemberByUUID(nickName.toString()))
                 .findFirst()
                 .orElse(null);
     }
@@ -65,7 +64,24 @@ public class ClanService {
     public Clan findClanByOwner(String nickName) {
         return this.clanConcurrentHashMap.values()
                 .stream()
-                .filter(clan -> clan.getOwnerName().contains(nickName))
+                .filter(clan -> clan.isOwner(nickName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Clan findClanByLocation(Location playerLocation) {
+        return this.clanConcurrentHashMap.values()
+                .stream()
+                .filter(clan -> {
+                    ClanCuboidHearthLocation clanLocation = clan.getLocation();
+                    double minX = clanLocation.getX() - clan.getClanLevelType().getSize();
+                    double maxX = clanLocation.getX() + clan.getClanLevelType().getSize();
+                    double minZ = clanLocation.getZ() - clan.getClanLevelType().getSize();
+                    double maxZ = clanLocation.getZ() + clan.getClanLevelType().getSize();
+
+                    return playerLocation.getX() >= minX && playerLocation.getX() <= maxX
+                            && playerLocation.getZ() >= minZ && playerLocation.getZ() <= maxZ;
+                })
                 .findFirst()
                 .orElse(null);
     }
@@ -78,16 +94,36 @@ public class ClanService {
         );
     }
 
-    public ClanMember findClanMemberByName(String name) {
-        return getAllClans().stream()
-                .flatMap(clan -> clan.getClanMemberArrayList().stream())
-                .filter(clanMember -> clanMember.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
-    }
-
     public Collection<Clan> getAllClans() {
         return this.clanConcurrentHashMap.values();
     }
+
+    public boolean isNearAnotherClan(Location playerLocation) {
+        return this.clanConcurrentHashMap.values().stream().anyMatch(existingClan -> {
+            ClanCuboidHearthLocation clanLocation = existingClan.getLocation();
+
+            double distanceSquared = Math.pow(clanLocation.getX() - playerLocation.getX(), 2)
+                    + Math.pow(clanLocation.getZ() - playerLocation.getZ(), 2);
+
+            return distanceSquared <= Math.pow(200, 2);
+        });
+    }
+
+    public boolean isLocationOnClanCuboid(Location blockLocation) {
+        for (Clan clan : clanConcurrentHashMap.values()) {
+            ClanCuboidHearthLocation clanLocation = clan.getLocation();
+            double minX = clanLocation.getX() - clan.getClanLevelType().getSize();
+            double maxX = clanLocation.getX() + clan.getClanLevelType().getSize() + 1;
+            double minZ = clanLocation.getZ() - clan.getClanLevelType().getSize();
+            double maxZ = clanLocation.getZ() + clan.getClanLevelType().getSize() + 1;
+
+            if (blockLocation.getX() >= minX && blockLocation.getX() <= maxX
+                    && blockLocation.getZ() >= minZ && blockLocation.getZ() <= maxZ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
