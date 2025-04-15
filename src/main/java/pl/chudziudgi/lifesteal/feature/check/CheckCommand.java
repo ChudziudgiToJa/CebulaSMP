@@ -58,7 +58,7 @@ public class CheckCommand {
         MessageUtil.sendMessage(player, "&agracz %s jest czysty".formatted(target.getName()));
     }
 
-    @Execute
+    @Execute(name = "ustaw")
     void setJailLocation(@Context Player player) {
         this.pluginConfiguration.checkSettings.jailLocation = player.getLocation();
         MessageUtil.sendMessage(player, "&aUstawiono lokalizację sprawdzania");

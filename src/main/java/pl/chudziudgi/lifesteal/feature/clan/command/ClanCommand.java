@@ -122,7 +122,7 @@ public class ClanCommand {
             return;
         }
 
-        if (clan.getMembers().size() <= clan.getClanLevelType().getMaxMember()) {
+        if (clan.getMembers().size() > clan.getClanLevelType().getMaxMember()) {
             MessageUtil.sendMessage(player, "&cKlan osiągnął maksymalny limit graczy &8(%s).".formatted(clan.getClanLevelType().getMaxMember()));
             return;
         }
@@ -157,7 +157,7 @@ public class ClanCommand {
             return;
         }
 
-        if (clan.getMembers().size() <= clan.getClanLevelType().getMaxMember()) {
+        if (clan.getMembers().size() > clan.getClanLevelType().getMaxMember()) {
             MessageUtil.sendMessage(player, "&cKlan osiągnął maksymalny limit graczy &8(%s).".formatted(clan.getClanLevelType().getMaxMember()));
             return;
         }

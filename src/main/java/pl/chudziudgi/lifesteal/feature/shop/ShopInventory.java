@@ -62,7 +62,7 @@ public class ShopInventory {
                 return;
             }
             if (event.getSlot() == 2) {
-                Bukkit.getServer().dispatchCommand(player, "market");
+                Bukkit.getServer().dispatchCommand(player, "market otworz");
                 return;
             }
             if (event.getSlot() == 3) {

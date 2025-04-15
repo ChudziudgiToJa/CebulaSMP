@@ -11,9 +11,6 @@ import pl.chudziudgi.lifesteal.SurvivalPlugin;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ClanCuboidBossBarTak extends BukkitRunnable {
 
     private final ClanService clanService;
@@ -27,22 +24,20 @@ public class ClanCuboidBossBarTak extends BukkitRunnable {
 
     @Override
     public void run() {
-        this.clanService.getAllClans().forEach(clan -> {
-            Location clanCenter = clan.getBukkitLocation();
-            List<Player> players = new ArrayList<>(clanCenter.getWorld().getPlayers());
-            players.forEach(player -> {
-                        if (clanService.isLocationOnClanCuboid(player.getLocation())) {
-                            Bukkit.getScheduler().runTask(this.survivalPlugin, () -> {
-                                if (clan.containsMemberByUUID(player.getUniqueId().toString())) {
-                                    handleBossBarForMember(player, clan);
-                                } else {
-                                    handleBossBarForEnemy(player, clan);
-                                }
-                            });
-                        } else {
-                            removeBossBar(player);
-                        }
-                    });
+        Bukkit.getWorlds().forEach(world -> {
+            for (Player player : world.getPlayers()) {
+                Clan clanAtLocation = clanService.findClanByLocation(player.getLocation());
+                if (clanAtLocation != null) {
+                    if (clanAtLocation.containsMemberByUUID(player.getUniqueId().toString())) {
+                        handleBossBarForMember(player, clanAtLocation);
+                    } else {
+                        handleBossBarForEnemy(player, clanAtLocation);
+                    }
+                    return;
+                } else {
+                    removeBossBar(player);
+                }
+            }
         });
     }
 

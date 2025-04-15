@@ -59,11 +59,16 @@ public class NetherController implements Listener {
         World normalWorld = Bukkit.getWorld("world_nether");
         if (normalWorld == null) return;
         if (!player.getWorld().equals(normalWorld)) {
-            if (this.worldsSettings.netherSpawnLocation == null) {
-                MessageUtil.sendMessage(player, "&cLokalizacja spawnu w nether nie jest ustawiona");
-                return;
-            }
-            player.teleport(this.worldsSettings.netherSpawnLocation);
+            CompletableFuture<Location> randomLocationFuture = this.eternalCoreApi.getRandomTeleportService().getSafeRandomLocationInWorldBorder(normalWorld, 30);
+
+            randomLocationFuture.thenAccept(randomLocation -> {
+                if (randomLocation != null) {
+                    player.teleport(randomLocation);
+                    MessageUtil.sendTitle(player, "", "&aZostałeś przeteleportowany w losowe miejsce!", 20, 50, 20);
+                } else {
+                    MessageUtil.sendTitle(player, "", "&cNie udało się znaleźć bezpiecznej lokalizacji do teleportacji.", 20, 50, 20);
+                }
+            });
         } else {
             CompletableFuture<Location> randomLocationFuture = this.eternalCoreApi.getRandomTeleportService().getSafeRandomLocationInWorldBorder(Bukkit.getWorlds().getFirst(), 30);
 
@@ -93,19 +98,6 @@ public class NetherController implements Listener {
         if (event.getBlock().getType().equals(Material.WITHER_SKELETON_SKULL)) {
             event.setCancelled(true);
             MessageUtil.sendMessage(event.getPlayer(), "&cStawianie tego przedmiotu jest tylko możliwe w netherze.");
-        }
-    }
-
-    @EventHandler
-    public void onSendCommand(PlayerCommandPreprocessEvent event) {
-        Player player = event.getPlayer();
-        String command = event.getMessage().split(" ")[0].substring(1).toLowerCase();
-        if (player.hasPermission("cebulasmp.nether.admin")) return;
-        if (player.getWorld().equals(Bukkit.getWorlds().get(1))) {
-            if (this.worldsSettings.blockedCommandsOnNether.contains(command)) {
-                event.setCancelled(true);
-                MessageUtil.sendTitle(player, "", "&ckomenda jest zablokowana w netherze.", 20, 50, 20);
-            }
         }
     }
 }

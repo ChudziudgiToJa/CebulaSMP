@@ -23,7 +23,7 @@ public class DiscoTask extends BukkitRunnable {
         this.random = random;
         this.clanService = clanService;
         this.userService = userService;
-        this.runTaskTimerAsynchronously(survivalPlugin, 0, 1);
+        this.runTaskTimerAsynchronously(survivalPlugin, 0, 3);
     }
 
 

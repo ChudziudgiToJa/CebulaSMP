@@ -32,8 +32,9 @@ public class PluginConfiguration extends OkaeriConfig {
     public TimeShopSettings timeShopSettings = new TimeShopSettings();
     public RabateCodeSettings rabateCodeSettings = new RabateCodeSettings();
     public CheckSettings checkSettings = new CheckSettings();
+    public WelcomeSettings welcomeSettings = new WelcomeSettings();
 
-    public Location location = new Location(Bukkit.getWorld("spawn"), 0 ,100, 0);
+    public Location location = new Location(Bukkit.getWorld("spawn"), 0, 100, 0);
     public String freePlnNpcID = "0f69258a-26ab-4a28-9473-74e8deb1806c";
     public String blackSmithID = "82116773-7f92-49a9-83cf-75d16525d3d8";
     public String discordUrl = "https://dc.cebulasmp.pl/";
@@ -41,6 +42,21 @@ public class PluginConfiguration extends OkaeriConfig {
     public static class CheckSettings extends OkaeriConfig {
         public String commandToExeciute = "tempban {PLAYER} logaut podczas sprawdzania 3d";
         public Location jailLocation;
+    }
+
+    public static class WelcomeSettings extends OkaeriConfig {
+        public int prizeFromWelcomeNewPlayer = 100;
+        public List<String> welcomeMessagesList = List.of(
+                "hej {PLAYER}",
+                "{PLAYER} hej",
+                "{PLAYER} siema",
+                "siema {PLAYER}",
+                "{PLAYER} elo",
+                "{PLAYER} elo",
+                "siemano {PLAYER}",
+                "dzień dobry {PLAYER}",
+                "{PLAYER} dzień dobry"
+        );
     }
 
     public static class RabateCodeSettings extends OkaeriConfig {
@@ -56,7 +72,12 @@ public class PluginConfiguration extends OkaeriConfig {
                 new RabateCode(
                         "k4lisko_",
                         "lp user {PLAYER} parent addtemp vip 1h"
+                ),
+                new RabateCode(
+                        "yaku",
+                        "lp user {PLAYER} parent addtemp vip 1h"
                 )
+
         );
     }
 
@@ -64,7 +85,7 @@ public class PluginConfiguration extends OkaeriConfig {
         public String npcId = "b5387c7d-1527-4f66-b3a0-7dded0f99d26";
         public List<TimeShop> timeShops = List.of(
                 new TimeShop(
-                        ItemStackSerializable.write(                        new ItemBuilder(Material.PAPER)
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fVIP 1 dzień")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d86.400 ⭐")
@@ -75,7 +96,7 @@ public class PluginConfiguration extends OkaeriConfig {
                         "lp user {PLAYER} parent addtemp vip 1d"
                 ),
                 new TimeShop(
-                        ItemStackSerializable.write(                        new ItemBuilder(Material.PAPER)
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fSVIP 1 dzień")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d259.200 ⭐")

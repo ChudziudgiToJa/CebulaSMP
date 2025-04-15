@@ -85,6 +85,7 @@ import pl.chudziudgi.lifesteal.feature.end.EndController;
 import pl.chudziudgi.lifesteal.feature.end.EndManager;
 import pl.chudziudgi.lifesteal.feature.end.EndTask;
 import pl.chudziudgi.lifesteal.feature.enderchest.*;
+import pl.chudziudgi.lifesteal.feature.headdrop.HeadDropController;
 import pl.chudziudgi.lifesteal.feature.help.HelpCommand;
 import pl.chudziudgi.lifesteal.feature.help.HelpInventory;
 import pl.chudziudgi.lifesteal.feature.itemshop.ItemShopCommand;
@@ -119,6 +120,7 @@ import pl.chudziudgi.lifesteal.feature.shop.npc.inventory.NpcShopInventory;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopInventory;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopNpcController;
 import pl.chudziudgi.lifesteal.feature.shop.time.TimeShopTask;
+import pl.chudziudgi.lifesteal.feature.spawner.SpawnerController;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticCommand;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticController;
 import pl.chudziudgi.lifesteal.feature.statistic.StatisticInventory;
@@ -137,6 +139,7 @@ import pl.chudziudgi.lifesteal.feature.vanish.VanishHandler;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherCommand;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherInventory;
+import pl.chudziudgi.lifesteal.feature.welcome.WelcomeController;
 
 import java.io.File;
 import java.util.Random;
@@ -202,6 +205,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.getServer().createWorld(new WorldCreator("spawn"));
+        this.getServer().createWorld(new WorldCreator("arena"));
 
         Server server = getServer();
         instance = this;
@@ -267,7 +271,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         ClanDeleteInventory clanDeleteInventory = new ClanDeleteInventory(this, this.clanService, this.protocolManager);
         CreatePurchaseMenu createPurchaseMenu = new CreatePurchaseMenu(this, this.clanConfiguration, this.clanService);
         CreateSignMenu createSignMenu = new CreateSignMenu(this, createPurchaseMenu);
-        ClanUpgradeInventory clanUpgradeInventory = new ClanUpgradeInventory(this, this.clanConfiguration);
+        ClanUpgradeInventory clanUpgradeInventory = new ClanUpgradeInventory(this);
 
         //Custom crafting
         CraftingManager craftingManager = new CraftingManager(this.craftingConfiguration);
@@ -391,7 +395,10 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new CheckController(this.checkService, this.pluginConfiguration),
                 new TimeShopNpcController(this.pluginConfiguration, timeShopInventory),
                 new CustomItemBorderController(this, this.customItemConfiguration, customItemCoolDownManager),
-                new ClanCuboidController(this.clanService)
+                new ClanCuboidController(this.clanService),
+                new SpawnerController(),
+                new WelcomeController(this.pluginConfiguration, this.userService),
+                new HeadDropController()
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);
