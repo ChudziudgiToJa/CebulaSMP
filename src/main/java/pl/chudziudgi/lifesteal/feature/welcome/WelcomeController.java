@@ -8,13 +8,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import pl.chudziudgi.lifesteal.configuration.implementation.PluginConfiguration;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WelcomeController implements Listener {
@@ -38,6 +40,11 @@ public class WelcomeController implements Listener {
             UUID uuid = player.getUniqueId();
             newPlayers.add(uuid);
             welcomeTime.put(uuid, System.currentTimeMillis());
+            Bukkit.getOnlinePlayers().forEach(player1 -> {
+                if (player1 == player) return;
+                MessageUtil.sendMessage(player1, "&f%s &ajest pierwszy raz na serwerze przywitajcie go!".formatted(player.getName()));
+            });
+
         }
     }
 

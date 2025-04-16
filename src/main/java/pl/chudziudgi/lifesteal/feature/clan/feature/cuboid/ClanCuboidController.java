@@ -3,18 +3,18 @@ package pl.chudziudgi.lifesteal.feature.clan.feature.cuboid;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerBucketFillEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.*;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
-
-import java.util.Objects;
 
 public class ClanCuboidController implements Listener {
 
@@ -163,6 +163,22 @@ public class ClanCuboidController implements Listener {
 
         if (fromClan == null && toClan != null) {
             event.setCancelled(true);
+        }
+    }
+
+
+    @EventHandler
+    public void onExplode(EntityExplodeEvent event) {
+        if (event.isCancelled()) return;
+        Entity entity = event.getEntity();
+        if (!(entity instanceof TNTPrimed) && !(entity instanceof Creeper)) {
+            return;
+        }
+        for (Block block : event.blockList()) {
+            if (this.clanService.isLocationOnClanCuboid(block.getLocation())) {
+                event.setCancelled(true);
+                return;
+            }
         }
     }
 

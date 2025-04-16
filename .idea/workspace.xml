@@ -4,22 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="add cuboids">
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/headdrop/HeadDropController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/spawner/SpawnerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/welcome/WelcomeController.java" afterDir="false" />
+    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="add drop head spawners and welcome system">
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/villager/VillagerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ClanConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ClanConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/NpcShopConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/NpcShopConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/PluginConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/PluginConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/blocker/MobAiSpawnerController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/check/CheckCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/check/CheckCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/command/ClanCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/cuboid/bossbar/ClanCuboidBossBarTak.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/cuboid/bossbar/ClanCuboidBossBarTak.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/cuboid/ClanCuboidController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/cuboid/ClanCuboidController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/level/ClanLevelType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/level/ClanLevelType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/upgrade/ClanUpgradeInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/upgrade/ClanUpgradeInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/disco/DiscoTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/disco/DiscoTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/nether/NetherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/nether/NetherController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/shop/ShopInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/shop/ShopInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/help/HelpInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/help/HelpInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/spawner/SpawnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/spawner/SpawnerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/welcome/WelcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/welcome/WelcomeController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -541,7 +538,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744471157668</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="add drop head spawners and welcome system">
+      <option name="closed" value="true" />
+      <created>1744709696297</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1744709696297</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -556,7 +561,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix arg message" />
     <MESSAGE value="add drop from works" />
     <MESSAGE value="disco and voucher" />
     <MESSAGE value="disco and fix work drop" />
@@ -581,6 +585,7 @@
     <MESSAGE value="topkio + nowe npc" />
     <MESSAGE value="w chuj i jeszcze więcej" />
     <MESSAGE value="add cuboids" />
-    <option name="LAST_COMMIT_MESSAGE" value="add cuboids" />
+    <MESSAGE value="add drop head spawners and welcome system" />
+    <option name="LAST_COMMIT_MESSAGE" value="add drop head spawners and welcome system" />
   </component>
 </project>

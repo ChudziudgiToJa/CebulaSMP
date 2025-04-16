@@ -55,7 +55,15 @@ public class PluginConfiguration extends OkaeriConfig {
                 "{PLAYER} elo",
                 "siemano {PLAYER}",
                 "dzień dobry {PLAYER}",
-                "{PLAYER} dzień dobry"
+                "{PLAYER} dzień dobry",
+                "witam {PLAYER}",
+                "{PLAYER} witam",
+                "hejka {PLAYER}",
+                "{PLAYER} hejka",
+                "elo benc {PLAYER}",
+                "{PLAYER} elo benc",
+                "elowina {PLAYER}",
+                "{PLAYER} elowina"
         );
     }
 

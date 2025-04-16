@@ -11,7 +11,6 @@ import java.util.List;
 public class ClanConfiguration extends OkaeriConfig {
 
     public int clanPrice = 3500;
-    public int clanMemberListMaxSize = 10000;
 
     public List<String> blockCommandListForClan = List.of("tpaaccept","tpaccept");
     public List<String> blockCommandList = List.of("tpaaccept","tpaccept", "sethome", "ec", "enderchest");

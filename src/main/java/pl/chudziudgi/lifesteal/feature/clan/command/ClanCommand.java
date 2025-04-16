@@ -282,4 +282,11 @@ public class ClanCommand {
     void adminDelete(@Context Player player, @Arg Clan clan) {
         this.clanDeleteInventory.showDeleteInventory(player, clan);
     }
+
+    @Execute(name = "admin teleport")
+    @Permission("cebulasmp.command.clan.teleport")
+    void clanTeleport(@Context Player player, @Arg Clan clan) {
+        player.teleport(clan.getBukkitLocation());
+        MessageUtil.sendMessage(player, "&aPrzeteleportowano do klanu &f" + clan.getTag());
+    }
 }

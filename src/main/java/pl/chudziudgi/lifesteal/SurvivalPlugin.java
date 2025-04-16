@@ -136,6 +136,7 @@ import pl.chudziudgi.lifesteal.feature.user.task.UsersSaveTask;
 import pl.chudziudgi.lifesteal.feature.vanish.VanishCommand;
 import pl.chudziudgi.lifesteal.feature.vanish.VanishController;
 import pl.chudziudgi.lifesteal.feature.vanish.VanishHandler;
+import pl.chudziudgi.lifesteal.feature.villager.VillagerController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherCommand;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherInventory;
@@ -398,7 +399,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new ClanCuboidController(this.clanService),
                 new SpawnerController(),
                 new WelcomeController(this.pluginConfiguration, this.userService),
-                new HeadDropController()
+                new HeadDropController(),
+                new VillagerController()
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);

@@ -389,14 +389,8 @@ public class NpcShopConfiguration extends OkaeriConfig {
                             new NpcShopItemToInteract(
                                     new ItemBuilder(Material.TRIPWIRE_HOOK).build(),
                                     21,
-                                    200.0, // Sprzedaż (40.0 / 2)
+                                    200.0,
                                     15.0
-                            ),
-                            new NpcShopItemToInteract(
-                                    new ItemBuilder(Material.LEATHER).build(),
-                                    22,
-                                    30.5,
-                                    3.0
                             )
                     )
             ),
@@ -469,6 +463,78 @@ public class NpcShopConfiguration extends OkaeriConfig {
                                     22,
                                     10.0,
                                     5.0
+                            )
+                    )
+            ),
+            new NpcShop(
+                    "Jajcarz",
+                    "",
+                    List.of(
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.ZOMBIE_SPAWN_EGG).build(),
+                                    10,
+                                    10000.0,
+                                    700.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.SKELETON_SPAWN_EGG).build(),
+                                    11,
+                                    15000.0,
+                                    500.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.CREEPER_SPAWN_EGG).build(),
+                                    12,
+                                    100000.0,
+                                    4000.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.SPIDER_SPAWN_EGG).build(),
+                                    13,
+                                    20000.0,
+                                    800.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.SLIME_SPAWN_EGG).build(),
+                                    14,
+                                    60000.0,
+                                    1200.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.IRON_GOLEM_SPAWN_EGG).build(),
+                                    15,
+                                    250000.0,
+                                    14000.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.CHICKEN_SPAWN_EGG).build(),
+                                    16,
+                                    250000.0,
+                                    14000.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.VILLAGER_SPAWN_EGG).build(),
+                                    16,
+                                    700000.0,
+                                    30000.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.COW_SPAWN_EGG).build(),
+                                    16,
+                                    18000.0,
+                                    400.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.COW_SPAWN_EGG).build(),
+                                    16,
+                                    18000.0,
+                                    400.0
+                            ),
+                            new NpcShopItemToInteract(
+                                    new ItemBuilder(Material.CHICKEN_SPAWN_EGG).build(),
+                                    16,
+                                    15000.0,
+                                    400.0
                             )
                     )
             )
