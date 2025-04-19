@@ -62,7 +62,7 @@ public class TimeShopInventory {
             }
 
             for (TimeShop shop : this.pluginConfiguration.timeShopSettings.timeShops) {
-                if (event.getCurrentItem().equals(shop.getIcon())) {
+                if (ItemStackSerializable.write(event.getCurrentItem()).equals(shop.getIcon())) {
                     if (user.getSpentTime() >= shop.getPrice()) {
                         user.setSpentTime(user.getSpentTime() - shop.getPrice());
                         String command = shop.getCommand();

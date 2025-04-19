@@ -53,6 +53,7 @@ import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreatePurchaseMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.ClanCuboidController;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.blocker.ClanCuboidCommandBlocker;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.bossbar.ClanCuboidBossBarTak;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.portal.ClanCuboidPortal;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.particle.ClanCuboidBorderParticleTask;
@@ -80,10 +81,7 @@ import pl.chudziudgi.lifesteal.feature.economy.EconomyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.EconomyHolder;
 import pl.chudziudgi.lifesteal.feature.economy.MoneyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.PayCommand;
-import pl.chudziudgi.lifesteal.feature.end.EndCommand;
-import pl.chudziudgi.lifesteal.feature.end.EndController;
-import pl.chudziudgi.lifesteal.feature.end.EndManager;
-import pl.chudziudgi.lifesteal.feature.end.EndTask;
+import pl.chudziudgi.lifesteal.feature.end.*;
 import pl.chudziudgi.lifesteal.feature.enderchest.*;
 import pl.chudziudgi.lifesteal.feature.headdrop.HeadDropController;
 import pl.chudziudgi.lifesteal.feature.help.HelpCommand;
@@ -100,10 +98,7 @@ import pl.chudziudgi.lifesteal.feature.kit.KitInventory;
 import pl.chudziudgi.lifesteal.feature.lifesteal.LifeStealCommand;
 import pl.chudziudgi.lifesteal.feature.lifesteal.LifeStealController;
 import pl.chudziudgi.lifesteal.feature.lootcase.*;
-import pl.chudziudgi.lifesteal.feature.nether.NetherCommand;
-import pl.chudziudgi.lifesteal.feature.nether.NetherController;
-import pl.chudziudgi.lifesteal.feature.nether.NetherManager;
-import pl.chudziudgi.lifesteal.feature.nether.NetherTask;
+import pl.chudziudgi.lifesteal.feature.nether.*;
 import pl.chudziudgi.lifesteal.feature.pet.PetCommand;
 import pl.chudziudgi.lifesteal.feature.pet.PetController;
 import pl.chudziudgi.lifesteal.feature.pet.PetInventory;
@@ -140,7 +135,9 @@ import pl.chudziudgi.lifesteal.feature.villager.VillagerController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherCommand;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherInventory;
-import pl.chudziudgi.lifesteal.feature.welcome.WelcomeController;
+import pl.chudziudgi.lifesteal.feature.welcomer.WelcomeController;
+import pl.chudziudgi.lifesteal.feature.wielkanoc.WielkanocCommand;
+import pl.chudziudgi.lifesteal.feature.wielkanoc.WielkanocController;
 
 import java.io.File;
 import java.util.Random;
@@ -358,7 +355,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new CheckCommand(this.pluginConfiguration, this.checkService),
                         new CustomItemCommand(customItemInventory),
                         new GammaCommand(),
-                        new AntiVoidCommand(this.pluginConfiguration)
+                        new AntiVoidCommand(this.pluginConfiguration),
+                        new WielkanocCommand(this.pluginConfiguration)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -397,10 +395,12 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new TimeShopNpcController(this.pluginConfiguration, timeShopInventory),
                 new CustomItemBorderController(this, this.customItemConfiguration, customItemCoolDownManager),
                 new ClanCuboidController(this.clanService),
+                new ClanCuboidCommandBlocker(this.clanService, this.clanConfiguration),
                 new SpawnerController(),
                 new WelcomeController(this.pluginConfiguration, this.userService),
                 new HeadDropController(),
-                new VillagerController()
+                new VillagerController(),
+                new WielkanocController(this.random, this.pluginConfiguration)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);
@@ -424,6 +424,8 @@ public final class SurvivalPlugin extends JavaPlugin {
         new ClanCuboidBorderParticleTask(this.clanService, this);
         new ClanCuboidBossBarTak(this.clanService, this);
         new ClanCuboidPortal(this.clanService, this);
+        new EndStatusTask(this, this.worldsSettings).scheduleDailyTasks();
+        new NetherStatusTask(this, this.worldsSettings).scheduleDailyTasks();
     }
 
     @Override

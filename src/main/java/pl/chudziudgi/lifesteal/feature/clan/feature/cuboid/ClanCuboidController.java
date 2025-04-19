@@ -2,14 +2,13 @@ package pl.chudziudgi.lifesteal.feature.clan.feature.cuboid;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
@@ -23,22 +22,6 @@ public class ClanCuboidController implements Listener {
     public ClanCuboidController(ClanService clanService) {
         this.clanService = clanService;
     }
-
-    @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        if (event.getClickedBlock() == null) return;
-        Player player = event.getPlayer();
-        Location blockLocation = event.getClickedBlock().getLocation();
-        if (!blockLocation.getWorld().equals(Bukkit.getWorlds().getFirst())) return;
-        Clan clan = this.clanService.findClanByLocation(blockLocation);
-        if (clan == null) return;
-        if (clan.containsMemberByUUID(player.getUniqueId().toString())) return;
-        if (player.hasPermission("cebulasmp.clan.admin")) return;
-
-        MessageUtil.sendActionbar(player, "&cNie możesz tego robić na terenie obcego klanu!");
-        event.setCancelled(true);
-    }
-
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
@@ -180,6 +163,70 @@ public class ClanCuboidController implements Listener {
                 return;
             }
         }
+    }
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getClickedBlock() == null) return;
+        Location location = event.getClickedBlock().getLocation();
+        if (!location.getWorld().equals(Bukkit.getWorlds().getFirst())) return;
+
+        Clan clan = this.clanService.findClanByLocation(location);
+        if (clan == null) return;
+        if (clan.containsMemberByUUID(player.getUniqueId().toString())) return;
+        if (player.hasPermission("cebulasmp.clan.admin")) return;
+
+        Material type = event.getClickedBlock().getType();
+        if (isProtectedBlock(type)) {
+            event.setCancelled(true);
+            MessageUtil.sendActionbar(player, "&cNie możesz używać tego bloku na terenie obcego klanu!");
+        }
+    }
+
+    private boolean isProtectedBlock(Material type) {
+        return switch (type) {
+            case CHEST, TRAPPED_CHEST, BARREL, FURNACE, BLAST_FURNACE, SMOKER,
+                 OAK_DOOR, BIRCH_DOOR, SPRUCE_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR,
+                 IRON_DOOR, LEVER, STONE_BUTTON, OAK_BUTTON, BIRCH_BUTTON, SPRUCE_BUTTON,
+                 ACACIA_BUTTON, JUNGLE_BUTTON, DARK_OAK_BUTTON, CRIMSON_BUTTON, WARPED_BUTTON,
+                 CRIMSON_DOOR, WARPED_DOOR, NOTE_BLOCK, COMPARATOR, REPEATER -> true;
+            default -> false;
+        };
+    }
+
+    @EventHandler
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        Entity entity = event.getRightClicked();
+        if (!(entity instanceof ItemFrame)) return;
+
+        Location location = entity.getLocation();
+        if (!location.getWorld().equals(Bukkit.getWorlds().getFirst())) return;
+
+        Clan clan = this.clanService.findClanByLocation(location);
+        if (clan == null) return;
+        if (clan.containsMemberByUUID(player.getUniqueId().toString())) return;
+        if (player.hasPermission("cebulasmp.clan.admin")) return;
+
+        event.setCancelled(true);
+        MessageUtil.sendActionbar(player, "&cNie możesz używać ramek na terenie obcego klanu!");
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof ItemFrame)) return;
+        if (!(event.getDamager() instanceof Player player)) return;
+
+        Location location = event.getEntity().getLocation();
+        if (!location.getWorld().equals(Bukkit.getWorlds().getFirst())) return;
+
+        Clan clan = this.clanService.findClanByLocation(location);
+        if (clan == null) return;
+        if (clan.containsMemberByUUID(player.getUniqueId().toString())) return;
+        if (player.hasPermission("cebulasmp.clan.admin")) return;
+
+        event.setCancelled(true);
+        MessageUtil.sendActionbar(player, "&cNie możesz niszczyć ramek na terenie obcego klanu!");
     }
 
 }

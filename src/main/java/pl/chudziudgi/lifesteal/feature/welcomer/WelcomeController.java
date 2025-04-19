@@ -1,4 +1,4 @@
-package pl.chudziudgi.lifesteal.feature.welcome;
+package pl.chudziudgi.lifesteal.feature.welcomer;
 
 
 import org.bukkit.Bukkit;
@@ -42,7 +42,7 @@ public class WelcomeController implements Listener {
             welcomeTime.put(uuid, System.currentTimeMillis());
             Bukkit.getOnlinePlayers().forEach(player1 -> {
                 if (player1 == player) return;
-                MessageUtil.sendMessage(player1, "&f%s &ajest pierwszy raz na serwerze przywitajcie go!".formatted(player.getName()));
+                MessageUtil.sendMessage(player1, "&f%s &ajest pierwszy raz na serwerze przywitajcie go! A otrzymasz 100 monet np: 'hej %s' ".formatted(player.getName(), player1.getName()));
             });
 
         }
@@ -52,32 +52,23 @@ public class WelcomeController implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player sender = event.getPlayer();
         String rawMessage = ChatColor.stripColor(event.getMessage()).toLowerCase().trim();
-
         for (UUID newPlayerUUID : newPlayers) {
             Player newPlayer = Bukkit.getPlayer(newPlayerUUID);
             if (newPlayer == null || !newPlayer.isOnline()) continue;
-
             String targetName = newPlayer.getName().toLowerCase();
             long joinedAt = welcomeTime.getOrDefault(newPlayerUUID, 0L);
             long now = System.currentTimeMillis();
-
             if (now - joinedAt > 2 * 60 * 1000) continue;
-
             if (isWelcomeMessage(rawMessage, targetName)) {
                 UUID senderUUID = sender.getUniqueId();
                 Set<UUID> welcomed = alreadyWelcomed.computeIfAbsent(senderUUID, k -> new HashSet<>());
-
                 if (welcomed.contains(newPlayerUUID)) return;
-
                 welcomed.add(newPlayerUUID);
                 User user = this.userService.findUserByUUID(senderUUID);
                 if (user == null) return;
-
                 double prize = pluginConfiguration.welcomeSettings.prizeFromWelcomeNewPlayer;
                 user.addMoney(prize);
-
                 MessageUtil.sendTitle(sender, "", "&aOtrzymałeś " + prize + " monet za przywitanie nowego gracza", 20, 50, 20);
-
                 return;
             }
         }

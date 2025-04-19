@@ -50,7 +50,7 @@ public class NetherCommand {
         }
     }
 
-    @Execute(name = "setspawn")
+    @Execute(name = "setspawn nether")
     @Permission("cebulasmp.nether.admin")
     void setNetherSpawn(@Context Player player) {
         if (!player.getWorld().getName().equalsIgnoreCase("world_nether")) {
@@ -60,5 +60,13 @@ public class NetherCommand {
         this.worldsSettings.setNetherSpawnLocation(player.getLocation());
         this.worldsSettings.save();
         MessageUtil.sendMessage(player, "&aSpawn Nether został ustawiony na twoją aktualną lokalizację!");
+    }
+
+    @Execute(name = "setspawn")
+    @Permission("cebulasmp.end.admin")
+    void setBackSpawn(@Context Player player) {
+        this.worldsSettings.setBackSpawnLocation(player.getLocation());
+        this.worldsSettings.save();
+        MessageUtil.sendMessage(player, "&aLokalizacja spawna, ustawiona pomyślnie!");
     }
 }

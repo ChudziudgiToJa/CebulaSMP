@@ -111,6 +111,9 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
             return MessageUtil.smallText("&cbrak &7/klan");
         }
         if (params.startsWith("end")) {
+            return MessageUtil.smallTextToColor(this.worldsSettings.endJoinStatus ? "&awłączony" : "&cwyłączony");
+        }
+        if (params.startsWith("nether")) {
             return MessageUtil.smallTextToColor(this.worldsSettings.netherJoinStatus ? "&awłączony" : "&cwyłączony");
         }
         return "";

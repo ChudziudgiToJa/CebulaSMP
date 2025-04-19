@@ -19,7 +19,7 @@ public class AntiVoidTask extends BukkitRunnable {
     @Override
     public void run() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if (player.getLocation().getY() < -60) {
+            if (player.getLocation().getY() < -70) {
                 if (pluginConfiguration.location == null) return;
                 new BukkitRunnable() {
                     @Override

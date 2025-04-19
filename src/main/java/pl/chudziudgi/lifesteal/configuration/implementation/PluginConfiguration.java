@@ -38,6 +38,7 @@ public class PluginConfiguration extends OkaeriConfig {
     public String freePlnNpcID = "0f69258a-26ab-4a28-9473-74e8deb1806c";
     public String blackSmithID = "82116773-7f92-49a9-83cf-75d16525d3d8";
     public String discordUrl = "https://dc.cebulasmp.pl/";
+    public String wielkanocItemStack = "";
 
     public static class CheckSettings extends OkaeriConfig {
         public String commandToExeciute = "tempban {PLAYER} logaut podczas sprawdzania 3d";
@@ -94,6 +95,17 @@ public class PluginConfiguration extends OkaeriConfig {
         public List<TimeShop> timeShops = List.of(
                 new TimeShop(
                         ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &fJAJO 6 dni")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &d600.000 ⭐")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build()),
+                        600000,
+                        "lp user {PLAYER} parent addtemp jajo 1d"
+                ),
+                new TimeShop(
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fVIP 1 dzień")
                                 .addLore("")
                                 .addLore("&8| &7koszt&8: &d86.400 ⭐")
@@ -129,12 +141,34 @@ public class PluginConfiguration extends OkaeriConfig {
                         ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
                                 .setName("&7Ranga: &fDISCO ZBROJA &8(/disco) &f5 godzin")
                                 .addLore("")
-                                .addLore("&8| &7koszt&8: &d14.400 ⭐")
+                                .addLore("&8| &7koszt&8: &d34.400 ⭐")
                                 .addLore("")
                                 .addLore("&bppm &f- &aaby kupić.")
                                 .build()),
-                        14400,
+                        34400,
                         "lp user {PLAYER} permission settemp cebulasmp.disco true 5h"
+                ),
+                new TimeShop(
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &fDISCO ZBROJA &8(/disco) &f7 dni")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &d134.400 ⭐")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build()),
+                        134400,
+                        "lp user {PLAYER} permission settemp cebulasmp.disco true 7d"
+                ),
+                new TimeShop(
+                        ItemStackSerializable.write(new ItemBuilder(Material.PAPER)
+                                .setName("&7Ranga: &fLatanie na spawn &f7 dni")
+                                .addLore("")
+                                .addLore("&8| &7koszt&8: &d50.000 ⭐")
+                                .addLore("")
+                                .addLore("&bppm &f- &aaby kupić.")
+                                .build()),
+                        50000,
+                        "lp user {PLAYER} permission settemp cebulasmp.spawn.fly true 7d"
                 )
         );
     }

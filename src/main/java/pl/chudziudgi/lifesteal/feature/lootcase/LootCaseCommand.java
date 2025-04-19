@@ -10,10 +10,13 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.lifesteal.configuration.implementation.LootCaseConfiguration;
 import pl.chudziudgi.lifesteal.util.ItemStackSerializable;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
+
+import java.util.List;
 
 @Command(name = "case")
 @Permission("cebula.case.command")
@@ -39,6 +42,23 @@ public class LootCaseCommand {
             MessageUtil.sendMessage(player, "&cNie znaleziono bloku do ustawienia lokalizacji case");
         }
     }
+
+    @Execute(name = "create")
+    void create(@Context Player player, @Arg("skrzynia") String s) {
+        Block targetBlock = player.getTargetBlock(null, 6);
+        if (targetBlock.getType() != Material.AIR) {
+            this.lootCaseConfiguration.lootCases.add(new LootCase(s, "", targetBlock.getLocation(), "", List.of()));
+            this.lootCaseConfiguration.save();
+            MessageUtil.sendMessage(player, "&aStworzono nową skrzynie: " + s);
+        }
+    }
+
+    @Execute(name = "remove")
+    void remove(@Context Player player, @Arg("skrzynia") LootCase lootCase) {
+        this.lootCaseConfiguration.lootCases.remove(lootCase);
+        MessageUtil.sendMessage(player, "&aUsunięto skrzynie.");
+    }
+
 
     @Execute(name = "klucz")
     void execute(@Context CommandSender sender, @Arg Player player, @Arg LootCase lootCase, @Arg int i) {

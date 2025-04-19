@@ -12,6 +12,8 @@ import java.util.List;
 @Setter
 public class WorldsSettings extends OkaeriConfig {
 
+    public Location backSpawnLocation = new Location(Bukkit.getWorlds().getFirst(), 0 ,100, 0);
+
     public boolean netherJoinStatus;
     public Location netherSpawnLocation = new Location(Bukkit.getWorld("world_nether"), 0 ,100 ,0);
     public List<String> blockedCommandsOnNether = List.of("spawn", "warp", "tpa", "tpaccept", "tpaccept", "home", "sethome");
