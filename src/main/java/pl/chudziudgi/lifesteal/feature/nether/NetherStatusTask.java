@@ -26,14 +26,14 @@ public class NetherStatusTask {
             public void run() {
                 worldsSettings.setNetherJoinStatus(true);
             }
-        }.runTaskTimerAsynchronously(survivalPlugin, getTicksUntilNextTime(19, polandZone), 24 * 60 * 60 * 20L);
+        }.runTaskTimerAsynchronously(survivalPlugin, getTicksUntilNextTime(13, polandZone), 24 * 60 * 60 * 20L);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 worldsSettings.setNetherJoinStatus(false);
             }
-        }.runTaskTimerAsynchronously(survivalPlugin, getTicksUntilNextTime(21, polandZone), 24 * 60 * 60 * 20L);
+        }.runTaskTimerAsynchronously(survivalPlugin, getTicksUntilNextTime(16, polandZone), 24 * 60 * 60 * 20L);
     }
 
     private long getTicksUntilNextTime(int hour, ZoneId zoneId) {
