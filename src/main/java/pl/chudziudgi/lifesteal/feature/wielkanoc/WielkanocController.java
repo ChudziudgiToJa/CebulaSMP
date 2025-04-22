@@ -27,6 +27,7 @@ public class WielkanocController implements Listener {
     public void onGrassBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         Player player = event.getPlayer();
+        if (event.isCancelled()) return;
 
         if (block.getType() == Material.SHORT_GRASS || block.getType() == Material.TALL_GRASS) {
             if (random.nextDouble() <= 0.05) {

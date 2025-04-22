@@ -63,6 +63,10 @@ public class Clan implements Serializable, Identifiable<String> {
         );
     }
 
+    public void removeMember(ClanMember clanMember) {
+        this.members.remove(clanMember);
+    }
+
     public boolean containsMemberByUUID(String uuid) {
         return members.stream().anyMatch(member -> member.getUuid().toString().equals(uuid));
     }

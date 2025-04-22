@@ -17,19 +17,19 @@ public class ClanCuboidBossBarTak extends BukkitRunnable {
 
     public ClanCuboidBossBarTak(ClanService clanService, SurvivalPlugin survivalPlugin) {
         this.clanService = clanService;
-        this.runTaskTimerAsynchronously(survivalPlugin, 0, 5);
+        this.runTaskTimerAsynchronously(survivalPlugin, 0, 1);
     }
 
     @Override
     public void run() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if (player.getWorld().equals(Bukkit.getWorlds().getFirst())) {
-                Clan clan = this.clanService.findClanByLocation(player.getLocation());
-                if (clan == null) {
-                    removeBossBar(player);
-                    return;
+            Clan clan = this.clanService.findClanByLocation(player.getLocation());
+            if (clan == null) {
+                removeBossBar(player);
+            } else {
+                if (player.getWorld().equals(Bukkit.getWorlds().getFirst())) {
+                    handleBossBarForMember(player, clan);
                 }
-                handleBossBarForMember(player, clan);
             }
         });
     }
@@ -44,7 +44,7 @@ public class ClanCuboidBossBarTak extends BukkitRunnable {
                         clan.getBukkitLocation().getZ()
                 )
         );
-        double progress = Math.max(0, 1 - (distance / 20.0));
+        double progress = Math.max(0, 1 - (distance / clan.getClanLevelType().getSize()));
 
         boolean isMember = clan.containsMemberByUUID(player.getUniqueId().toString());
         String message;
@@ -58,15 +58,15 @@ public class ClanCuboidBossBarTak extends BukkitRunnable {
             color = BarColor.GREEN;
         } else {
             message = String.format(
-                    "§cᴊᴇsᴛᴇś ɴᴀ ᴛᴇʀᴇɴɪᴇ ᴡʀᴏɢɪᴇɢᴏ ᴋʟᴀɴᴜ §8| §4§l%s",
-                    clan.getTag()
+                    "§cᴊᴇsᴛᴇś ɴᴀ ᴛᴇʀᴇɴɪᴇ ᴋʟᴀɴᴜ §8| §4§l%s §7(%.1f ᴍ ᴏᴅ śʀᴏᴅᴋᴀ ᴋʟᴀɴᴜ)",
+                    clan.getTag(), distance
             );
             color = BarColor.RED;
         }
 
         BossBar bossBar = ClanCuboidBossBarManager.getBossBar(player.getUniqueId());
         if (bossBar == null) {
-            bossBar = Bukkit.createBossBar(message, color, BarStyle.SEGMENTED_10);
+            bossBar = Bukkit.createBossBar(message, color, BarStyle.SEGMENTED_20);
             bossBar.addPlayer(player);
             ClanCuboidBossBarManager.addBossBar(player.getUniqueId(), bossBar);
         } else {

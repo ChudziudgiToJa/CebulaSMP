@@ -101,4 +101,31 @@ public final class DurationUtil {
         }
         return formattedTime.toString();
     }
+
+    public static String getTimeFormatCombat(long milliseconds) {
+        long days = milliseconds / (24 * 60 * 60 * 1000);
+        milliseconds %= (24 * 60 * 60 * 1000);
+
+        long hours = milliseconds / (60 * 60 * 1000);
+        milliseconds %= (60 * 60 * 1000);
+
+        long minutes = milliseconds / (60 * 1000);
+        milliseconds %= (60 * 1000);
+
+        long seconds = milliseconds / 1000;
+        milliseconds %= 1000;
+
+        long millis = milliseconds;
+
+        StringBuilder formattedTime = new StringBuilder();
+        if (days != 0) formattedTime.append(days).append("d ");
+        if (hours != 0) formattedTime.append(hours).append("h ");
+        if (minutes != 0) formattedTime.append(minutes).append("m ");
+        if (seconds != 0) formattedTime.append(seconds).append("s ");
+        if (millis != 0) formattedTime.append(millis).append("ms");
+        if (!formattedTime.isEmpty() && formattedTime.charAt(formattedTime.length() - 1) == ' ') {
+            formattedTime.deleteCharAt(formattedTime.length() - 1);
+        }
+        return formattedTime.toString();
+    }
 }

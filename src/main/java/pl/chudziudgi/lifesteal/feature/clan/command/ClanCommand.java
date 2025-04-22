@@ -205,10 +205,12 @@ public class ClanCommand {
             MessageUtil.sendMessage(player, "&cNie masz klanu lub nie jesteś liderem.");
             return;
         }
-        ClanManager.removeMember(clan, clanMember);
-        ClanManager.getAllClanMembersPlayerList(clan).forEach(player1 -> {
-            MessageUtil.sendMessage(player, "&cgracz nie jest w twoim klanie.");
-        });
+        if (!clan.getMembers().contains(clanMember)) {
+            MessageUtil.sendMessage(player, "&4gracz nie jest w twoim klanie");
+            return;
+        }
+
+        clan.removeMember(clanMember);
         Player targetPlayer = Bukkit.getPlayer(clanMember.getUuid());
         if (targetPlayer != null) {
             Bukkit.getOnlinePlayers().forEach(player1 -> {

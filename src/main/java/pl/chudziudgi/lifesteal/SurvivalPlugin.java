@@ -64,6 +64,9 @@ import pl.chudziudgi.lifesteal.feature.clan.feature.upgrade.ClanUpgradeInventory
 import pl.chudziudgi.lifesteal.feature.clan.repository.ClanRepository;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.feature.clan.task.ClanSaveTask;
+import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutController;
+import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutManager;
+import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutTask;
 import pl.chudziudgi.lifesteal.feature.command.*;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingCommand;
 import pl.chudziudgi.lifesteal.feature.crafting.CraftingInventory;
@@ -160,6 +163,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final VanishHandler vanishHandler = new VanishHandler();
     private final BossManager bossManager = new BossManager();
     private final CheckService checkService = new CheckService();
+    private final CombatLogoutManager combatLogoutManager = new CombatLogoutManager();
     private TopManager topManager;
     private HologramManager hologramManager;
     public Economy economy;
@@ -172,6 +176,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private NpcShopConfiguration npcShopConfiguration;
     private CraftingConfiguration craftingConfiguration;
     private CustomItemConfiguration customItemConfiguration;
+    private CombatLogoutConfiguration combatLogoutConfiguration;
     private WorldsSettings worldsSettings;
     private PetConfiguration petconfiguration;
     private VoucherConfiguration voucherConfiguration;
@@ -229,6 +234,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         this.borderCollectionConfiguration = configService.create(BorderCollectionConfiguration.class, new File(dataFolder, "border.yml"));
         this.voucherConfiguration = configService.create(VoucherConfiguration.class, new File(dataFolder, "voucher.yml"));
         this.customItemConfiguration = configService.create(CustomItemConfiguration.class, new File(dataFolder, "customitem.yml"));
+        this.combatLogoutConfiguration = configService.create(CombatLogoutConfiguration.class, new File(dataFolder, "combatLog.yml"));
         // topki
         this.topManager = new TopManager(this.userService);
 
@@ -400,7 +406,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new WelcomeController(this.pluginConfiguration, this.userService),
                 new HeadDropController(),
                 new VillagerController(),
-                new WielkanocController(this.random, this.pluginConfiguration)
+                new WielkanocController(this.random, this.pluginConfiguration),
+                new CombatLogoutController(this.combatLogoutConfiguration, this.combatLogoutManager, this.clanService)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);
@@ -426,6 +433,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new ClanCuboidPortal(this.clanService, this);
         new EndStatusTask(this, this.worldsSettings).scheduleDailyTasks();
         new NetherStatusTask(this, this.worldsSettings).scheduleDailyTasks();
+        new CombatLogoutTask(this, this.combatLogoutManager, this.combatLogoutConfiguration);
     }
 
     @Override

@@ -49,6 +49,10 @@ dependencies {
 
     implementation("de.rapha149.signgui:signgui:2.5.0")
 
+
+    // SquareMap
+    compileOnly("xyz.jpenilla", "squaremap-api", "1.3.4")
+
     // worldguard
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.10")
 
@@ -86,7 +90,7 @@ bukkit {
     apiVersion = "1.20"
     author = "Chudziudgi"
     softDepend = listOf("PlaceholderAPI", "Citizens")
-    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs", "DecentHolograms")
+    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs", "DecentHolograms", "squaremap")
     prefix = "lifesteal-core"
 }
 

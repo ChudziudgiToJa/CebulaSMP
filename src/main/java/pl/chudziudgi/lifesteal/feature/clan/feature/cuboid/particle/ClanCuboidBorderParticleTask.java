@@ -16,7 +16,7 @@ public class ClanCuboidBorderParticleTask extends BukkitRunnable {
 
     public ClanCuboidBorderParticleTask(ClanService clanService, final SurvivalPlugin survivalPlugin) {
         this.clanService = clanService;
-        this.runTaskTimerAsynchronously(survivalPlugin, 0, 2);
+        this.runTaskTimerAsynchronously(survivalPlugin, 0, 1);
     }
 
     @Override

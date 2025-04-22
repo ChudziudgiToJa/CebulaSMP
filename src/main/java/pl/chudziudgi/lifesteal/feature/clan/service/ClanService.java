@@ -69,6 +69,14 @@ public class ClanService {
                 .orElse(null);
     }
 
+    public Clan findClanByOwner(UUID uuid) {
+        return this.clanConcurrentHashMap.values()
+                .stream()
+                .filter(clan -> clan.isOwner(uuid))
+                .findFirst()
+                .orElse(null);
+    }
+
     public Clan findClanByLocation(Location playerLocation) {
         return this.clanConcurrentHashMap.values()
                 .stream()
