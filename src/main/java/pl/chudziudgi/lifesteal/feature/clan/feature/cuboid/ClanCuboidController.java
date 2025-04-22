@@ -11,6 +11,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
+import pl.chudziudgi.lifesteal.configuration.implementation.ClanConfiguration;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
@@ -18,9 +19,11 @@ import pl.chudziudgi.lifesteal.util.MessageUtil;
 public class ClanCuboidController implements Listener {
 
     private final ClanService clanService;
+    private final ClanConfiguration clanConfiguration;
 
-    public ClanCuboidController(ClanService clanService) {
+    public ClanCuboidController(ClanService clanService, ClanConfiguration clanConfiguration) {
         this.clanService = clanService;
+        this.clanConfiguration = clanConfiguration;
     }
 
     @EventHandler
@@ -76,6 +79,29 @@ public class ClanCuboidController implements Listener {
         MessageUtil.sendActionbar(player, "&cNie możesz czerpać wody na terenie obcego klanu!");
         event.setCancelled(true);
     }
+
+    @EventHandler
+    public void onPvp(EntityDamageByEntityEvent event) {
+        Entity victim = event.getEntity();
+        if (!(victim instanceof Player player)) return;
+        if (this.clanService.isLocationOnClanCuboid(player.getLocation())) {
+            event.setCancelled(true);
+            Entity damager = event.getDamager();
+            Player attacker = null;
+            switch (damager) {
+                case Player p -> attacker = p;
+                case Projectile projectile when projectile.getShooter() instanceof Player p -> attacker = p;
+                case ThrownPotion potion when potion.getShooter() instanceof Player p -> attacker = p;
+                default -> {
+                }
+            }
+            if (attacker != null) {
+                MessageUtil.sendActionbar(attacker, "&cWalka na terenie klanu jest zabroniona.");
+            }
+        }
+    }
+
+
 
     @EventHandler
     public void onLiquidFlow(BlockFromToEvent event) {
@@ -177,21 +203,10 @@ public class ClanCuboidController implements Listener {
         if (player.hasPermission("cebulasmp.clan.admin")) return;
 
         Material type = event.getClickedBlock().getType();
-        if (isProtectedBlock(type)) {
+        if (this.clanConfiguration.blockerdInteracktMaterialOnOtherClan.contains(type)) {
             event.setCancelled(true);
             MessageUtil.sendActionbar(player, "&cNie możesz używać tego bloku na terenie obcego klanu!");
         }
-    }
-
-    private boolean isProtectedBlock(Material type) {
-        return switch (type) {
-            case CHEST, TRAPPED_CHEST, BARREL, FURNACE, BLAST_FURNACE, SMOKER,
-                 OAK_DOOR, BIRCH_DOOR, SPRUCE_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR,
-                 IRON_DOOR, LEVER, STONE_BUTTON, OAK_BUTTON, BIRCH_BUTTON, SPRUCE_BUTTON,
-                 ACACIA_BUTTON, JUNGLE_BUTTON, DARK_OAK_BUTTON, CRIMSON_BUTTON, WARPED_BUTTON,
-                 CRIMSON_DOOR, WARPED_DOOR, NOTE_BLOCK, COMPARATOR, REPEATER -> true;
-            default -> false;
-        };
     }
 
     @EventHandler

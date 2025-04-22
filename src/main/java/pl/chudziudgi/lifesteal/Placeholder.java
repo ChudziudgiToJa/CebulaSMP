@@ -96,7 +96,10 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
             return user.isVanish() ? MessageUtil.smallText(" &b&lvanish&f") : "";
         }
         if (params.startsWith("clan")) {
-            return MessageUtil.smallTextToColor(" &5" + clan.getTag().toUpperCase());
+            if (clan == null) {
+                return "";
+            }
+            return MessageUtil.smallTextToColor(clan.getTag().toUpperCase());
         }
         if (params.startsWith("kd")) {
             if (user.getKill() == 0.0 || user.getDead() == 0.0) {

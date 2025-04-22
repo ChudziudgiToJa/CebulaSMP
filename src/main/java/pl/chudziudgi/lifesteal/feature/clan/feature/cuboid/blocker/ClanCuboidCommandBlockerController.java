@@ -8,12 +8,12 @@ import pl.chudziudgi.lifesteal.configuration.implementation.ClanConfiguration;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
-public class ClanCuboidCommandBlocker implements Listener {
+public class ClanCuboidCommandBlockerController implements Listener {
 
     private final ClanService clanService;
     private final ClanConfiguration clanConfiguration;
 
-    public ClanCuboidCommandBlocker(ClanService clanService, ClanConfiguration clanConfiguration) {
+    public ClanCuboidCommandBlockerController(ClanService clanService, ClanConfiguration clanConfiguration) {
         this.clanService = clanService;
         this.clanConfiguration = clanConfiguration;
     }

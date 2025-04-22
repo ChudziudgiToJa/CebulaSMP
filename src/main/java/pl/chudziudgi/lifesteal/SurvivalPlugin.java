@@ -53,8 +53,9 @@ import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreatePurchaseMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.ClanCuboidController;
-import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.blocker.ClanCuboidCommandBlocker;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.blocker.ClanCuboidCommandBlockerController;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.bossbar.ClanCuboidBossBarTak;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.combat.ClanCuboidCombatLogoutPushTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.portal.ClanCuboidPortal;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.particle.ClanCuboidBorderParticleTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.delete.ClanDeleteInventory;
@@ -400,8 +401,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new CheckController(this.checkService, this.pluginConfiguration),
                 new TimeShopNpcController(this.pluginConfiguration, timeShopInventory),
                 new CustomItemBorderController(this, this.customItemConfiguration, customItemCoolDownManager),
-                new ClanCuboidController(this.clanService),
-                new ClanCuboidCommandBlocker(this.clanService, this.clanConfiguration),
+                new ClanCuboidController(this.clanService, this.clanConfiguration),
+                new ClanCuboidCommandBlockerController(this.clanService, this.clanConfiguration),
                 new SpawnerController(),
                 new WelcomeController(this.pluginConfiguration, this.userService),
                 new HeadDropController(),
@@ -434,6 +435,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new EndStatusTask(this, this.worldsSettings).scheduleDailyTasks();
         new NetherStatusTask(this, this.worldsSettings).scheduleDailyTasks();
         new CombatLogoutTask(this, this.combatLogoutManager, this.combatLogoutConfiguration);
+        new ClanCuboidCombatLogoutPushTask(this,this.clanService, this.combatLogoutManager);
     }
 
     @Override

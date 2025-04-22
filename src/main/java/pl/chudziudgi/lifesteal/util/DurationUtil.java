@@ -115,17 +115,19 @@ public final class DurationUtil {
         long seconds = milliseconds / 1000;
         milliseconds %= 1000;
 
-        long millis = milliseconds;
-
         StringBuilder formattedTime = new StringBuilder();
         if (days != 0) formattedTime.append(days).append("d ");
         if (hours != 0) formattedTime.append(hours).append("h ");
         if (minutes != 0) formattedTime.append(minutes).append("m ");
         if (seconds != 0) formattedTime.append(seconds).append("s ");
-        if (millis != 0) formattedTime.append(millis).append("ms");
-        if (!formattedTime.isEmpty() && formattedTime.charAt(formattedTime.length() - 1) == ' ') {
+
+        if (days == 0 && hours == 0 && minutes == 0 && seconds == 0 && milliseconds > 0) {
+            formattedTime.append(milliseconds).append("ms");
+        } else if (!formattedTime.isEmpty() && formattedTime.charAt(formattedTime.length() - 1) == ' ') {
             formattedTime.deleteCharAt(formattedTime.length() - 1);
         }
+
         return formattedTime.toString();
     }
+
 }

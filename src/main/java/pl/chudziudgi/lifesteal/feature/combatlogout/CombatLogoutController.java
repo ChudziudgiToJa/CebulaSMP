@@ -51,8 +51,8 @@ public class CombatLogoutController implements Listener {
                     return;
                 }
 
-                combatLogoutManager.createCombat(attacker, this.configuration.combatTime);
-                combatLogoutManager.createCombat(victim, this.configuration.combatTime);
+                combatLogoutManager.createCombat(attacker, this.configuration.combatTimeFromPlayer);
+                combatLogoutManager.createCombat(victim, this.configuration.combatTimeFromPlayer);
             }
             case Projectile projectile when projectile.getShooter() instanceof Player shooter -> {
                 Clan damagerClan = this.clanManager.findClanByMember(shooter.getUniqueId().toString());
@@ -63,11 +63,8 @@ public class CombatLogoutController implements Listener {
                 }
                 if (!victim.getGameMode().equals(GameMode.SURVIVAL)) return;
 
-                combatLogoutManager.createCombat(shooter, this.configuration.combatTime);
-                combatLogoutManager.createCombat(victim, this.configuration.combatTime);
-            }
-            case LivingEntity livingEntity -> {
-                combatLogoutManager.createCombat(victim, this.configuration.combatTime);
+                combatLogoutManager.createCombat(shooter, this.configuration.combatTimeFromPlayer);
+                combatLogoutManager.createCombat(victim, this.configuration.combatTimeFromPlayer);
             }
             default -> {
             }

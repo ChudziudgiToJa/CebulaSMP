@@ -16,7 +16,9 @@ public class CombatLogoutConfiguration extends OkaeriConfig {
             "pomoc"
     );
 
-    public int combatTime = 30000;
+    public int combatTimeFromPlayer = 30000;
+    public int combatTimeFromMob = 15000;
+
 
     @Comment("wiadomość podczas walki")
     public String combatMessage = "&4jesteś podczas walki: {TIME}";
