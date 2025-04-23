@@ -32,7 +32,7 @@ public class JobController implements Listener {
             Material.LAPIS_ORE, Material.DEEPSLATE_LAPIS_ORE,
             Material.REDSTONE_ORE, Material.DEEPSLATE_REDSTONE_ORE,
             Material.NETHER_QUARTZ_ORE, Material.NETHER_GOLD_ORE,
-            Material.ANCIENT_DEBRIS, Material.GILDED_BLACKSTONE
+            Material.ANCIENT_DEBRIS, Material.GILDED_BLACKSTONE,Material.STONE,Material.DEEPSLATE
     );
     private static final Set<Material> log = Set.of(
             Material.OAK_LOG, Material.SPRUCE_LOG, Material.BIRCH_LOG,
@@ -65,8 +65,8 @@ public class JobController implements Listener {
         User user = this.userService.findUserByNickName(killer.getName());
         if (user.getJobType() == JobType.KILLER) {
             if (random.nextDouble() < 0.20) {
-                user.addMoney(10);
-                MessageUtil.sendTitle(killer, "", "&2+&a10 monet", 20, 50, 20);
+                user.addMoney(2);
+                MessageUtil.sendTitle(killer, "", "&2+&a2 monet", 20, 50, 20);
             }
             if (random.nextDouble() < 0.01) {
                 JobDropChance jobDropChance = JobChanceManager.pickRandomItem(this.pluginConfiguration.jobSettings.jobItems.get(JobType.KILLER));
@@ -93,8 +93,8 @@ public class JobController implements Listener {
         if (user.getJobType() == JobType.MINER) {
             if (ore.contains(blockType)) {
                 if (random.nextDouble() < 0.05) {
-                    user.addMoney(15);
-                    MessageUtil.sendTitle(player, "", "&2+&a15 monet", 20, 50, 20);
+                    user.addMoney(2);
+                    MessageUtil.sendTitle(player, "", "&2+&a2 monety", 20, 50, 20);
                 }
                 if (random.nextDouble() < 0.01) {
                     JobDropChance jobDropChance = JobChanceManager.pickRandomItem(this.pluginConfiguration.jobSettings.jobItems.get(JobType.MINER));
@@ -120,8 +120,8 @@ public class JobController implements Listener {
         if (user.getJobType() == JobType.LUMBERJACK) {
             if (log.contains(blockType)) {
                 if (random.nextDouble() < 0.05) {
-                    user.addMoney(5);
-                    MessageUtil.sendTitle(player, "", "&2+&a5 monet", 20, 50, 20);
+                    user.addMoney(3);
+                    MessageUtil.sendTitle(player, "", "&2+&a3 monet", 20, 50, 20);
                 }
                 if (random.nextDouble() < 0.01) {
                     JobDropChance jobDropChance = JobChanceManager.pickRandomItem(this.pluginConfiguration.jobSettings.jobItems.get(JobType.LUMBERJACK));

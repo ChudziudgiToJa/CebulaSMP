@@ -32,6 +32,7 @@ import pl.chudziudgi.lifesteal.feature.autorestart.AutoRestartTask;
 import pl.chudziudgi.lifesteal.feature.backup.BackupCommand;
 import pl.chudziudgi.lifesteal.feature.backup.BackupController;
 import pl.chudziudgi.lifesteal.feature.backup.BackupInventory;
+import pl.chudziudgi.lifesteal.feature.blacksmith.BlacksmithCommand;
 import pl.chudziudgi.lifesteal.feature.blacksmith.BlacksmithController;
 import pl.chudziudgi.lifesteal.feature.blacksmith.BlacksmithInventory;
 import pl.chudziudgi.lifesteal.feature.blocker.BlockerController;
@@ -85,6 +86,9 @@ import pl.chudziudgi.lifesteal.feature.economy.EconomyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.EconomyHolder;
 import pl.chudziudgi.lifesteal.feature.economy.MoneyCommand;
 import pl.chudziudgi.lifesteal.feature.economy.PayCommand;
+import pl.chudziudgi.lifesteal.feature.enchanter.EnchanterCommand;
+import pl.chudziudgi.lifesteal.feature.enchanter.EnchanterController;
+import pl.chudziudgi.lifesteal.feature.enchanter.EnchanterInventory;
 import pl.chudziudgi.lifesteal.feature.end.*;
 import pl.chudziudgi.lifesteal.feature.enderchest.*;
 import pl.chudziudgi.lifesteal.feature.headdrop.HeadDropController;
@@ -311,6 +315,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         CustomItemInventory customItemInventory = new CustomItemInventory(this, this.customItemConfiguration);
         CustomItemCoolDownManager customItemCoolDownManager = new CustomItemCoolDownManager();
 
+        //Enchanter
+        EnchanterInventory enchanterInventory = new EnchanterInventory(this, this.userService, this.random);
+
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
@@ -363,7 +370,9 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new CustomItemCommand(customItemInventory),
                         new GammaCommand(),
                         new AntiVoidCommand(this.pluginConfiguration),
-                        new WielkanocCommand(this.pluginConfiguration)
+                        new WielkanocCommand(this.pluginConfiguration),
+                        new EnchanterCommand(enchanterInventory),
+                        new BlacksmithCommand(blacksmithInventory)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -408,7 +417,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new HeadDropController(),
                 new VillagerController(),
                 new WielkanocController(this.random, this.pluginConfiguration),
-                new CombatLogoutController(this.combatLogoutConfiguration, this.combatLogoutManager, this.clanService)
+                new CombatLogoutController(this.combatLogoutConfiguration, this.combatLogoutManager, this.clanService),
+                new EnchanterController(this.pluginConfiguration,enchanterInventory)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);

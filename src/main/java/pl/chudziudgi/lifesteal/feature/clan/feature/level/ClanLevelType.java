@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public enum ClanLevelType {
     LITTLE("malutka", 2, 15, 0, 2, 1),
-    SMALL("mała", 5, 30, 50000, 5, 3),
-    NORMAL("normalna", 10, 50, 120000, 10, 5),
-    BIG("duza", 15, 70, 260000, 20, 10),
-    HEAVY("wielka", 20, 100, 500000, 30, 15);
+    SMALL("mała", 5, 30, 20000, 5, 3),
+    NORMAL("normalna", 10, 50, 50000, 10, 5),
+    BIG("duza", 15, 70, 900000, 20, 10),
+    HEAVY("wielka", 20, 100, 100000, 30, 15);
 
     private final String polishName;
     private final int maxMember;

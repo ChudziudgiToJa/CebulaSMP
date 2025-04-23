@@ -37,6 +37,7 @@ public class PluginConfiguration extends OkaeriConfig {
     public Location location = new Location(Bukkit.getWorld("spawn"), 0, 100, 0);
     public String freePlnNpcID = "0f69258a-26ab-4a28-9473-74e8deb1806c";
     public String blackSmithID = "82116773-7f92-49a9-83cf-75d16525d3d8";
+    public String EnchanterID = "ed8c313c-ffc6-4087-9d11-eefe62bfe017";
     public String discordUrl = "https://dc.cebulasmp.pl/";
     public String wielkanocItemStack = "";
 
