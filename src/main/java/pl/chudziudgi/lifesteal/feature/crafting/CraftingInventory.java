@@ -39,6 +39,7 @@ public class CraftingInventory {
 
         for (Crafting crafting : this.craftingConfiguration.craftings) {
             inventory.addItem(new ItemBuilder(crafting.getResult().getType())
+                            .setName(crafting.getResult().getItemMeta().getItemName())
                     .addLore("", "&akliknij aby otworzyć.")
                     .build());
         }
