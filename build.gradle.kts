@@ -1,6 +1,9 @@
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
+
 plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("dev.s7a.gradle.minecraft.server") version "3.2.1"
     java
     kotlin("jvm")
 }
@@ -39,8 +42,8 @@ dependencies {
     compileOnly("com.eternalcode:eternalcore-api:1.5.2")
 
 
-    implementation("dev.rollczi:litecommands-bukkit:3.4.3")
-    implementation("dev.rollczi:litecommands-adventure:3.4.3")
+    implementation("dev.rollczi:litecommands-bukkit:3.9.6")
+    implementation("dev.rollczi:litecommands-adventure:3.9.6")
 
     val okaeriConfigsVersion = "5.0.3"
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:${okaeriConfigsVersion}")
@@ -48,10 +51,6 @@ dependencies {
     implementation("eu.okaeri:okaeri-configs-serdes-bukkit:${okaeriConfigsVersion}")
 
     implementation("de.rapha149.signgui:signgui:2.5.0")
-
-
-    // SquareMap
-    compileOnly("xyz.jpenilla", "squaremap-api", "1.3.4")
 
     // worldguard
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.10")
@@ -90,7 +89,7 @@ bukkit {
     apiVersion = "1.20"
     author = "Chudziudgi"
     softDepend = listOf("PlaceholderAPI", "Citizens")
-    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs", "DecentHolograms", "squaremap")
+    depend = listOf("Vault", "ProtocolLib", "FancyHolograms", "FancyNpcs", "DecentHolograms")
     prefix = "lifesteal-core"
 }
 
@@ -106,4 +105,20 @@ tasks.shadowJar {
             languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
+}
+
+
+
+task<LaunchMinecraftServerTask>("server") {
+    dependsOn("build")
+
+    doFirst {
+        copy {
+            from(buildDir.resolve("libs/${project.name}.jar"))
+            into(buildDir.resolve("MinecraftServer/plugins"))
+        }
+    }
+
+    jarUrl.set(LaunchMinecraftServerTask.JarUrl.Paper("1.21.4"))
+    agreeEula.set(true)
 }

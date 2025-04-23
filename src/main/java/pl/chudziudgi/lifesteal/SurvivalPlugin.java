@@ -40,6 +40,8 @@ import pl.chudziudgi.lifesteal.feature.blocker.MobChunkLimitTask;
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionController;
 import pl.chudziudgi.lifesteal.feature.bordercollection.BorderCollectionInventory;
 import pl.chudziudgi.lifesteal.feature.boss.*;
+import pl.chudziudgi.lifesteal.feature.casino.CasinoCommand;
+import pl.chudziudgi.lifesteal.feature.casino.CasinoManager;
 import pl.chudziudgi.lifesteal.feature.chat.ChatCharController;
 import pl.chudziudgi.lifesteal.feature.check.CheckCommand;
 import pl.chudziudgi.lifesteal.feature.check.CheckController;
@@ -49,7 +51,6 @@ import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommand;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommandArgument;
-import pl.chudziudgi.lifesteal.feature.clan.command.ClanMemberCommandArgument;
 import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreatePurchaseMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
@@ -139,13 +140,10 @@ import pl.chudziudgi.lifesteal.feature.user.task.UsersSaveTask;
 import pl.chudziudgi.lifesteal.feature.vanish.VanishCommand;
 import pl.chudziudgi.lifesteal.feature.vanish.VanishController;
 import pl.chudziudgi.lifesteal.feature.vanish.VanishHandler;
-import pl.chudziudgi.lifesteal.feature.villager.VillagerController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherCommand;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherInventory;
 import pl.chudziudgi.lifesteal.feature.welcomer.WelcomeController;
-import pl.chudziudgi.lifesteal.feature.wielkanoc.WielkanocCommand;
-import pl.chudziudgi.lifesteal.feature.wielkanoc.WielkanocController;
 
 import java.io.File;
 import java.util.Random;
@@ -321,8 +319,8 @@ public final class SurvivalPlugin extends JavaPlugin {
         BorderCollectionInventory borderCollectionInventory = new BorderCollectionInventory(this, this.borderCollectionConfiguration, this.userService);
         Bukkit.getWorlds().getFirst().getWorldBorder().setSize(this.borderCollectionConfiguration.getWorldSize());
 
-        //Restart
-        new AutoRestartTask(this).scheduleNextRestart();
+        //Casino
+        CasinoManager casinoManager = new CasinoManager(this.userService, this.random);
 
         // load data
         this.userRepository.findAll().forEach(this.userService::addUser);
@@ -370,15 +368,14 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new CustomItemCommand(customItemInventory),
                         new GammaCommand(),
                         new AntiVoidCommand(this.pluginConfiguration),
-                        new WielkanocCommand(this.pluginConfiguration),
                         new EnchanterCommand(enchanterInventory),
-                        new BlacksmithCommand(blacksmithInventory)
+                        new BlacksmithCommand(blacksmithInventory),
+                        new CasinoCommand(this, casinoManager)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
                 .argument(Clan.class, new ClanCommandArgument(this.clanService))
                 .argument(LootCase.class, new LootCaseCommandArgument(this.lootCaseConfiguration))
-                .argument(ClanMember.class, new ClanMemberCommandArgument(this.clanService))
                 .invalidUsage(
                         new InvalidCommandHandle()
                 )
@@ -415,8 +412,6 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new SpawnerController(),
                 new WelcomeController(this.pluginConfiguration, this.userService),
                 new HeadDropController(),
-                new VillagerController(),
-                new WielkanocController(this.random, this.pluginConfiguration),
                 new CombatLogoutController(this.combatLogoutConfiguration, this.combatLogoutManager, this.clanService),
                 new EnchanterController(this.pluginConfiguration,enchanterInventory)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
@@ -446,6 +441,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new NetherStatusTask(this, this.worldsSettings).scheduleDailyTasks();
         new CombatLogoutTask(this, this.combatLogoutManager, this.combatLogoutConfiguration);
         new ClanCuboidCombatLogoutPushTask(this,this.clanService, this.combatLogoutManager);
+        new AutoRestartTask(this).scheduleNextRestart();
     }
 
     @Override

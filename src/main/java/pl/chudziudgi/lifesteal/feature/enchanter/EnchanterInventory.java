@@ -91,7 +91,7 @@ public class EnchanterInventory {
             if (user == null) return;
 
             if (slot == 24) {
-                double cost = 10000;
+                double cost = 4500;
                 if (user.getMoney() < cost) {
                     MessageUtil.sendTitle(player, "", "&cNie masz wystarczająco monet!", 20, 50, 20);
                     return;
@@ -105,15 +105,15 @@ public class EnchanterInventory {
                 user.setMoney(user.getMoney() - cost);
 
                 if (Math.random() <= chance) {
-                    List<Enchantment> keys = new ArrayList<>(enchantments.keySet());
-                    Enchantment randomEnchant = keys.get(this.random.nextInt(keys.size()));
-                    int level = enchantments.get(randomEnchant);
+                    if (enchantments.isEmpty()) return;
 
-                    itemInHand.removeEnchantment(randomEnchant);
+                    for (Enchantment enchantment : enchantments.keySet()) {
+                        itemInHand.removeEnchantment(enchantment);
+                    }
 
                     ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
                     EnchantmentStorageMeta meta = (EnchantmentStorageMeta) enchantedBook.getItemMeta();
-                    meta.addStoredEnchant(randomEnchant, level, true);
+                    enchantments.forEach((enchant, level) -> meta.addStoredEnchant(enchant, level, true));
                     enchantedBook.setItemMeta(meta);
 
                     HashMap<Integer, ItemStack> leftover = player.getInventory().addItem(enchantedBook);
@@ -124,10 +124,8 @@ public class EnchanterInventory {
                         MessageUtil.sendMessage(player, "&eTwój ekwipunek był pełny, zaklęta książka została wyrzucona na ziemię.");
                     }
 
-                    for (Enchantment enchant : new HashMap<>(itemInHand.getEnchantments()).keySet()) {
-                        itemInHand.removeEnchantment(enchant);
-                    }
-                    MessageUtil.sendTitle(player, "", "&aUdało się uratować enchant!", 20, 50, 20);
+                    MessageUtil.sendTitle(player, "", "&aUdało się uratować enchanty!", 20, 50, 20);
+                    player.closeInventory();
                 } else {
                     MessageUtil.sendTitle(player, "", "&cPrzedmiot spalił się.", 20, 50, 20);
                     player.getInventory().remove(player.getInventory().getItemInMainHand());

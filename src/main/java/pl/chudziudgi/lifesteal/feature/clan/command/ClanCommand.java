@@ -25,6 +25,8 @@ import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 import pl.chudziudgi.lifesteal.util.MessageUtil;
 
+import java.util.Optional;
+
 @Command(name = "klan")
 public class ClanCommand {
 
@@ -198,28 +200,39 @@ public class ClanCommand {
     }
 
     @Execute(name = "wyrzuć")
-    void removeMember(@Context Player player, @Arg ClanMember clanMember) {
-        Clan clan = this.clanService.findClanByOwner(player.getName());
+    void removeMember(@Context Player player, @Arg String clanMemberName) {
+        Clan clan = this.clanService.findClanByMember(player.getUniqueId());
 
-        if (clan == null) {
+        if (clan == null || !clan.isOwner(player.getUniqueId())) {
             MessageUtil.sendMessage(player, "&cNie masz klanu lub nie jesteś liderem.");
             return;
         }
-        if (!clan.getMembers().contains(clanMember)) {
-            MessageUtil.sendMessage(player, "&4gracz nie jest w twoim klanie");
+
+        Optional<ClanMember> memberOptional = clan.getMember(clanMemberName);
+        if (memberOptional.isEmpty()) {
+            MessageUtil.sendMessage(player, "&4Gracz nie jest w twoim klanie.");
             return;
         }
 
-        clan.removeMember(clanMember);
-        Player targetPlayer = Bukkit.getPlayer(clanMember.getUuid());
+        ClanMember member = memberOptional.get();
+        if (clan.isOwner(member.getUuid())) {
+            MessageUtil.sendMessage(player, "&cNie możesz wyrzucić lidera klanu.");
+            return;
+        }
+
+        clan.removeMember(member);
+
+        Player targetPlayer = Bukkit.getPlayer(member.getUuid());
         if (targetPlayer != null) {
-            Bukkit.getOnlinePlayers().forEach(player1 -> {
-                ClanArmorHandler.refreshArmorPacket(player, player1);
-                ClanArmorHandler.refreshArmorPacket(player1, player);
+            Bukkit.getOnlinePlayers().forEach(online -> {
+                ClanArmorHandler.refreshArmorPacket(targetPlayer, online);
+                ClanArmorHandler.refreshArmorPacket(online, targetPlayer);
             });
         }
-        MessageUtil.sendMessage(player, "&awyrzucono z klanu: " + clanMember.getName());
+
+        MessageUtil.sendMessage(player, "&aWyrzucono z klanu: " + member.getName());
     }
+
 
     @Execute(name = "ustaw-dom")
     void setNewHome(@Context Player player) {

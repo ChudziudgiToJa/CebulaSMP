@@ -43,7 +43,7 @@ public class LootCaseHandler {
 
     public void createLootCaseKeyHolograms() {
         this.pluginConfiguration.lootCases.forEach(lootCase -> {
-            Location location = lootCase.getLocation().clone().add(-0.5, 4.5, -0.5);
+            Location location = lootCase.getLocation().clone().add(0, 4.5, 0);
             ItemHologramData hologramData = new ItemHologramData(lootCase.getName() + "_key", location);
             hologramData.setItemStack(ItemStackSerializable.readItemStack(lootCase.getKeyItemStack()));
             hologramData.setBillboard(Display.Billboard.FIXED);
