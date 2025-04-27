@@ -7,6 +7,7 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pl.chudziudgi.lifesteal.configuration.implementation.PluginConfiguration;
 import pl.chudziudgi.lifesteal.feature.pet.PetUtil;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
@@ -22,11 +23,13 @@ public class BackupCommand {
 
     private final BackupInventory backupInventory;
     private final UserService userService;
+    private final PluginConfiguration pluginConfiguration;
 
 
-    public BackupCommand(BackupInventory backupInventory, UserService userService) {
+    public BackupCommand(BackupInventory backupInventory, UserService userService, PluginConfiguration pluginConfiguration) {
         this.backupInventory = backupInventory;
         this.userService = userService;
+        this.pluginConfiguration = pluginConfiguration;
     }
 
     @Execute(name = "open")
@@ -47,7 +50,7 @@ public class BackupCommand {
             user.getBackups().removeLast();
         }
 
-        ItemStack[] inventory = player.getInventory().getContents();
+        ItemStack[] inventory = target.getInventory().getContents();
         ArrayList<ItemStack> itemList = new ArrayList<>();
 
         for (ItemStack itemStack : inventory) {
@@ -56,11 +59,11 @@ public class BackupCommand {
             }
         }
 
+        itemList.add(this.pluginConfiguration.lifeStealSettings.heartItemStack);
+
         user.getPetDataArrayList().forEach(pet -> {
             itemList.add(PetUtil.createItemStackPet(pet.getPetData()));
         });
-
-        if (itemList.isEmpty()) return;
 
         user.getBackups().add(new Backup(
                 Instant.now(),

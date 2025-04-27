@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
+import pl.chudziudgi.lifesteal.util.MessageUtil;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -26,8 +27,10 @@ public class JoinQuitListener implements Listener {
             if (user == null) {
                 this.userService.createUser(new User(player));
             } else {
-                if (!user.getNickName().equals(player.getName()) || user.getUuid().equals(player.getUniqueId().toString())) {
+                if (!user.getNickName().equals(player.getName())) {
                     user.setNickName(player.getName());
+                    player.kickPlayer(MessageUtil.smallText("&atwoje konto zostało odnowione."));
+                    return;
                 }
             }
         });

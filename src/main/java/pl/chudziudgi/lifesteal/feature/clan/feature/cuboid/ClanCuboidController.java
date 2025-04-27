@@ -10,7 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import pl.chudziudgi.lifesteal.configuration.implementation.ClanConfiguration;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
@@ -38,6 +41,33 @@ public class ClanCuboidController implements Listener {
         MessageUtil.sendActionbar(player, "&cNie możesz stawiać bloków na terenie obcego klanu!");
         event.setCancelled(true);
     }
+
+    @EventHandler
+    public void onMobShootFromOutside(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity target)) return;
+        if (target instanceof Player) return; // Graczy obsługujesz gdzie indziej
+
+        Entity damager = event.getDamager();
+        if (!(damager instanceof Projectile projectile)) return;
+        if (!(projectile.getShooter() instanceof Player shooter)) return;
+
+        Location fromLocation = projectile.getLocation();
+        Location toLocation = target.getLocation();
+
+        if (!fromLocation.getWorld().equals(Bukkit.getWorlds().getFirst())) return;
+        if (!toLocation.getWorld().equals(Bukkit.getWorlds().getFirst())) return;
+
+        Clan fromClan = this.clanService.findClanByLocation(fromLocation);
+        Clan toClan = this.clanService.findClanByLocation(toLocation);
+
+        if (toClan != null && (!toClan.equals(fromClan))) {
+            if (!toClan.containsMemberByUUID(shooter.getUniqueId().toString())) {
+                event.setCancelled(true);
+                MessageUtil.sendActionbar(shooter, "&cNie możesz zabijać mobów z daleka na terenie obcego klanu!");
+            }
+        }
+    }
+
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
@@ -100,7 +130,6 @@ public class ClanCuboidController implements Listener {
             }
         }
     }
-
 
 
     @EventHandler
@@ -179,17 +208,15 @@ public class ClanCuboidController implements Listener {
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {
         if (event.isCancelled()) return;
-        Entity entity = event.getEntity();
-        if (!(entity instanceof TNTPrimed) && !(entity instanceof Creeper)) {
-            return;
-        }
         for (Block block : event.blockList()) {
-            if (this.clanService.isLocationOnClanCuboid(block.getLocation())) {
+            Clan clan = this.clanService.findClanByLocation(block.getLocation()); {
+                if (clan == null) return;
                 event.setCancelled(true);
                 return;
             }
         }
     }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -243,5 +270,4 @@ public class ClanCuboidController implements Listener {
         event.setCancelled(true);
         MessageUtil.sendActionbar(player, "&cNie możesz niszczyć ramek na terenie obcego klanu!");
     }
-
 }

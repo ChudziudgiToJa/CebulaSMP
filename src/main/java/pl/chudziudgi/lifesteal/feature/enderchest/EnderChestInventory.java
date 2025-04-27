@@ -129,7 +129,6 @@ public class EnderChestInventory {
             meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, enderChest.getUuid().toString());
             itemStack.setItemMeta(meta);
             inventory.addItem(itemStack);
-
         }
 
         simpleInventory.click(event -> {
@@ -154,7 +153,7 @@ public class EnderChestInventory {
                     maxEnderChests = 9;
                 }
 
-                if (user.getEnderChests().size() >= maxEnderChests) {
+                if (user.getEnderChests().size() > maxEnderChests) {
                     MessageUtil.sendTitle(player, "", "&cOsiągnięto limit ender chestów. &8/pomoc", 20, 50, 20);
                     player.closeInventory();
                     return;

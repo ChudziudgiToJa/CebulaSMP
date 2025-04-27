@@ -45,7 +45,7 @@ public class ClanCuboidBorderParticleTask extends BukkitRunnable {
         double distance = Math.sqrt(dx * dx + dz * dz);
         double borderRadius = clan.getClanLevelType().getSize();
 
-        return distance >= (borderRadius - 30) && distance <= (borderRadius + 30);
+        return distance >= (borderRadius - 50) && distance <= (borderRadius + 50);
     }
 
     private void spawnParticle(Player player, Clan clan, double x, double z) {

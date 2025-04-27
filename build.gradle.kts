@@ -107,18 +107,16 @@ tasks.shadowJar {
     }
 }
 
-
-
-task<LaunchMinecraftServerTask>("server") {
-    dependsOn("build")
-
-    doFirst {
-        copy {
-            from(buildDir.resolve("libs/${project.name}.jar"))
-            into(buildDir.resolve("MinecraftServer/plugins"))
-        }
-    }
-
-    jarUrl.set(LaunchMinecraftServerTask.JarUrl.Paper("1.21.4"))
-    agreeEula.set(true)
-}
+//task<LaunchMinecraftServerTask>("server") {
+//    dependsOn("build")
+//
+//    doFirst {
+//        copy {
+//            from(buildDir.resolve("libs/${project.name}.jar"))
+//            into(buildDir.resolve("MinecraftServer/plugins"))
+//        }
+//    }
+//
+//    jarUrl.set(LaunchMinecraftServerTask.JarUrl.Paper("1.21.4"))
+//    agreeEula.set(true)
+//}

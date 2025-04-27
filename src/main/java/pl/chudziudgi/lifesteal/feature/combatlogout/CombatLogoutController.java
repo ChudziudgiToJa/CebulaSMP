@@ -71,7 +71,6 @@ public class CombatLogoutController implements Listener {
         }
     }
 
-
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();

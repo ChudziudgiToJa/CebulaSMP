@@ -35,13 +35,12 @@ public class ClanUpgradeInventory {
                         .setName("&fMiejsca w klanie")
                         .setLore(
                                 "",
-                                "&fAktualny poziom klanu: &b" + clan.getClanLevelType().getPolishName(),
+                                "&7Aktualny poziom klanu&8: &b" + clan.getClanLevelType().getPolishName(),
                                 "",
-                                "&fAktualne sloty w klanie: %s&8/&a%s".formatted(clan.getMembers().size(), clan.getClanLevelType().getMaxMember()),
-                                "&fWielkość terenu klanu: " + clan.getClanLevelType().getSize(),
-                                "&fWielkość terenu klanu: " + clan.getClanLevelType().getSize(),
+                                "&7Aktualne sloty w klanie&8: %s&8/&a%s".formatted(clan.getMembers().size(), clan.getClanLevelType().getMaxMember()),
+                                "&7Wielkość terenu klanu&8: " + clan.getClanLevelType().getSize(),
                                 "",
-                                "&akliknij aby lvl up w klanie."
+                                "&akliknij aby ulepszyć."
                         )
                         .build()
         );

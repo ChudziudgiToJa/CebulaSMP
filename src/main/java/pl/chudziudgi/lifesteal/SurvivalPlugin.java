@@ -48,7 +48,6 @@ import pl.chudziudgi.lifesteal.feature.check.CheckController;
 import pl.chudziudgi.lifesteal.feature.check.CheckService;
 import pl.chudziudgi.lifesteal.feature.check.CheckTask;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
-import pl.chudziudgi.lifesteal.feature.clan.ClanMember;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommand;
 import pl.chudziudgi.lifesteal.feature.clan.command.ClanCommandArgument;
 import pl.chudziudgi.lifesteal.feature.clan.feature.armor.ClanArmorTask;
@@ -57,6 +56,7 @@ import pl.chudziudgi.lifesteal.feature.clan.feature.create.CreateSignMenu;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.ClanCuboidController;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.blocker.ClanCuboidCommandBlockerController;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.bossbar.ClanCuboidBossBarTak;
+import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.combat.ClanCuboidCombatLogoutController;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.combat.ClanCuboidCombatLogoutPushTask;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.portal.ClanCuboidPortal;
 import pl.chudziudgi.lifesteal.feature.clan.feature.cuboid.particle.ClanCuboidBorderParticleTask;
@@ -68,6 +68,7 @@ import pl.chudziudgi.lifesteal.feature.clan.repository.ClanRepository;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
 import pl.chudziudgi.lifesteal.feature.clan.task.ClanSaveTask;
 import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutController;
+import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutElytraTask;
 import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutManager;
 import pl.chudziudgi.lifesteal.feature.combatlogout.CombatLogoutTask;
 import pl.chudziudgi.lifesteal.feature.command.*;
@@ -114,6 +115,9 @@ import pl.chudziudgi.lifesteal.feature.pet.PetInventory;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetMoveTask;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetPotionEffectTask;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetRemoveBuggyPetsTask;
+import pl.chudziudgi.lifesteal.feature.question.QuestionController;
+import pl.chudziudgi.lifesteal.feature.question.QuestionManager;
+import pl.chudziudgi.lifesteal.feature.question.QuestionTask;
 import pl.chudziudgi.lifesteal.feature.rabatecode.RabateCodeCommand;
 import pl.chudziudgi.lifesteal.feature.randomteleport.RandomTeleportCommand;
 import pl.chudziudgi.lifesteal.feature.randomteleport.RandomTeleportController;
@@ -143,7 +147,7 @@ import pl.chudziudgi.lifesteal.feature.vanish.VanishHandler;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherCommand;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherController;
 import pl.chudziudgi.lifesteal.feature.voucher.VoucherInventory;
-import pl.chudziudgi.lifesteal.feature.welcomer.WelcomeController;
+import pl.chudziudgi.lifesteal.feature.welcomer.WelcomerController;
 
 import java.io.File;
 import java.util.Random;
@@ -166,6 +170,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final VanishHandler vanishHandler = new VanishHandler();
     private final BossManager bossManager = new BossManager();
     private final CheckService checkService = new CheckService();
+    private final QuestionManager questionManager = new QuestionManager();
     private final CombatLogoutManager combatLogoutManager = new CombatLogoutManager();
     private TopManager topManager;
     private HologramManager hologramManager;
@@ -177,6 +182,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private KitConfiguration kitConfiguration;
     private ItemShopConfiguration itemShopConfiguration;
     private NpcShopConfiguration npcShopConfiguration;
+    private QuestionConfiguration questionConfiguration;
     private CraftingConfiguration craftingConfiguration;
     private CustomItemConfiguration customItemConfiguration;
     private CombatLogoutConfiguration combatLogoutConfiguration;
@@ -238,6 +244,9 @@ public final class SurvivalPlugin extends JavaPlugin {
         this.voucherConfiguration = configService.create(VoucherConfiguration.class, new File(dataFolder, "voucher.yml"));
         this.customItemConfiguration = configService.create(CustomItemConfiguration.class, new File(dataFolder, "customitem.yml"));
         this.combatLogoutConfiguration = configService.create(CombatLogoutConfiguration.class, new File(dataFolder, "combatLog.yml"));
+        this.questionConfiguration = configService.create(QuestionConfiguration.class, new File(dataFolder, "pytania.yml"));
+
+
         // topki
         this.topManager = new TopManager(this.userService);
 
@@ -339,7 +348,7 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new EconomyCommand(this.userService),
                         new JobCommand(jobInventory, this.pluginConfiguration),
                         new KitCommand(kitInventory, this.kitConfiguration, this.userService),
-                        new BackupCommand(backupInventory, this.userService),
+                        new BackupCommand(backupInventory, this.userService, this.pluginConfiguration),
                         new VplnCommand(this.userService),
                         new ItemShopCommand(itemShopInventory),
                         new LootCaseCommand(this.lootCaseConfiguration, lootCaseHandler),
@@ -410,10 +419,12 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new ClanCuboidController(this.clanService, this.clanConfiguration),
                 new ClanCuboidCommandBlockerController(this.clanService, this.clanConfiguration),
                 new SpawnerController(),
-                new WelcomeController(this.pluginConfiguration, this.userService),
+                new WelcomerController(this.pluginConfiguration, this.userService),
                 new HeadDropController(),
                 new CombatLogoutController(this.combatLogoutConfiguration, this.combatLogoutManager, this.clanService),
-                new EnchanterController(this.pluginConfiguration,enchanterInventory)
+                new EnchanterController(this.pluginConfiguration,enchanterInventory),
+                new ClanCuboidCombatLogoutController(this.combatLogoutManager, this.clanService),
+                new QuestionController(this.questionManager, this.userService)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);
@@ -442,6 +453,8 @@ public final class SurvivalPlugin extends JavaPlugin {
         new CombatLogoutTask(this, this.combatLogoutManager, this.combatLogoutConfiguration);
         new ClanCuboidCombatLogoutPushTask(this,this.clanService, this.combatLogoutManager);
         new AutoRestartTask(this).scheduleNextRestart();
+        new CombatLogoutElytraTask(this.combatLogoutManager, this);
+        new QuestionTask(this.questionManager, this.questionConfiguration, this, this.userService);
     }
 
     @Override

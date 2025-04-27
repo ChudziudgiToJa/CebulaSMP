@@ -3,6 +3,7 @@ package pl.chudziudgi.lifesteal.feature.casino;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
 
@@ -25,21 +26,21 @@ public class CasinoManager {
         this.multipliers = new HashMap<>() {{
             put(Material.LAPIS_LAZULI, 0.2);
             put(Material.COPPER_INGOT, 0.8);
-            put(Material.EMERALD, 1.5);
-            put(Material.GOLD_INGOT, 2.0);
-            put(Material.DIAMOND, 2.5);
-            put(Material.NETHERITE_INGOT, 3.0);
-            put(Material.HONEY_BLOCK, 7.0);
+            put(Material.EMERALD, 1.1);
+            put(Material.GOLD_INGOT, 1.6);
+            put(Material.DIAMOND, 3.5);
+            put(Material.NETHERITE_INGOT, 7.0);
+            put(Material.HONEY_BLOCK, 10.0);
         }};
 
         this.chances = new HashMap<>() {{
-            put(Material.LAPIS_LAZULI, 25);
-            put(Material.COPPER_INGOT, 20);
-            put(Material.EMERALD, 18);
-            put(Material.GOLD_INGOT, 15);
+            put(Material.LAPIS_LAZULI, 30);       // najczęstszy
+            put(Material.COPPER_INGOT, 24);
+            put(Material.EMERALD, 15);
+            put(Material.GOLD_INGOT, 12);
             put(Material.DIAMOND, 10);
-            put(Material.NETHERITE_INGOT, 7);
-            put(Material.HONEY_BLOCK, 5);
+            put(Material.NETHERITE_INGOT, 8);
+            put(Material.HONEY_BLOCK, 1);         // najrzadszy
         }};
 
         this.spinningItems = new Material[] {
@@ -92,5 +93,4 @@ public class CasinoManager {
             user.addMoney(amount);
         }
     }
-
 }

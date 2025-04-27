@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WelcomeController implements Listener {
+public class WelcomerController implements Listener {
 
     private final PluginConfiguration pluginConfiguration;
     private final UserService userService;
@@ -28,13 +28,26 @@ public class WelcomeController implements Listener {
     private final Map<UUID, Long> welcomeTime = new ConcurrentHashMap<>();
     private final Map<UUID, Set<UUID>> alreadyWelcomed = new ConcurrentHashMap<>();
 
-    public WelcomeController(PluginConfiguration pluginConfiguration, UserService userService) {
+    public WelcomerController(PluginConfiguration pluginConfiguration, UserService userService) {
         this.pluginConfiguration = pluginConfiguration;
         this.userService = userService;
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void onJoinMessage(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        User user = this.userService.findUserByUUID(player.getUniqueId());
+        if (user == null) return;
+        if (user.isVanish()) return;
+        if (!player.hasPermission("cebulasmp.welcome")) return;
+        Bukkit.getOnlinePlayers().forEach(player1 -> {
+            MessageUtil.sendActionbar(player1, player1.getDisplayName() + "dołączył/a na tryb.");
+        });
+    }
+
+
+    @EventHandler
+    public void onWelcomeNewPlayer(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (!player.hasPlayedBefore()) {
             UUID uuid = player.getUniqueId();
@@ -42,7 +55,7 @@ public class WelcomeController implements Listener {
             welcomeTime.put(uuid, System.currentTimeMillis());
             Bukkit.getOnlinePlayers().forEach(player1 -> {
                 if (player1 == player) return;
-                MessageUtil.sendMessage(player1, "&f%s &ajest pierwszy raz na serwerze przywitajcie go! A otrzymasz 100 monet np: 'hej %s' ".formatted(player.getName(), player1.getName()));
+                MessageUtil.sendMessage(player1, "&f%s &ajest pierwszy raz na serwerze przywitajcie go! A otrzymasz 100 monet np: 'hej %s' ".formatted(player.getName(), player.getName()));
             });
 
         }
