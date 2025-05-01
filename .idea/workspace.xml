@@ -4,21 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="a jakieś tam poprawki">
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/configuration/implementation/ProtectionConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/protection/ProtectionCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/protection/ProtectionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/protection/ProtectionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/protection/ProtectionMessageTask.java" afterDir="false" />
+    <list default="true" id="5dd1d0ad-596b-4fbe-b620-778e89bd3fe2" name="Changes" comment="ochrona i poprawki w klanach">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/Placeholder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/Placeholder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/SurvivalPlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/casino/CasinoInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/casino/CasinoInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/cuboid/ClanCuboidController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/clan/feature/cuboid/ClanCuboidController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/combatlogout/CombatLogoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/combatlogout/CombatLogoutController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/economy/MoneyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/economy/MoneyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/job/JobController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/job/JobController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/question/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/chudziudgi/lifesteal/feature/question/QuestionController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,14 +176,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1737093493800</updated>
-    </task>
-    <task id="LOCAL-00009" summary="big decimental update">
-      <option name="closed" value="true" />
-      <created>1737590374667</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1737590374667</updated>
     </task>
     <task id="LOCAL-00010" summary="add shop and jakiś inny szit">
       <option name="closed" value="true" />
@@ -581,7 +561,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745753987315</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="ochrona i poprawki w klanach">
+      <option name="closed" value="true" />
+      <created>1746087427660</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1746087427661</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -596,7 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add lifesteal" />
     <MESSAGE value="usunięto" />
     <MESSAGE value="ADD new ClanMember object" />
     <MESSAGE value="fix clan owner" />
@@ -621,6 +608,7 @@
     <MESSAGE value="jakieś tam duperelki" />
     <MESSAGE value="kasyno działające" />
     <MESSAGE value="a jakieś tam poprawki" />
-    <option name="LAST_COMMIT_MESSAGE" value="a jakieś tam poprawki" />
+    <MESSAGE value="ochrona i poprawki w klanach" />
+    <option name="LAST_COMMIT_MESSAGE" value="ochrona i poprawki w klanach" />
   </component>
 </project>
