@@ -1,6 +1,7 @@
 package pl.chudziudgi.lifesteal.feature.economy;
 
 
+import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
@@ -24,6 +25,12 @@ public class MoneyCommand {
         User user = this.userService.findUserByNickName(player.getName());
 
         if (user ==null) return;
+        MessageUtil.sendMessage(player, "&aStan konta: &2" + DecimalUtil.getFormat(user.getMoney()));
+    }
+
+
+    @Execute
+    void executeOther(@Context Player player,@Arg User user) {
         MessageUtil.sendMessage(player, "&aStan konta: &2" + DecimalUtil.getFormat(user.getMoney()));
     }
 }

@@ -115,6 +115,10 @@ import pl.chudziudgi.lifesteal.feature.pet.PetInventory;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetMoveTask;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetPotionEffectTask;
 import pl.chudziudgi.lifesteal.feature.pet.task.PetRemoveBuggyPetsTask;
+import pl.chudziudgi.lifesteal.feature.protection.ProtectionCommand;
+import pl.chudziudgi.lifesteal.feature.protection.ProtectionController;
+import pl.chudziudgi.lifesteal.feature.protection.ProtectionManager;
+import pl.chudziudgi.lifesteal.feature.protection.ProtectionMessageTask;
 import pl.chudziudgi.lifesteal.feature.question.QuestionController;
 import pl.chudziudgi.lifesteal.feature.question.QuestionManager;
 import pl.chudziudgi.lifesteal.feature.question.QuestionTask;
@@ -172,6 +176,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private final CheckService checkService = new CheckService();
     private final QuestionManager questionManager = new QuestionManager();
     private final CombatLogoutManager combatLogoutManager = new CombatLogoutManager();
+    private final ProtectionManager  protectionManager = new ProtectionManager();
     private TopManager topManager;
     private HologramManager hologramManager;
     public Economy economy;
@@ -186,6 +191,7 @@ public final class SurvivalPlugin extends JavaPlugin {
     private CraftingConfiguration craftingConfiguration;
     private CustomItemConfiguration customItemConfiguration;
     private CombatLogoutConfiguration combatLogoutConfiguration;
+    private ProtectionConfiguration protectionConfiguration;
     private WorldsSettings worldsSettings;
     private PetConfiguration petconfiguration;
     private VoucherConfiguration voucherConfiguration;
@@ -217,7 +223,6 @@ public final class SurvivalPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.getServer().createWorld(new WorldCreator("spawn"));
-        this.getServer().createWorld(new WorldCreator("arena"));
 
         Server server = getServer();
         instance = this;
@@ -245,12 +250,12 @@ public final class SurvivalPlugin extends JavaPlugin {
         this.customItemConfiguration = configService.create(CustomItemConfiguration.class, new File(dataFolder, "customitem.yml"));
         this.combatLogoutConfiguration = configService.create(CombatLogoutConfiguration.class, new File(dataFolder, "combatLog.yml"));
         this.questionConfiguration = configService.create(QuestionConfiguration.class, new File(dataFolder, "pytania.yml"));
-
+        this.protectionConfiguration = configService.create(ProtectionConfiguration.class, new File(dataFolder, "ochrona.yml"));
 
         // topki
         this.topManager = new TopManager(this.userService);
 
-        new Placeholder(this.userService, this.clanService, this.worldsSettings, this.topManager).register();
+        new Placeholder(this.userService, this.clanService, this.worldsSettings, this.topManager, this.protectionManager).register();
 
 
         // help menu
@@ -379,7 +384,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                         new AntiVoidCommand(this.pluginConfiguration),
                         new EnchanterCommand(enchanterInventory),
                         new BlacksmithCommand(blacksmithInventory),
-                        new CasinoCommand(this, casinoManager)
+                        new CasinoCommand(this, casinoManager),
+                        new ProtectionCommand(this.protectionManager)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permissions -> "&4ɴɪᴇ ᴘᴏꜱɪᴀᴅᴀꜱᴢ ᴡʏᴍᴀɢᴀɴᴇᴊ ᴘᴇʀᴍɪꜱᴊɪ&c: " + permissions.asJoinedText())
                 .argument(User.class, new UserCommandArgument(this.userService))
@@ -424,7 +430,8 @@ public final class SurvivalPlugin extends JavaPlugin {
                 new CombatLogoutController(this.combatLogoutConfiguration, this.combatLogoutManager, this.clanService),
                 new EnchanterController(this.pluginConfiguration,enchanterInventory),
                 new ClanCuboidCombatLogoutController(this.combatLogoutManager, this.clanService),
-                new QuestionController(this.questionManager, this.userService)
+                new QuestionController(this.questionManager, this.userService),
+                new ProtectionController(this.protectionManager, this.protectionConfiguration)
         ).forEach(listener -> server.getPluginManager().registerEvents(listener, this));
 
         new UsersSaveTask(this, this.userService);
@@ -455,6 +462,7 @@ public final class SurvivalPlugin extends JavaPlugin {
         new AutoRestartTask(this).scheduleNextRestart();
         new CombatLogoutElytraTask(this.combatLogoutManager, this);
         new QuestionTask(this.questionManager, this.questionConfiguration, this, this.userService);
+        new ProtectionMessageTask(this, this.protectionManager,this.protectionConfiguration);
     }
 
     @Override

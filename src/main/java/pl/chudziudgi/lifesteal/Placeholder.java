@@ -8,6 +8,7 @@ import pl.chudziudgi.lifesteal.configuration.implementation.WorldsSettings;
 import pl.chudziudgi.lifesteal.feature.abyss.AbyssManager;
 import pl.chudziudgi.lifesteal.feature.clan.Clan;
 import pl.chudziudgi.lifesteal.feature.clan.service.ClanService;
+import pl.chudziudgi.lifesteal.feature.protection.ProtectionManager;
 import pl.chudziudgi.lifesteal.feature.top.TopManager;
 import pl.chudziudgi.lifesteal.feature.user.User;
 import pl.chudziudgi.lifesteal.feature.user.UserService;
@@ -23,12 +24,14 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
     private final ClanService clanService;
     private final WorldsSettings worldsSettings;
     private final TopManager topManager;
+    private final ProtectionManager protectionManager;
 
-    public Placeholder(UserService userService, ClanService clanService, WorldsSettings worldsSettings, TopManager topManager) {
+    public Placeholder(UserService userService, ClanService clanService, WorldsSettings worldsSettings, TopManager topManager, ProtectionManager protectionManager) {
         this.userService = userService;
         this.clanService = clanService;
         this.worldsSettings = worldsSettings;
         this.topManager = topManager;
+        this.protectionManager = protectionManager;
     }
 
     @Override
@@ -65,6 +68,13 @@ public class Placeholder extends PlaceholderExpansion implements Relational {
         }
 
 
+        if (params.startsWith("ochrona")) {
+            if (this.protectionManager.isProtection(player.getUniqueId())) {
+                return MessageUtil.smallText("&b&lochrona&f ");
+            } else {
+                return "";
+            }
+        }
         if (params.startsWith("monety")) {
             return DecimalUtil.getFormat(user.getMoney());
         }

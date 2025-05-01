@@ -208,11 +208,42 @@ public class ClanCuboidController implements Listener {
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {
         if (event.isCancelled()) return;
+
+        // Sprawdzanie zwykłych eksplozji
         for (Block block : event.blockList()) {
-            Clan clan = this.clanService.findClanByLocation(block.getLocation()); {
-                if (clan == null) return;
+            Clan clan = this.clanService.findClanByLocation(block.getLocation());
+            if (clan != null) {
                 event.setCancelled(true);
                 return;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onRespawnAnchorExplode(BlockExplodeEvent event) {
+        if (event.isCancelled()) return;
+        Clan clan = this.clanService.findClanByLocation(event.getBlock().getLocation());
+        if (clan != null) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockBurn(BlockBurnEvent event) {
+        if (event.isCancelled()) return;
+        Clan clan = this.clanService.findClanByLocation(event.getBlock().getLocation());
+        if (clan != null) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockIgnite(BlockIgniteEvent event) {
+        if (event.isCancelled()) return;
+        if (event.getCause() == BlockIgniteEvent.IgniteCause.SPREAD) {
+            Clan clan = this.clanService.findClanByLocation(event.getBlock().getLocation());
+            if (clan != null) {
+                event.setCancelled(true);
             }
         }
     }

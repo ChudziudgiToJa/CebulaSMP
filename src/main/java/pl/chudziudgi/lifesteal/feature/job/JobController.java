@@ -104,6 +104,7 @@ public class JobController implements Listener {
                             player.getWorld().dropItemNaturally(player.getLocation(), remaining)
                     );
                     leftover.clear();
+                    event.getBlock().getDrops().clear();
                 }
             }
         }
@@ -130,6 +131,7 @@ public class JobController implements Listener {
                     leftover.values().forEach(remaining ->
                             player.getWorld().dropItemNaturally(player.getLocation(), remaining)
                     );
+                    event.getBlock().getDrops().clear();
                 }
             }
         }

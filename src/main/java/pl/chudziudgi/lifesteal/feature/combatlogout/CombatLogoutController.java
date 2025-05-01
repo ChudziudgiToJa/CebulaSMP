@@ -38,6 +38,8 @@ public class CombatLogoutController implements Listener {
 
         Entity damager = event.getDamager();
 
+        if (damager.hasPermission("cebulasmp.combat.admin")) return;
+
         if (event.isCancelled()) return;
 
         switch (damager) {

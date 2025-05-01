@@ -34,6 +34,7 @@ public class QuestionController implements Listener {
             if (user == null) return;
             onlinePlayer.sendMessage("");
             MessageUtil.sendMessage(onlinePlayer, "&3ⓅⓎⓉⓐⓝⒾⒺ &7Gracz &b%s&7 odpowiedział jako pierwszy! &8(&7otrzymał/a 1000 monet&8)".formatted(player.getName()));
+            MessageUtil.sendMessage(onlinePlayer, "&3ⓅⓎⓉⓐⓝⒾⒺ &7odpowiedz: &f%s".formatted(question.getAnswer()));
             onlinePlayer.sendMessage("");
             user.addMoney(1000);
             onlinePlayer.playSound(onlinePlayer, Sound.BLOCK_PORTAL_TRIGGER, 10, 10);
